@@ -1,0 +1,158 @@
+import React, { Component } from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+
+import { Provider, Portal, Modal } from "react-native-paper";
+
+import { ScrollView } from "react-native-gesture-handler";
+import { hideNavigationBar } from "react-native-navigation-bar-color";
+
+import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+
+import Background from "../components/Background";
+import TextHeader from "../components/TextHeader";
+import HeadLine from "../components/HeadLine";
+import IconBottom from "../components/IconBottom";
+import BackNext from "../components/BackNext";
+import CheckBox from "../components/Checkbox";
+import Image from "../components/Image";
+import Header from "../components/Header";
+
+import styles from "../../app/style/style";
+import functions from "../function/function";
+
+const data = global.data1;
+const icon = require("../images/thang.png");
+
+class JobProfile_7 extends Component {
+  constructor(props) {
+    super(props);
+
+    this.data = null;
+    this.ref_ = null;
+
+    this.state = {};
+  }
+
+  componentDidMount = () => {
+    this.data = this.props.navigation.state.params.data;
+
+    this.initData();
+  };
+
+  initData = () => {
+    this.data = JSON.parse(this.data);
+
+    var index = functions.getIndex(this.data);
+    var data = functions.getData(this.data);
+
+    data[index].intres = 0;
+
+    this.data.data = data;
+
+    this.data = JSON.stringify(this.data);
+
+    this.ref_(this.data);
+  };
+
+  static navigationOptions = ({ navigation }) => ({
+    title: "",
+  });
+
+  callBack = (position) => {
+    this.data = JSON.parse(this.data);
+
+    var index = functions.getIndex(this.data);
+    var data = functions.getData(this.data);
+
+    data[index].intres = position;
+
+    this.data.data = data;
+
+    this.data = JSON.stringify(this.data);
+
+    functions.gotoScreenWithParam(
+      this.data,
+      this.props.navigation,
+      "JobProfileFinal"
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.flexFull}>
+        <Header component={this} Notification={false} />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Background>
+            <TextHeader text1="my" text2="job" text3="goals" />
+            <HeadLine
+              style={style.headLine}
+              text="MEINE BERUFLICHEN AMBITIONEN"
+            />
+            <View style={[styles.fullWith, style.root]}>
+              <Image source={icon} />
+              <CheckBox
+                data={global.data4}
+                callBack={this.callBack}
+                style={style.checkbox}
+                styleFont={style.text1}
+                styleRowCheckbox={styles.rowCheckbox}
+                type={1}
+              />
+              {/*<View style={style.checkbox}>
+                <CheckBox label="Ohne" index={1} callBack={this.callBack} />
+                <CheckBox
+                  label="Hauptschulabschluss"
+                  index={2}
+                  callBack={this.callBack}
+                />
+                <CheckBox
+                  label="Mittlere Reife"
+                  index={3}
+                  callBack={this.callBack}
+                />
+                <CheckBox label="Abitur" index={4} callBack={this.callBack} />
+    </View>*/}
+            </View>
+            <BackNext
+              nextScreen="JobProfileFinal"
+              text="FERTIG"
+              position="absolute"
+              data={[]}
+              ref_={this}
+              callBack={() => true}
+              navigation={this.props.navigation}
+              nextEnable={true}
+            />
+          </Background>
+        </ScrollView>
+        <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
+          {/* Bottom */}
+          <IconBottom component={this} type="1" />
+          {/* END */}
+        </View>
+      </View>
+    );
+  }
+}
+
+const style = StyleSheet.create({
+  headLine: {
+    marginTop: 50,
+  },
+
+  checkbox: {
+    marginTop: 10,
+  },
+
+  text1: {
+    textAlign: "right",
+  },
+
+  root: {
+    flexDirection: "row",
+    paddingLeft: 40,
+    marginTop: 20,
+  },
+});
+
+export default JobProfile_7;

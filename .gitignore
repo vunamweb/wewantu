@@ -1,0 +1,22 @@
+node_modules/
+IOS/
+Android/
+.vscode/
+__tests__/
+.expo/
+dist/
+Android/
+iOS/
+__tests__/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+*.keystore
