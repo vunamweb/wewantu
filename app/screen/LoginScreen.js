@@ -33,7 +33,7 @@ class LoginScreen extends Component {
   }
 
   state = {
-    userName: "jane.smith@example.com",
+    userName: "",
     passWord: "",
     colorBorderUserName: borderColor,
     colorBorderPassWord: borderColor,

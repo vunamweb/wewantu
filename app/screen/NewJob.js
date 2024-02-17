@@ -77,6 +77,8 @@ class NewJob extends Component {
       ActivityIndicatorModal: false,
       listJoBlike: [],
       position: 0,
+      display: 'none',
+      display1: 'flex'
     };
   }
 
@@ -126,7 +128,7 @@ class NewJob extends Component {
       console.log(error);
     }
 
-    this.setState({ visible: true, position: index });
+    this.setState({ display: 'flex', display1: 'none', position: index });
 
     functions.getDetailJob(this, id);
   };
@@ -174,8 +176,8 @@ class NewJob extends Component {
       <View style={[style.data]}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={[styles.fullWith, style.childRen]}>
-            <View style={style.childRen_1}>
-              <View style={[styles.flexRow, style.containerJob1]}>
+            <View style={[style.childRen_1]}>
+              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Beruf:{" "}
                 </Text>
@@ -189,7 +191,7 @@ class NewJob extends Component {
                   {this.state.jobsList[status].beruf}
                 </Text>
               </View>
-              <View style={[styles.flexRow, style.containerJob1]}>
+              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Titel:{" "}
                 </Text>
@@ -203,7 +205,7 @@ class NewJob extends Component {
                   {this.state.jobsList[status].titel}
                 </Text>
               </View>
-              <View style={[styles.flexRow, style.containerJob1]}>
+              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Arbeitgeber:{" "}
                 </Text>
@@ -218,11 +220,110 @@ class NewJob extends Component {
                 </Text>
               </View>
               <Href
-                style={style.tooltip}
+                style={[style.tooltip, { display: this.state.display1 }]}
                 onPress={() => this.getDetailJob(status)}
               >
                 <Image style={style.info} source={imgInfo} />
               </Href>
+              {/*<ScrollView contentContainerStyle={{ height: '100%' }}>*/}
+              <View style={[style.modal, style.modal2, { display: this.state.display }]}>
+                <View style={[style.childRen_1, style.children_2]}>
+                  <ActivityIndicator
+                    size="large"
+                    animating={this.state.ActivityIndicatorModal}
+                  />
+                  <View style={[style.containerJob, styles.marginBottom0]}>
+                    <Text style={[styles.fontBoldSmall]}>
+                      {this.state.jobsList[status].beruf}
+                    </Text>
+                  </View>
+                  <View style={[style.containerJob, styles.marginBottom20]}>
+                    <Text
+                      style={[
+                        styles.fontBoldLargeNormal,
+                      ]}
+                    >
+                      {this.state.jobsList[status].titel}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text
+                      style={[
+                        styles.fontBoldSmall,
+                      ]}
+                    >
+                      {this.state.jobsList[status].arbeitgeber}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text
+                      style={[
+                        styles.fontBoldSmall,
+                      ]}
+                    >
+                      {this.state.jobsList[status].arbeitsort.plz} Remagen
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text style={[styles.fontNormalSmall]}>
+                      Eintrittsdatum:{" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.fontNormalSmall
+                      ]}
+                    >
+                      {this.state.jobsList[status].eintrittsdatum}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text style={[styles.fontNormalSmall]}>
+                      Betriebsgroesse:{" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.fontNormalSmall
+                      ]}
+                    >
+                      {this.state.detailJob.betriebsgroesse}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text style={[styles.fontNormalSmall]}>
+                      Allianzpartner:{" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.fontNormalSmall
+                      ]}
+                    >
+                      {this.state.detailJob.allianzpartner}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob, styles.marginBottom20]}>
+                    <Text style={[styles.fontNormalSmall]}>
+                      AllianzpartnerUrl:{" "}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.fontNormalSmall
+                      ]}
+                    >
+                      {this.state.detailJob.allianzpartnerUrl}
+                    </Text>
+                  </View>
+                  <View style={[styles.flexRow, style.containerJob]}>
+                    <Text
+                      style={[
+                        styles.fontNormalSmall
+                      ]}
+                    >
+                      {this.state.detailJob.stellenbeschreibung}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              {/*</ScrollView>*/}
               <Href
                 style={null}
                 onPress={() =>
@@ -235,6 +336,19 @@ class NewJob extends Component {
                 </View>
               </Href>
             </View>
+
+            <View style={[style.close, { display: this.state.display }]}>
+              <Href
+                onPress={() =>
+                  this.setState({
+                    display: 'none', display1: 'flex'
+                  })
+                }
+              >
+                <Image source={imgClose} />
+              </Href>
+            </View>
+
             <View style={[style.bottom]}>
               <Href onPress={() => this.confirmDelete(status)}>
                 <Image source={imgDelete} />
@@ -585,29 +699,30 @@ const style = StyleSheet.create({
 
   close: {
     position: "absolute",
-    right: 35,
+    right: 15,
     top: 15,
   },
 
   modal: {
-    width: "90%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    width: "100%",
+    //marginLeft: "5%",
+    //marginRight: "5%",
     //marginTop: 70,
     //paddingLeft: 30,
     //paddingRight: 30,
     //paddingTop: 50,
-    height: "100%",
-    backgroundColor: "#323232",
-    alignItems: "center",
+    //height: "100%",
+    //backgroundColor: "#323232",
+    //alignItems: "center",
     borderColor: "#898166",
-    borderWidth: 1,
+    borderWidth: 0,
   },
 
   modal2: {
     /*width: "80%",
     marginLeft: "10%",
     marginRight: "10%",*/
+    marginLeft: -20
   },
 
   modal1: {
