@@ -4,6 +4,8 @@ import network from "../network/network";
 
 import { decode as atob, encode as btoa } from "base-64";
 
+import firebase from './UtilityFirebase';
+
 class Functions {
   getIndex = (data) => {
     var index = data.index != undefined ? data.index : 0;
@@ -381,6 +383,7 @@ class Functions {
     body.lastname = data.lastName;
     body.mobile_phone_number = data.mobile;
     body.titel = "Prof";
+    body.firebase_token = data.firebase_token;
 
     body = JSON.stringify(body);
 
@@ -1591,6 +1594,22 @@ class Functions {
     component.setState({ ActivityIndicator: true });
     network.fetchPOST_HEADER(url, data, token, callback);
   };
+
+  pushMessage = (idUser, idGroup, message, context) => {
+    var ref = 'messages/' + idGroup;
+
+    var value = {
+      dateTime: new Date(),
+        fromUser: idUser,
+        message: message
+    }
+
+    var callback = (error) => {
+        console.log('push');
+    }
+
+    new firebase(context).pushref(ref, value, callback);
+}
 
   deleteBid = async (component, id) => {
     var orderList = [];

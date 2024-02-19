@@ -62,6 +62,7 @@ import Content from "../screen/Content";
 import Tipp from "../screen/Tipp";
 import HowToUse from "../screen/HowToUse";
 import Help from "../screen/Help";
+import Chat from "../screen/Chat";
 
 class Router {
   initNavigarion = () => {
@@ -471,6 +472,13 @@ class Router {
 
         Help: {
           screen: Help,
+          navigationOptions: {
+            header: null,
+          },
+        },
+
+        Chat: {
+          screen: Chat,
           navigationOptions: {
             header: null,
           },

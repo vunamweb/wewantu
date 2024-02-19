@@ -30,32 +30,20 @@ const imgMessage = require("../images/chat_message.png");
 
 const data = [
   {
-    title: "Staplerfahrer in Frankfurt am Main",
+    title: "vu nam",
     text:
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: false,
+    id: '1234'
   },
   {
-    title: "Staplerfahrer in Frankfurt am Main",
+    title: "vu pixel",
     text:
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: true,
-  },
-  {
-    title: "Staplerfahrer in Frankfurt am Main",
-    text:
-      "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
-    text1: "9:20 Uhr",
-    hasMessage: false,
-  },
-  {
-    title: "Staplerfahrer in Frankfurt am Main",
-    text:
-      "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
-    text1: "9:20 Uhr",
-    hasMessage: true,
+    id: '1234'
   },
 ];
 
@@ -91,7 +79,7 @@ class Message extends Component {
                 return (
                   <Href
                     onPress={() =>
-                      functions.gotoScreen(this.props.navigation, "DetailJob")
+                      functions.gotoScreen(this.props.navigation, "Chat")
                     }
                   >
                     <View style={style.parent}>

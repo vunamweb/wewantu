@@ -14,13 +14,13 @@ import IconBottom from "../components/IconBottom";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
-import firebase from '../function/UtilityFirebase';
+import UtilityFirebase from '../function/UtilityFirebase';
 
 const borderColor = "#000";
 
 var text8, text9, text10;
 
-class RegisterScreen_3 extends Component {
+class Chat extends Component {
   constructor(props) {
     super(props);
   }
@@ -41,11 +41,14 @@ class RegisterScreen_3 extends Component {
   };
 
   componentDidMount = async () => {
-    let fcmToken = await new firebase(this).getToken();
+    var callbackListenChildRef = (data) => {
+        console.log('data');
+    }
 
-    console.log(fcmToken);
-
-    this.setState({ fcmToken: fcmToken });
+    ref = 'messages/4502ed2d-86ed-45af-841a-4435a221ac5d_321d6cb9-3d11-4b8d-9cd0-5b8e2a66df02';
+    new UtilityFirebase(this).listenRef(ref, callbackListenChildRef);
+    
+    functions.pushMessage('4502ed2d-86ed-45af-841a-4435a221ac5d', '4502ed2d-86ed-45af-841a-4435a221ac5d_321d6cb9-3d11-4b8d-9cd0-5b8e2a66df02', 'test', this);
 };
 
   static navigationOptions = ({ navigation }) => ({
@@ -239,4 +242,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default RegisterScreen_3;
+export default Chat;
