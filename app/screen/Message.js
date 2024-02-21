@@ -20,6 +20,7 @@ import Header from "../components/Header";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
+import { useRoute } from "@react-navigation/native";
 
 const borderColor = "#000";
 const bgDefault = "#2B2B2B";
@@ -35,7 +36,7 @@ const data = [
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: false,
-    id: '1234'
+    id: "1234",
   },
   {
     title: "vu pixel",
@@ -43,13 +44,17 @@ const data = [
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: true,
-    id: '1234'
+    id: "1234",
   },
 ];
 
 class Message extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      dataUser: {},
+    };
   }
 
   state = {};
@@ -60,6 +65,9 @@ class Message extends Component {
   };
 
   componentDidMount = async () => {
+    let dataUser = await functions.getDataUser();
+
+    this.setState({ dataUser: dataUser });
     //hideNavigationBar();
   };
 
@@ -68,6 +76,14 @@ class Message extends Component {
   });
 
   render() {
+    let userId;
+
+    try {
+      userId = JSON.parse(this.state.dataUser).user.user_id;
+    } catch (error) {
+      userId = null;
+    }
+
     return (
       <View style={styles.flexFull}>
         <Header component={this} />
@@ -75,11 +91,19 @@ class Message extends Component {
           <Background>
             <TextHeader special={true} icon={imgMessage} text2="chat" />
             <View style={[style.data]}>
-              {data.map(({ title, text, text1, hasMessage }, index) => {
+              {data.map(({ title, text, text1, hasMessage, id }, index) => {
+                let key = {};
+                key.fromUser = "12345678"; //userId;
+                key.toUser = id;
+
                 return (
                   <Href
                     onPress={() =>
-                      functions.gotoScreen(this.props.navigation, "Chat")
+                      functions.gotoScreenWithParam(
+                        JSON.stringify(key),
+                        this.props.navigation,
+                        "Chat"
+                      )
                     }
                   >
                     <View style={style.parent}>

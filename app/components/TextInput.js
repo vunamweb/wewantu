@@ -64,12 +64,25 @@ export default function MyTextInput({
 
   left = props.leftIcon ? left : null;
 
-  let right = (
+  let right = props.fontAwesome != "true" ? (
     <TextInput.Icon
+    style={props.leftStyle}
       color={props.colorIcon}
       name={props.rightIcon}
       onPress={props.onRightClick ? props.onRightClick : null}
     />
+  ) :
+  (
+    <TextInput.Icon
+        style={props.leftStyle}
+        name={() => (
+          <IconFontAwesome
+            name={props.rightIcon}
+            size={props.size ? props.size : 24}
+            color={props.colorIcon}
+          />
+        )}
+      />
   );
 
   right = props.rightIcon ? right : null;

@@ -4,7 +4,7 @@ import network from "../network/network";
 
 import { decode as atob, encode as btoa } from "base-64";
 
-import firebase from './UtilityFirebase';
+import firebase from "./UtilityFirebase";
 
 class Functions {
   getIndex = (data) => {
@@ -388,10 +388,9 @@ class Functions {
     body = JSON.stringify(body);
 
     var callback = (responseData) => {
-      if(responseData.status == 201)
-      component.setState({ display2: "flex", ActivityIndicator: false });
-      else 
-      component.setState({ display1: "flex", ActivityIndicator: false });
+      if (responseData.status == 201)
+        component.setState({ display2: "flex", ActivityIndicator: false });
+      else component.setState({ display1: "flex", ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });
@@ -781,23 +780,23 @@ class Functions {
   };
 
   getDetailJob = async (component, id) => {
-     let base64ID = btoa(id);
-     
-     callback = async (responseData) => {
-        component.setState({
-          detailJob: responseData,
-          ActivityIndicatorModal: false,
-        });
-      };
+    let base64ID = btoa(id);
 
-      let url = global.urlRootJob + global.detailJob;
-      url = url.replace('{id}', base64ID);
+    callback = async (responseData) => {
+      component.setState({
+        detailJob: responseData,
+        ActivityIndicatorModal: false,
+      });
+    };
 
-      let token = "Bearer " + global.commonData.tokenJob;
+    let url = global.urlRootJob + global.detailJob;
+    url = url.replace("{id}", base64ID);
 
-      component.setState({ ActivityIndicatorModal: true });
-      network.fetchGET_HEADER(url, null, token, callback);
-};
+    let token = "Bearer " + global.commonData.tokenJob;
+
+    component.setState({ ActivityIndicatorModal: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
 
   updateListLikeJob = async (index, component) => {
     var exixt = false,
@@ -966,7 +965,10 @@ class Functions {
     var callback = async (responseData) => {
       global.data = JSON.parse(responseData);
 
-      component.setState({ jobs: JSON.parse(responseData), ActivityIndicator: false });
+      component.setState({
+        jobs: JSON.parse(responseData),
+        ActivityIndicator: false,
+      });
     };
 
     component.setState({ ActivityIndicator: true });
@@ -1595,21 +1597,55 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
+  getCurrentDateTime = () => {
+    // Create a new Date object
+    var currentDate = new Date();
+
+    // Get the current date components
+    var year = currentDate.getFullYear();
+    var month = this.padZero(currentDate.getMonth() + 1);
+    var date = this.padZero(currentDate.getDate());
+
+    // Get the current time components
+    var hours = this.padZero(currentDate.getHours());
+    var minutes = this.padZero(currentDate.getMinutes());
+    var seconds = this.padZero(currentDate.getSeconds());
+
+    // Return the formatted date and time
+    return (
+      year +
+      "-" +
+      month +
+      "-" +
+      date +
+      " " +
+      hours +
+      ":" +
+      minutes +
+      ":" +
+      seconds
+    );
+  };
+
+  padZero = (num) => {
+    return (num < 10 ? "0" : "") + num;
+  };
+
   pushMessage = (idUser, idGroup, message, context) => {
-    var ref = 'messages/' + idGroup;
+    var ref = "messages/" + idGroup;
 
     var value = {
-      dateTime: new Date(),
-        fromUser: idUser,
-        message: message
-    }
+      dateTime: this.getCurrentDateTime(),
+      fromUser: idUser,
+      message: message,
+    };
 
     var callback = (error) => {
-        console.log('push');
-    }
+      console.log("push");
+    };
 
     new firebase(context).pushref(ref, value, callback);
-}
+  };
 
   deleteBid = async (component, id) => {
     var orderList = [];
