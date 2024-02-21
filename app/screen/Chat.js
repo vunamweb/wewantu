@@ -139,13 +139,12 @@ class Chat extends Component {
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader special={true} icon={imgMessage} text2="chat" />
-            <ScrollView contentContainerStyle={styles.scroll}>
             <View
               style={{
                 flex: 1,
                 width: '100%',
                 flexDirection: "column",
-                backgroundColor: "#ccc",
+                //backgroundColor: "#ccc",
               }}
             >
               <View style={{ }}>
@@ -159,7 +158,10 @@ class Chat extends Component {
               <View style={{ }}>
                 <Text style={{ paddingTop: 5 }}>{typingUsers}sdd</Text>
               </View>
-              <View style={{ position: "absolute", bottom: 20, left: 0, width: '100%' }}>
+            </View>
+          </Background>
+        </ScrollView>
+        <View style={{ width: '100%', paddingBottom: 10, paddingTop: 0, paddingLeft: 20, paddingRight: 20, backgroundColor: 'black' }}>
               <TextInput
               onChangeText={(value) => this.setState({ message: value })}
               value={this.state.message}
@@ -186,10 +188,6 @@ class Chat extends Component {
               }
             />
               </View>
-            </View>
-            </ScrollView>
-          </Background>
-        </ScrollView>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
           {/* Bottom */}
           <IconBottom component={this} type="1" />
