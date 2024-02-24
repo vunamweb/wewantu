@@ -14,7 +14,7 @@ export default function Header(props) {
       <Drawer component={props.component} />
       {/* END DRAW */}
       {props.Notification == undefined ? (
-        <MessageNotification component={props.component} />
+        <MessageNotification component={props.component} onReceiveMessage={props.onReceiveMessage} />
       ) : null}
       <Logo navigation={props.component.props.navigation} type={1} />
     </View>

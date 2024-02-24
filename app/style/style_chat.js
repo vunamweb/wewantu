@@ -44,6 +44,21 @@ module.exports = StyleSheet.create({
     borderBottomLeftRadius: 10,
     backgroundColor: '#898166',
   },
+  typingUser: {
+    width: 60,
+    //minWidth: 100,
+    //minHeight: 30,
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 0,
+    borderBottomLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    backgroundColor: '#3F3F3F',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   inputContainerNoBorder: {
     width: width,
     marginLeft: 0,

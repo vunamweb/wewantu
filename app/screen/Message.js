@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import UtilityFirebase from "../function/UtilityFirebase";
+
 import { ScrollView } from "react-native-gesture-handler";
 import { hideNavigationBar } from "react-native-navigation-bar-color";
 
@@ -54,6 +56,7 @@ class Message extends Component {
 
     this.state = {
       dataUser: {},
+      notification: [],
     };
   }
 
@@ -69,7 +72,9 @@ class Message extends Component {
 
     this.setState({ dataUser: dataUser });
     //hideNavigationBar();
-  };
+
+    global.screen = this;
+};
 
   static navigationOptions = ({ navigation }) => ({
     title: "",

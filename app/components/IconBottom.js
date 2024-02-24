@@ -127,6 +127,9 @@ const svgCode5 = `
 
 class IconBottom extends Component {
   render() {
+    global.notification =
+    global.notification != undefined ? global.notification : [];
+
     var commonData = global.commonData.languages;
 
     try {
@@ -159,7 +162,7 @@ class IconBottom extends Component {
         title: text4,
         src: svgCode4,
         link: "Message",
-        text: "3",
+        text: global.notification.length > 0 ? global.notification.length : null,
       },
       {
         title: text5,

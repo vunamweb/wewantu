@@ -45,9 +45,11 @@ class Chat extends Component {
 
   state = {
     data: [],
+    notification: [],
     ActivityIndicator: false,
     fcmToken: null,
-    message: null,
+    message: "",
+    display: "none"
   };
 
   componentDidMount = async () => {
@@ -67,18 +69,34 @@ class Chat extends Component {
       var value = {
         dateTime: data._snapshot.value.dateTime,
         message: data._snapshot.value.message,
-        fromUser: data._snapshot.value.fromUser
+        fromUser: data._snapshot.value.fromUser,
       };
 
       this.setState({
         data: [...this.state.data, value],
+        message: "",
+        display: 'none'
       });
+    };
+
+    var callbackNotificationListeners = (notification) => {
+      console.log("listen GCM");
+
+      if(notification.data.message == '')
+      this.setState({ display: 'flex' });
+
     };
 
     let group = fromUser + "_" + toUser;
     ref = "messages/" + group + "";
 
+    // listen change realtime database
     new UtilityFirebase(this).listenChildRef(ref, callbackListenChildRef);
+
+    // listen GCM
+    new UtilityFirebase(this).onReceiveMessage(callbackNotificationListeners);
+
+    global.screen = this;
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -102,21 +120,33 @@ class Chat extends Component {
     );
   };
 
+  pushMessage = () => {
+    let group = fromUser + "_" + toUser;
+
+    functions.pushMessage(fromUser, group, this.state.message, this);
+  };
+
   renderItem = ({ item, index }) =>
-    (item.fromUser == 'web')
-    ? (
+    item.fromUser == "web" ? (
       <View style={styleChat.containerList}>
         <View style={styleChat.messageContainer}>
           <Text style={styles.fontNormal}>{item.message}</Text>
-          <Text style={[styles.fontNormalSmall, style.dateTime]}>{item.dateTime}</Text>
-          <Image source={imgFlag} style={{ position: 'absolute', top: -5, right: -5 }}/>
+          <Text style={[styles.fontNormalSmall, style.dateTime]}>
+            {item.dateTime}
+          </Text>
+          <Image
+            source={imgFlag}
+            style={{ position: "absolute", top: -5, right: -5 }}
+          />
         </View>
       </View>
     ) : (
       <View style={styleChat.containerList}>
         <View style={styleChat.messageContainerOwn}>
           <Text style={styles.fontNormal}>{item.message}</Text>
-          <Text style={[styles.fontNormalSmall, style.dateTime]}>{item.dateTime}</Text>
+          <Text style={[styles.fontNormalSmall, style.dateTime]}>
+            {item.dateTime}
+          </Text>
         </View>
       </View>
     );
@@ -138,16 +168,15 @@ class Chat extends Component {
         <Header component={this} />
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
-            <TextHeader special={true} icon={imgMessage} text2="chat" />
-            <View
-              style={{
-                flex: 1,
-                width: '100%',
-                flexDirection: "column",
-                //backgroundColor: "#ccc",
-              }}
-            >
-              <View style={{ }}>
+            <View>
+              <Image source={require("../images/user_chat_1.png")} />
+              <Image
+                source={require("../images/Unknown.png")}
+                style={style.imageProfile}
+              />
+            </View>
+            <View style={style.containerMessageChat}>
+              <View>
                 <FlatListViewNormal
                   data={this.state.data}
                   renderItem={this.renderItem}
@@ -155,39 +184,39 @@ class Chat extends Component {
                   col="1"
                 />
               </View>
-              <View style={{ }}>
-                <Text style={{ paddingTop: 5 }}>{typingUsers}sdd</Text>
-              </View>
+              {
+                (this.state.display != "none" ) ?
+                <View style={[styleChat.typingUser]}>
+                <Text style={{ paddingBottom: 10 }}>...</Text>
+              </View> :
+              null
+             }
             </View>
           </Background>
         </ScrollView>
-        <View style={{ width: '100%', paddingBottom: 10, paddingTop: 0, paddingLeft: 20, paddingRight: 20, backgroundColor: 'black' }}>
-              <TextInput
-              onChangeText={(value) => this.setState({ message: value })}
-              value={this.state.message}
-              component={this}
-              styleParent={[
-                styles.textInput,
-              ]}
-              fontAwesome="true"
-              leftIcon="eye"
-              //onLeftClick={() => this.onClickEye(false)}
-              leftStyle={style.leftStyle}
-              rightIcon={
-                (this.state.message == '') ? '' : 'eye'
-            }
-              bgFocus="white"
-              bgBlur="#3f3f3f"
-            />
-            <Button
-              color="white"
-              text="UNTERNEHMENS-PROFIL"
-              style={[styles.button, style.button]}
-              onPress={() =>
-                null
-              }
-            />
-              </View>
+        <View style={style.containerSendMessage}>
+          <TextInput
+            onChangeText={(value) => this.setState({ message: value })}
+            value={this.state.message}
+            component={this}
+            styleParent={[styles.textInput]}
+            fontAwesome="true"
+            colorIcon="white"
+            leftIcon={this.state.message == "" ? "edit" : ""}
+            //onLeftClick={() => this.onClickEye(false)}
+            leftStyle={style.leftStyle}
+            rightIcon={this.state.message == "" ? "" : "send"}
+            onRightClick={() => this.pushMessage()}
+            bgFocus="white"
+            bgBlur="#3f3f3f"
+          />
+          <Button
+            color="white"
+            text="UNTERNEHMENS-PROFIL"
+            style={[styles.button, style.button]}
+            onPress={() => null}
+          />
+        </View>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
           {/* Bottom */}
           <IconBottom component={this} type="1" />
@@ -218,10 +247,31 @@ const style = StyleSheet.create({
   },
 
   dateTime: {
-    color: '#000000',
+    color: "#000000",
     marginTop: 5,
-    paddingBottom: 10
-  }
+    paddingBottom: 10,
+  },
+
+  containerSendMessage: {
+    width: "100%",
+    paddingBottom: 10,
+    paddingTop: 0,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "black",
+  },
+
+  containerMessageChat: {
+    flex: 1,
+    width: "100%",
+    flexDirection: "column",
+  },
+
+  imageProfile: {
+    position: "absolute",
+    top: 0,
+    right: -20,
+  },
 });
 
 export default Chat;

@@ -75,6 +75,7 @@ export default function MyTextInput({
   (
     <TextInput.Icon
         style={props.leftStyle}
+        onPress={props.onRightClick ? props.onRightClick : null}
         name={() => (
           <IconFontAwesome
             name={props.rightIcon}

@@ -25,7 +25,7 @@ import functions from "../../app/function/function";
 const bgDefault = "#2B2B2B";
 const bgFocus = "#2B2B2B";
 const imgFillProlie = require("../images/filled_profile.png");
-const alert = require("../images/Chat_Alert.png");
+const alert = require("../images/chat_message.png");
 const newJob = require("../images/Neue_Jobs_Alert.png");
 
 class HomeScreen extends Component {
@@ -90,6 +90,18 @@ class HomeScreen extends Component {
 
   componentDidMount = async () => {
     hideNavigationBar();
+
+    global.screen = this;
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      (payload) => {
+        // Logic to handle when the screen comes into focus (navigated back)
+        console.log("Screen focused again:", payload);
+
+        global.screen = this;
+      }
+    );
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -97,6 +109,9 @@ class HomeScreen extends Component {
   });
 
   render() {
+    global.notification =
+    global.notification != undefined ? global.notification : [];
+    
     var commonData = global.commonData.languages;
 
     try {
@@ -138,7 +153,7 @@ class HomeScreen extends Component {
 
     return (
       <View style={styles.flexFull}>
-        <Header component={this} />
+        <Header component={this} onReceiveMessage={true} />
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader text1={text1} text2={text2} text3={text3} />
@@ -159,6 +174,13 @@ class HomeScreen extends Component {
                   }
                 >
                   <Image source={alert} />
+                  {global.notification.length > 0 ? (
+                    <View style={[style.textNumber]}>
+                      <Text style={style.text1}>
+                        {global.notification.length}
+                      </Text>
+                    </View>
+                  ) : null}
                 </Href>
                 <Href
                   onPress={() =>
@@ -189,6 +211,25 @@ const style = StyleSheet.create({
 
   bottomNotification: {
     justifyContent: "space-around",
+  },
+
+  textNumber: {
+    position: "absolute",
+    top: -5,
+    right: -10,
+    borderRadius: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+    backgroundColor: "#FF0000",
+    alignItems: "center",
+    width: 20,
+    height: 20,
+    zIndex: 3,
+  },
+
+  text1: {
+    color: "white",
+    fontSize: 13,
   },
 });
 
