@@ -779,6 +779,113 @@ class Functions {
     }
   };
 
+  insertChat = async (component, user_id_from, user_id_to, message) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {
+      listJobAPI = undefined;
+      listJoBlike = [];
+    }
+
+    let url = global.urlRootWewantu + global.urlInsertChat;
+
+    let body = {};
+    let data;
+
+    body.user_id_from = user_id_from;
+    body.user_id_to = user_id_to;
+    body.message = message;
+
+    data = JSON.stringify(body);
+
+    var callback = async (responseData) => {
+      return;
+    };
+
+    network.fetchPOST_HEADER(url, data, token, callback);
+  };
+
+  getListUser = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {
+      listJobAPI = undefined;
+      listJoBlike = [];
+    }
+
+    let url = global.urlRootWewantu + global.urlUser;
+
+    var callback = async (responseData) => {
+      var callback1 = async (responseData1) => {
+        component.setState({
+          userList: responseData,
+          chatList: responseData1,
+          ActivityIndicator: false,
+        });
+      };
+
+      let url = global.urlRootWewantu + global.urlChat;
+      network.fetchGET_HEADER(url, null, token, callback1);
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListMessage = async (component, from_user_id, to_user_id) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {
+      listJobAPI = undefined;
+      listJoBlike = [];
+    }
+
+    let url = global.urlRootWewantu + global.urlChat;
+
+    var callback = async (responseData) => {
+      let mesages = [];
+
+      responseData.map((item, index) => {
+        if (
+          (item.user_id_from == from_user_id ||
+            item.user_id_from == to_user_id) &&
+          (item.user_id_to == from_user_id || item.user_id_to == to_user_id)
+        ) {
+          var obj = {};
+
+          obj.dateTime = item.create_at;
+          obj.fromUser = item.user_id_from;
+          obj.message = item.message;
+
+          mesages.push(obj);
+        }
+      });
+
+      component.setState({ data: mesages, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
   getDetailJob = async (component, id) => {
     let base64ID = btoa(id);
 

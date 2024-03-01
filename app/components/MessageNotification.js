@@ -33,10 +33,10 @@ const windowWidth = Dimensions.get("window").width;
 
 let root;
 
-const gotoChat = () => {
+const gotoChat = (item) => {
   let key = {};
-  key.fromUser = "12345678"; //userId;
-  key.toUser = "1234";
+  key.fromUser = global.commonData.user.user_id; //userId;
+  key.toUser = item.data.id;
 
   functions.gotoScreenWithParam(
     JSON.stringify(key),
@@ -46,7 +46,7 @@ const gotoChat = () => {
 };
 
 const renderItem = ({ item, index }) => (
-  <Href onPress={() => gotoChat()}>
+  <Href onPress={() => gotoChat(item)}>
     <View style={style.render}>
       <Text style={[styles.fontNormal, styles.fontBoldSmall]}>
         {item.data.name}

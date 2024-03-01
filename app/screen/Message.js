@@ -5,6 +5,7 @@ import {
   AsyncStorage,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import UtilityFirebase from "../function/UtilityFirebase";
@@ -31,14 +32,14 @@ const imgNotification = require("../images/notification.png");
 const imgHeart = require("../images/heart_like.png");
 const imgMessage = require("../images/chat_message.png");
 
-const data = [
+/*const data = [
   {
     title: "vu nam",
     text:
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: false,
-    id: "1234",
+    id: "fc5e9483-2207-49c5-ad83-ab8b1a24fe23",
   },
   {
     title: "vu pixel",
@@ -46,9 +47,9 @@ const data = [
       "Hier steht das Abstract der Nachricht In zwei Zeilen. Der Rest kommt später",
     text1: "9:20 Uhr",
     hasMessage: true,
-    id: "1234",
+    id: "fc5e9483-2207-49c5-ad83-ab8b1a24fe23",
   },
-];
+];*/
 
 class Message extends Component {
   constructor(props) {
@@ -57,6 +58,9 @@ class Message extends Component {
     this.state = {
       dataUser: {},
       notification: [],
+      userList: [],
+      chatList: [],
+      ActivityIndicator: false,
     };
   }
 
@@ -73,15 +77,61 @@ class Message extends Component {
     this.setState({ dataUser: dataUser });
     //hideNavigationBar();
 
+    functions.getListUser(this);
+
     global.screen = this;
-};
+  };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
 
+  getLastMesage = (from_user_id) => {
+    let to_user_id = global.commonData.user.user_id;
+
+    let mesages = [];
+
+    this.state.chatList.map((item, index) => {
+      if((item.user_id_from == from_user_id || item.user_id_from == to_user_id) && (item.user_id_to == from_user_id || item.user_id_to == to_user_id) )
+      mesages.push(item);
+    })
+
+    if(mesages.length == 0) {
+      var obj = {};
+
+      obj.create = null;
+      obj.message = null;
+
+      mesages.push(obj);
+    }
+
+    let length = mesages.length;
+
+    return mesages[length - 1];
+  }
+
   render() {
-    let userId;
+    let userId,
+      data = [];
+
+    this.state.userList.map((item, index) => {
+      try {
+        if (item.firebase_token == null) {
+          var lastMesage = this.getLastMesage(item.user_id);
+
+          var obj = {};
+
+          obj.title = item.prename + " " + item.lastname;
+          obj.text = lastMesage.message;
+          obj.text1 = lastMesage.create_at;
+          obj.id = item.user_id;
+
+          data.push(obj);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
 
     try {
       userId = JSON.parse(this.state.dataUser).user.user_id;
@@ -95,10 +145,14 @@ class Message extends Component {
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader special={true} icon={imgMessage} text2="chat" />
+            <ActivityIndicator
+              size="large"
+              animating={this.state.ActivityIndicator}
+            />
             <View style={[style.data]}>
               {data.map(({ title, text, text1, hasMessage, id }, index) => {
                 let key = {};
-                key.fromUser = "12345678"; //userId;
+                key.fromUser = global.commonData.user.user_id; //userId;
                 key.toUser = id;
 
                 return (

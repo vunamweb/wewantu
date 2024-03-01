@@ -24,11 +24,14 @@ global.fromSMS = 'Wewantu';
 global.urlRootWewantu = 'https://api.topazvn.vn/';
 global.urlLogin = 'api/v1/login';
 global.urlLogout = 'api/v1/logout';
+global.urlUser = 'api/v1/user';
 global.language = 'api/v1/morpheus?e=langTemplate&l=en&json=1';
 global.language_1 = 'api/v1/morpheus?e=langTemplate&l=de&json=1';
 global.jobs = 'api/v1/morpheus?e=jobs&l=en&json=1';
 global.faq = 'api/v1/morpheus?e=FAQ&l=de&json=1';
 global.urlRegister = 'api/v1//user';
+global.urlInsertChat = 'api/v1/chat/insert';
+global.urlChat = 'api/v1/chat';
 
 // JOB
 global.urlRootJob = 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/';

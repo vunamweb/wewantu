@@ -1,10 +1,10 @@
-import firebase from '@react-native-firebase/app';
+import firebase from "@react-native-firebase/app";
 
-import '@react-native-firebase/auth';
-import '@react-native-firebase/database';
-import '@react-native-firebase/messaging';
+import "@react-native-firebase/auth";
+import "@react-native-firebase/database";
+import "@react-native-firebase/messaging";
 
-import {Notifications} from 'react-native-notifications';
+import { Notifications } from "react-native-notifications";
 
 class UtilityFirebase {
   constructor(context) {
@@ -12,7 +12,7 @@ class UtilityFirebase {
     //this.listenChildRef = this.listenChildRef.bind(context);
   }
 
-  getToken =  () => {
+  getToken = () => {
     //const fcmToken =  messaging().getToken();
     //return fcmToken;
     //console.log('token: ' + fcmToken);
@@ -27,13 +27,13 @@ class UtilityFirebase {
     firebase.messaging().requestPermission();
   };
 
-  onNotification = callback => {
-    firebase.notifications().onNotification(notification => {
+  onNotification = (callback) => {
+    firebase.notifications().onNotification((notification) => {
       callback(notification);
     });
   };
 
-  onNotificationOpened = callback => {
+  onNotificationOpened = (callback) => {
     /*firebase.notifications().onNotificationOpened(notification => {
             callback(notification);
         });*/
@@ -42,17 +42,17 @@ class UtilityFirebase {
         callback(notification);
         //console.log(`Notification opened: ${notification.payload}`);
         completion();
-      },
+      }
     );
   };
 
-  onReceiveMessage = callback => {
-    firebase.messaging().onMessage(message => {
+  onReceiveMessage = (callback) => {
+    firebase.messaging().onMessage((message) => {
       callback(message);
     });
   };
 
-  displayNotification = notification => {
+  displayNotification = (notification) => {
     firebase.notifications().displayNotification(notification);
   };
 
@@ -64,13 +64,13 @@ class UtilityFirebase {
     return firebase.auth().currentUser;
   };
 
-  onAuthStateChanged = callback => {
-    firebase.auth().onAuthStateChanged(user => {
+  onAuthStateChanged = (callback) => {
+    firebase.auth().onAuthStateChanged((user) => {
       callback(user);
     });
   };
 
-  authAnonymously = callback => {
+  authAnonymously = (callback) => {
     firebase
       .auth()
       .signInAnonymously()
@@ -83,15 +83,15 @@ class UtilityFirebase {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(user => {
+      .then((user) => {
         callback(user);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
 
-  signOut = callback => {
+  signOut = (callback) => {
     firebase
       .auth()
       .signOut()
@@ -104,10 +104,10 @@ class UtilityFirebase {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(user => {
+      .then((user) => {
         callback(user);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -117,13 +117,16 @@ class UtilityFirebase {
       .database()
       .ref(ref)
       .set(value)
-      .then(complete => {
+      .then((complete) => {
         callback(complete);
       });
   };
 
   setDataNew = (ref, value) => {
-    return firebase.database().ref(ref).set(value);
+    return firebase
+      .database()
+      .ref(ref)
+      .set(value);
   };
 
   getData = (ref, callback) => {
@@ -131,13 +134,16 @@ class UtilityFirebase {
       .database()
       .ref(ref)
       .once()
-      .then(snapshot => {
+      .then((snapshot) => {
         callback(snapshot.val());
       });
   };
 
-  getDataNew = ref => {
-    return firebase.database().ref(ref).once('value');
+  getDataNew = (ref) => {
+    return firebase
+      .database()
+      .ref(ref)
+      .once("value");
   };
 
   getLastMessage = (ref, orderBy) => {
@@ -146,14 +152,22 @@ class UtilityFirebase {
       .ref(ref)
       .orderByChild(orderBy)
       .limitToLast(1)
-      .once('value');
+      .once("value");
+  };
+
+  deleteRef = (ref) => {
+    firebase
+      .database()
+      .ref(ref)
+      .remove()
+      .then(() => null);
   };
 
   listenRef = (ref, callback) => {
     firebase
       .database()
       .ref(ref)
-      .on('value', dataSnapshot => {
+      .on("value", (dataSnapshot) => {
         callback(dataSnapshot.val());
       });
   };
@@ -164,7 +178,7 @@ class UtilityFirebase {
     return firebase
       .database()
       .ref(ref)
-      .on('child_added', dataSnapshot => {
+      .on("child_added", (dataSnapshot) => {
         callback(dataSnapshot);
       });
     // return firebase.database().ref(ref)
@@ -174,7 +188,7 @@ class UtilityFirebase {
     //     });
   };
 
-  getInitialNotification = callback => {
+  getInitialNotification = (callback) => {
     firebase
       .notifications()
       .getInitialNotification()
@@ -194,7 +208,7 @@ class UtilityFirebase {
     return firebase
       .database()
       .ref(ref)
-      .push(value, error => {
+      .push(value, (error) => {
         callback(error);
       });
   };

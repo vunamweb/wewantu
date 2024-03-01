@@ -38,6 +38,8 @@ var text8, text9, text10;
 const imgMessage = require("../images/chat_message.png");
 const imgFlag = require("../images/Flag.png");
 
+let dataref = [];
+
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -46,10 +48,11 @@ class Chat extends Component {
   state = {
     data: [],
     notification: [],
+    //chatList: [],
     ActivityIndicator: false,
     fcmToken: null,
     message: "",
-    display: "none"
+    display: "none",
   };
 
   componentDidMount = async () => {
@@ -72,22 +75,34 @@ class Chat extends Component {
         fromUser: data._snapshot.value.fromUser,
       };
 
+      //if(childExist)
+      let valueToUser = (data._snapshot.value.fromUser != global.commonData.user.user_id) ? global.commonData.user.user_id : toUser;
+
+      if(!this.checkExist(dataref, data._snapshot.value)) {
+        dataref.push(data._snapshot.value);
+
+        functions.insertChat(
+          this,
+          data._snapshot.value.fromUser,
+          valueToUser,
+          data._snapshot.value.message
+        );
+      }
+
       this.setState({
         data: [...this.state.data, value],
         message: "",
-        display: 'none'
+        display: "none",
       });
     };
 
     var callbackNotificationListeners = (notification) => {
       console.log("listen GCM");
 
-      if(notification.data.message == '')
-      this.setState({ display: 'flex' });
-
+      if (notification.data.message == "") this.setState({ display: "flex" });
     };
 
-    let group = fromUser + "_" + toUser;
+    let group = toUser + "_" + fromUser;
     ref = "messages/" + group + "";
 
     // listen change realtime database
@@ -96,8 +111,28 @@ class Chat extends Component {
     // listen GCM
     new UtilityFirebase(this).onReceiveMessage(callbackNotificationListeners);
 
+    // get message list
+    functions.getListMessage(this, fromUser, toUser);
+
     global.screen = this;
   };
+
+  checkExist = (parent, child) => {
+    let check = false;
+
+    parent.map((item, index) => {
+       if(item.dateTime == child.dateTime)
+        check = true;
+    })
+
+    return check;
+  }
+
+  componentWillUnmount() {
+    console.log("leave");
+
+    new UtilityFirebase(this).deleteRef("messages");
+  }
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -121,13 +156,15 @@ class Chat extends Component {
   };
 
   pushMessage = () => {
-    let group = fromUser + "_" + toUser;
+    childExist = true;
+
+    let group = toUser + "_" + fromUser;
 
     functions.pushMessage(fromUser, group, this.state.message, this);
   };
 
   renderItem = ({ item, index }) =>
-    item.fromUser == "web" ? (
+    item.fromUser != global.commonData.user.user_id ? ( // if not owner
       <View style={styleChat.containerList}>
         <View style={styleChat.messageContainer}>
           <Text style={styles.fontNormal}>{item.message}</Text>
@@ -175,6 +212,10 @@ class Chat extends Component {
                 style={style.imageProfile}
               />
             </View>
+            <ActivityIndicator
+              size="large"
+              animating={this.state.ActivityIndicator}
+            />
             <View style={style.containerMessageChat}>
               <View>
                 <FlatListViewNormal
@@ -184,13 +225,11 @@ class Chat extends Component {
                   col="1"
                 />
               </View>
-              {
-                (this.state.display != "none" ) ?
+              {this.state.display != "none" ? (
                 <View style={[styleChat.typingUser]}>
-                <Text style={{ paddingBottom: 10 }}>...</Text>
-              </View> :
-              null
-             }
+                  <Text style={{ paddingBottom: 10 }}>...</Text>
+                </View>
+              ) : null}
             </View>
           </Background>
         </ScrollView>
