@@ -19,6 +19,16 @@ class Functions {
     return data;
   };
 
+  getCountNotification = () => {
+    let count = 0;
+  
+    global.notification.map((item, index) => {
+      if (!item.data.read) count = count + 1;
+    });
+  
+    return count;
+  };
+
   gotoScreen = (navigation, screen) => {
     navigation.navigate(screen);
   };

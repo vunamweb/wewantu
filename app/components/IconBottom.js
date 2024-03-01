@@ -162,7 +162,7 @@ class IconBottom extends Component {
         title: text4,
         src: svgCode4,
         link: "Message",
-        text: global.notification.length > 0 ? global.notification.length : null,
+        text: functions.getCountNotification() > 0 ? functions.getCountNotification() : null,
       },
       {
         title: text5,

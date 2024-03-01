@@ -33,9 +33,11 @@ class HomeScreen extends Component {
     super(props);
     this._renderItem = this._renderItem.bind(this);
     this.collapse = createRef();
-  }
 
-  state = {};
+    this.state = {
+      notification: [],
+    };
+  }
 
   onClickItem = (index, link) => {
     this.collapse.current.setState({ activeIndex: index });
@@ -93,6 +95,19 @@ class HomeScreen extends Component {
 
     global.screen = this;
 
+    let datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+    } catch (error) {
+      console.log(error);
+    }
+
+    global.notification =
+      datauser.notification != undefined ? datauser.notification : [];
+
+    this.setState({ notification: global.notification });
+
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       (payload) => {
@@ -104,14 +119,18 @@ class HomeScreen extends Component {
     );
   };
 
+  componentWillUnmount() {
+    console.log("leave");
+  }
+
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
 
   render() {
     global.notification =
-    global.notification != undefined ? global.notification : [];
-    
+      global.notification != undefined ? global.notification : [];
+
     var commonData = global.commonData.languages;
 
     try {
@@ -174,10 +193,10 @@ class HomeScreen extends Component {
                   }
                 >
                   <Image source={alert} />
-                  {global.notification.length > 0 ? (
+                  {functions.getCountNotification() > 0 ? (
                     <View style={[style.textNumber]}>
                       <Text style={style.text1}>
-                        {global.notification.length}
+                        {functions.getCountNotification()}
                       </Text>
                     </View>
                   ) : null}

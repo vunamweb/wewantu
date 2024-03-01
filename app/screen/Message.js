@@ -92,11 +92,15 @@ class Message extends Component {
     let mesages = [];
 
     this.state.chatList.map((item, index) => {
-      if((item.user_id_from == from_user_id || item.user_id_from == to_user_id) && (item.user_id_to == from_user_id || item.user_id_to == to_user_id) )
-      mesages.push(item);
-    })
+      if (
+        (item.user_id_from == from_user_id ||
+          item.user_id_from == to_user_id) &&
+        (item.user_id_to == from_user_id || item.user_id_to == to_user_id)
+      )
+        mesages.push(item);
+    });
 
-    if(mesages.length == 0) {
+    if (mesages.length == 0) {
       var obj = {};
 
       obj.create = null;
@@ -108,7 +112,41 @@ class Message extends Component {
     let length = mesages.length;
 
     return mesages[length - 1];
-  }
+  };
+
+  getNumberNotRead = (userId) => {
+    let count = 0;
+
+    global.notification.map((item, index) => {
+      if (item.data.id == userId && !item.data.read) count = count + 1;
+    });
+
+    return count;
+  };
+
+  gotoChat = async (userId, key) => {
+    global.notification.map((item, index) => {
+      if (item.data.id == userId) global.notification[index].data.read = true;
+    });
+
+    let datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+    } catch (error) {
+      console.log(error);
+    }
+
+    datauser.notification = global.notification;
+
+    AsyncStorage.setItem("data", JSON.stringify(datauser));
+
+    functions.gotoScreenWithParam(
+      JSON.stringify(key),
+      this.props.navigation,
+      "Chat"
+    );
+  };
 
   render() {
     let userId,
@@ -156,17 +194,19 @@ class Message extends Component {
                 key.toUser = id;
 
                 return (
-                  <Href
-                    onPress={() =>
-                      functions.gotoScreenWithParam(
-                        JSON.stringify(key),
-                        this.props.navigation,
-                        "Chat"
-                      )
-                    }
-                  >
+                  <Href onPress={() => this.gotoChat(id, key)}>
                     <View style={style.parent}>
-                      <Image source={require("../images/user_chat.png")} />
+                      <View>
+                        <Image source={require("../images/user_chat.png")} />
+                        {this.getNumberNotRead(id) > 0 ? (
+                          <View style={[style.textNumber]}>
+                            <Text style={style.textNumber1}>
+                              {this.getNumberNotRead(id)}
+                            </Text>
+                          </View>
+                        ) : null}
+                      </View>
+
                       <View style={[style.childRen]}>
                         <Text
                           style={[styles.fontBoldSmallOfSmall, style.text4]}
@@ -224,6 +264,11 @@ const style = StyleSheet.create({
     marginTop: -3,
   },
 
+  textNumber1: {
+    color: "white",
+    fontSize: 13,
+  },
+
   text2: {
     color: "#E4E4E4",
   },
@@ -264,6 +309,20 @@ const style = StyleSheet.create({
     marginTop: 15,
     height: 30,
     width: "100%",
+  },
+
+  textNumber: {
+    position: "absolute",
+    top: 20,
+    right: -10,
+    borderRadius: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+    backgroundColor: "#898166",
+    alignItems: "center",
+    width: 20,
+    height: 20,
+    zIndex: 3,
   },
 });
 

@@ -33,7 +33,21 @@ const windowWidth = Dimensions.get("window").width;
 
 let root;
 
-const gotoChat = (item) => {
+const gotoChat = async (item, index) => {
+  global.notification[index].data.read = true;
+
+  datauser = await functions.getDataUser();
+
+  try {
+    datauser = JSON.parse(datauser);
+  } catch (error) {
+    console.log(error);
+  }
+
+  datauser.notification = global.notification;
+
+  AsyncStorage.setItem("data", JSON.stringify(datauser));
+
   let key = {};
   key.fromUser = global.commonData.user.user_id; //userId;
   key.toUser = item.data.id;
@@ -45,19 +59,24 @@ const gotoChat = (item) => {
   );
 };
 
-const renderItem = ({ item, index }) => (
-  <Href onPress={() => gotoChat(item)}>
-    <View style={style.render}>
-      <Text style={[styles.fontNormal, styles.fontBoldSmall]}>
-        {item.data.name}
-      </Text>
-      <Text style={styles.fontNormal}>{item.data.message}</Text>
-      <Text style={[styles.fontNormalSmall, style.dateTime]}>
-        {item.data.date}
-      </Text>
-    </View>
-  </Href>
-);
+const renderItem = ({ item, index }) => {
+  if(!item.data.read)
+  return (
+    <Href onPress={() => gotoChat(item, index)}>
+      <View style={[style.render]}>
+        <Text style={[styles.fontNormal, styles.fontBoldSmall]}>
+          {item.data.name}
+        </Text>
+        <Text style={styles.fontNormal}>{item.data.message}</Text>
+        <Text style={[styles.fontNormalSmall, style.dateTime]}>
+          {item.data.date}
+        </Text>
+      </View>
+    </Href>
+  ); 
+  else 
+  return null;
+} 
 
 export default function MessageNotification(props) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -73,12 +92,17 @@ export default function MessageNotification(props) {
     <View style={[styles.flexRow, styles.logo_0, style.view]}>
       <Href onPress={() => setIsEnabled(!isEnabled)}>
         <Image source={alert} />
-        {global.notification.length > 0 ? (
+        {functions.getCountNotification() > 0 ? (
           <View style={[style.textNumber]}>
-            <Text style={style.text1}>{global.notification.length}</Text>
+            <Text style={style.text1}>{functions.getCountNotification()}</Text>
           </View>
         ) : null}
-        <View style={[style.inforNotification, { display: display, width: windowWidth/1 }]}>
+        <View
+          style={[
+            style.inforNotification,
+            { display: display, width: windowWidth / 1 },
+          ]}
+        >
           <FlatListViewNormal
             data={global.notification}
             renderItem={renderItem}
