@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { StyleSheet, View, AsyncStorage, Dimensions, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  View,
+  AsyncStorage,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 
 import Text from "../components/Paragraph";
 import { ScrollView } from "react-native-gesture-handler";
+
+import messaging from "@react-native-firebase/messaging";
 
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -14,7 +22,7 @@ import IconBottom from "../components/IconBottom";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
-import firebase from '../function/UtilityFirebase';
+//import firebase from '../function/UtilityFirebase';
 
 const borderColor = "#000";
 
@@ -37,16 +45,32 @@ class RegisterScreen_3 extends Component {
     display1: "none",
     display2: "none",
     ActivityIndicator: false,
-    fcmToken: null
+    fcmToken: null,
   };
 
   componentDidMount = async () => {
-    let fcmToken = await new firebase(this).getToken();
+    this.requestUserPermission();
+  };
 
-    console.log(fcmToken);
+  requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log("Authorization status:", authStatus);
+      await messaging().registerDeviceForRemoteMessages();
+      this.getToken();
+    }
+  };
+
+  getToken = async () => {
+    const fcmToken = await messaging().getToken();
+    console.log("token: " + fcmToken);
 
     this.setState({ fcmToken: fcmToken });
-};
+  };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -144,10 +168,20 @@ class RegisterScreen_3 extends Component {
               size="large"
               animating={this.state.ActivityIndicator}
             />
-            <Text style={[styles.error, { display: this.state.display1, marginBottom: 10 }]}>
+            <Text
+              style={[
+                styles.error,
+                { display: this.state.display1, marginBottom: 10 },
+              ]}
+            >
               {text12}
             </Text>
-            <Text style={[styles.success, { display: this.state.display2, marginBottom: 10 }]}>
+            <Text
+              style={[
+                styles.success,
+                { display: this.state.display2, marginBottom: 10 },
+              ]}
+            >
               {text11}
             </Text>
             <TextInput

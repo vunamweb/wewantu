@@ -811,7 +811,11 @@ class Functions {
     body.user_id_from = user_id_from;
     body.user_id_to = user_id_to;
     body.message = message;
-
+    if(global.commonData.user.user_id == user_id_from)
+      body.id_room = user_id_to + '_' + user_id_from;
+    else    
+      body.id_room = user_id_from + '_' + user_id_to;
+    
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
