@@ -21,11 +21,11 @@ class Functions {
 
   getCountNotification = () => {
     let count = 0;
-  
+
     global.notification.map((item, index) => {
       if (!item.data.read) count = count + 1;
     });
-  
+
     return count;
   };
 
@@ -546,6 +546,93 @@ class Functions {
     network.fetchPOST(url, body, callback);
   };
 
+  getDateByint = () => {
+    // Get the current date
+const currentDate = new Date();
+
+// Get the timestamp in milliseconds
+const timestamp = currentDate.getTime();
+
+// Convert the timestamp to seconds
+const currentSeconds = Math.floor(timestamp / 1000);
+
+return currentSeconds;
+}
+
+  upload = async (component, uri, type, file1, file2, file3) => {
+    let url = global.urlRootWewantu + global.urlUpload;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    let nameFile = "";
+    let nameFile_1 = "";
+    let typeFile = null;
+    let user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    let dateCurent = this.getDateByint().toString();
+
+    switch (type) {
+      case "doc":
+        nameFile = dateCurent + '_' + "doc.doc";
+        nameFile_1 = nameFile;
+
+        nameFile = file1 + ";" + nameFile + ";" + file3 + ";" + user_id;
+
+        typeFile = "doc";
+        break;
+
+      case "video":
+        nameFile = dateCurent + '_' + "video.mp4";
+        nameFile_1 = nameFile;
+
+        nameFile = file1 + ";" + file2 + ";" + nameFile + ";" + user_id;
+
+        typeFile = "video";
+        break;
+
+      default:
+        nameFile = dateCurent + '_' + "img.jpg";
+        nameFile_1 = nameFile;
+
+        nameFile = nameFile + ";" + file2 + ";" + file3 + ";" + user_id;
+
+        typeFile = "image/jpeg";
+    }
+
+    const data = new FormData();
+
+    data.append("media", {
+      name: nameFile,
+      type: typeFile,
+      uri: uri,
+    });
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+        statusUpload: responseData,
+        urlCurrent: nameFile_1
+      });
+      return;
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   activeAuction = async (component) => {
     let url = global.urlRoot + global.urlAuction;
 
@@ -811,11 +898,10 @@ class Functions {
     body.user_id_from = user_id_from;
     body.user_id_to = user_id_to;
     body.message = message;
-    if(global.commonData.user.user_id == user_id_from)
-      body.id_room = user_id_to + '_' + user_id_from;
-    else    
-      body.id_room = user_id_from + '_' + user_id_to;
-    
+    if (global.commonData.user.user_id == user_id_from)
+      body.id_room = user_id_to + "_" + user_id_from;
+    else body.id_room = user_id_from + "_" + user_id_to;
+
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
@@ -894,6 +980,47 @@ class Functions {
       });
 
       component.setState({ data: mesages, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListMedia = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlMedia;
+
+    var callback = async (responseData) => {
+      var obj = null;
+
+      responseData.map((item, index) => {
+        if (item.user_id == datauser.user.user_id) {
+          obj = {};
+
+          obj.file_img = item.file_img;
+          obj.file_doc = item.file_doc;
+          obj.file_video = item.file_video;
+        }
+      });
+
+      if (obj == null) {
+        obj = {};
+
+        obj.file_img = null;
+        obj.file_doc = null;
+        obj.file_video = null;
+      }
+
+      component.setState({ media: obj, ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });

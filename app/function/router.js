@@ -63,6 +63,7 @@ import Tipp from "../screen/Tipp";
 import HowToUse from "../screen/HowToUse";
 import Help from "../screen/Help";
 import Chat from "../screen/Chat";
+import UploadDocument_1 from "../screen/UploadDocument_1";
 
 class Router {
   initNavigarion = () => {
@@ -479,6 +480,13 @@ class Router {
 
         Chat: {
           screen: Chat,
+          navigationOptions: {
+            header: null,
+          },
+        },
+
+        UploadDocument_1: {
+          screen: UploadDocument_1,
           navigationOptions: {
             header: null,
           },

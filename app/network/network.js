@@ -122,6 +122,32 @@ class Network {
       });
   }
 
+  fetchPOST_HEADER_Upload(url, body, token, callback) {
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        //Accept: "application/json",
+        //"Content-Type": "multipart/form-data",
+        //Authorization: token,
+      },
+      body: body,
+    })
+      .then((response) => {
+        var result = {};
+
+        result = {};
+        result.status = response.status;
+
+        return result;
+      })
+      .then((responseData) => {
+        callback(responseData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   fetchPATCH_HEADER(url, body, token, callback) {
     return fetch(url, {
       method: "PATCH",

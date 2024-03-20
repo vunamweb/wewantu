@@ -32,6 +32,8 @@ global.faq = 'api/v1/morpheus?e=FAQ&l=de&json=1';
 global.urlRegister = 'api/v1//user';
 global.urlInsertChat = 'api/v1/chat/insert';
 global.urlChat = 'api/v1/chat';
+global.urlUpload = 'api/v1/upload';
+global.urlMedia = 'api/v1/media';
 
 // JOB
 global.urlRootJob = 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/';
@@ -45,6 +47,9 @@ global.jobClient_secret = '32a39620-32b3-4307-9aa1-511e3d7f48a8';
 // Wewantu user and pass
 global.userWeantu = 'wewantu';
 global.passwordWeantu = 'wewantu';
+
+// URL Image
+global.urlImage = 'https://api.topazvn.vn/uploads/';
 
 
 
