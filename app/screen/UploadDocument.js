@@ -53,7 +53,9 @@ class UploadDocument extends Component {
         status: null,
       },
       visible: false,
-      urlCurrent: null
+      callback: 0,
+      urlImg: null,
+      urlDoc: null,
     };
   }
 
@@ -61,7 +63,7 @@ class UploadDocument extends Component {
     functions.getListMedia(this);
   };
 
-  openImagePicker = () => {  
+  openImagePicker = (type) => {  
     ImagePicker.launchImageLibrary({}, (response) => {
       if (response) {
         //setMediaFiles([...mediaFiles, { type: "image", uri: response.assets[0].uri }]);
@@ -72,7 +74,7 @@ class UploadDocument extends Component {
         functions.upload(
           this,
           response.assets[0].uri,
-          "img",
+          type,
           fileImg,
           fileDoc,
           fileVideo
@@ -106,7 +108,15 @@ class UploadDocument extends Component {
     else if (this.state.statusUpload.status == 200)
       view = <Text style={[styles.success]}>{text2}</Text>;
 
-    let urlIamage = (this.state.urlCurrent == null) ? global.urlImage + this.state.media.file_img : global.urlImage + this.state.urlCurrent;
+    let urlIamage;
+
+    if(this.state.callback == 0) {
+      urlIamage = (this.state.urlImg == null) ? global.urlImage + this.state.media.file_img : global.urlImage + this.state.urlImg;
+
+    } else if(this.state.callback == 1) {
+      urlIamage = (this.state.urlDoc == null) ? global.urlImage + this.state.media.file_doc : global.urlImage + this.state.urlDoc;
+    } 
+
 
     return (
       <Provider>
@@ -142,7 +152,7 @@ class UploadDocument extends Component {
               />
               <View style={{ marginBottom: 20 }}>{view}</View>
               <View style={style.view1}>
-                <Href onPress={() => this.openImagePicker()}>
+                <Href onPress={() => this.openImagePicker('img')}>
                   <IconUpload
                     img1={rectangle}
                     img2={arrowUp}
@@ -151,7 +161,7 @@ class UploadDocument extends Component {
                   />
                   {this.state.media.file_img ? (
                     <View style={style.viewEdit}>
-                      <Href onPress={() => this.setState({ visible: true })}>
+                      <Href onPress={() => this.setState({ visible: true, callback: 0 })}>
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
                       <Href onPress={() => null}>
@@ -160,12 +170,24 @@ class UploadDocument extends Component {
                     </View>
                   ) : null}
                 </Href>
-                <IconUpload
-                  img1={rectangle}
-                  img2={arrowUp}
-                  text1="MEIN LETZTES"
-                  text2="ARBEITSZEUGNIS"
-                />
+                <Href onPress={() => this.openImagePicker('doc')}>
+                  <IconUpload
+                    img1={rectangle}
+                    img2={arrowUp}
+                    text1="MEIN LETZTES"
+                    text2="ARBEITSZEUGNIS"
+                  />
+                  {this.state.media.file_doc ? (
+                    <View style={style.viewEdit}>
+                      <Href onPress={() => this.setState({ visible: true, callback: 1 })}>
+                        <Icon name="eye" size={20} color="#fff" />
+                      </Href>
+                      <Href onPress={() => null}>
+                        <Icon name="trash-o" size={20} color="#fff" />
+                      </Href>
+                    </View>
+                  ) : null}
+                </Href>
               </View>
               <IconUpload
                 img1={rectangle}

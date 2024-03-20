@@ -548,16 +548,16 @@ class Functions {
 
   getDateByint = () => {
     // Get the current date
-const currentDate = new Date();
+    const currentDate = new Date();
 
-// Get the timestamp in milliseconds
-const timestamp = currentDate.getTime();
+    // Get the timestamp in milliseconds
+    const timestamp = currentDate.getTime();
 
-// Convert the timestamp to seconds
-const currentSeconds = Math.floor(timestamp / 1000);
+    // Convert the timestamp to seconds
+    const currentSeconds = Math.floor(timestamp / 1000);
 
-return currentSeconds;
-}
+    return currentSeconds;
+  };
 
   upload = async (component, uri, type, file1, file2, file3) => {
     let url = global.urlRootWewantu + global.urlUpload;
@@ -585,16 +585,16 @@ return currentSeconds;
 
     switch (type) {
       case "doc":
-        nameFile = dateCurent + '_' + "doc.doc";
+        nameFile = dateCurent + "_" + "doc.doc";
         nameFile_1 = nameFile;
 
         nameFile = file1 + ";" + nameFile + ";" + file3 + ";" + user_id;
 
-        typeFile = "doc";
+        typeFile = "image/jpeg";
         break;
 
       case "video":
-        nameFile = dateCurent + '_' + "video.mp4";
+        nameFile = dateCurent + "_" + "video.mp4";
         nameFile_1 = nameFile;
 
         nameFile = file1 + ";" + file2 + ";" + nameFile + ";" + user_id;
@@ -603,7 +603,7 @@ return currentSeconds;
         break;
 
       default:
-        nameFile = dateCurent + '_' + "img.jpg";
+        nameFile = dateCurent + "_" + "img.jpg";
         nameFile_1 = nameFile;
 
         nameFile = nameFile + ";" + file2 + ";" + file3 + ";" + user_id;
@@ -620,11 +620,22 @@ return currentSeconds;
     });
 
     var callback = async (responseData) => {
-      component.setState({
-        ActivityIndicator: false,
-        statusUpload: responseData,
-        urlCurrent: nameFile_1
-      });
+      nameFile_1 = nameFile_1.replace("doc.doc", "img.jpg");
+
+      if (type == "img")
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          urlImg: nameFile_1,
+          callback: 0
+        });
+      else if (type == "doc")
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          urlDoc: nameFile_1,
+          callback: 1
+        });
       return;
     };
 
@@ -1007,7 +1018,7 @@ return currentSeconds;
           obj = {};
 
           obj.file_img = item.file_img;
-          obj.file_doc = item.file_doc;
+          obj.file_doc = item.file_doc != "null" ? item.file_doc : null;
           obj.file_video = item.file_video;
         }
       });
