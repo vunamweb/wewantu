@@ -599,7 +599,7 @@ class Functions {
 
         nameFile = file1 + ";" + file2 + ";" + nameFile + ";" + user_id;
 
-        typeFile = "video";
+        typeFile = "video/mp4";
         break;
 
       default:
@@ -636,6 +636,14 @@ class Functions {
           urlDoc: nameFile_1,
           callback: 1
         });
+       else
+       component.setState({
+        ActivityIndicator: false,
+        statusUpload: responseData,
+        urlVideo: nameFile_1,
+        callback: 2
+      });
+     
       return;
     };
 
@@ -1019,7 +1027,7 @@ class Functions {
 
           obj.file_img = item.file_img;
           obj.file_doc = item.file_doc != "null" ? item.file_doc : null;
-          obj.file_video = item.file_video;
+          obj.file_video = (item.file_video != "null") ? item.file_video : null;
         }
       });
 

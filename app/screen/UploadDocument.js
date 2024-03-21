@@ -16,6 +16,8 @@ import { hideNavigationBar } from "react-native-navigation-bar-color";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import Video from 'react-native-video';
+
 import * as ImagePicker from "react-native-image-picker";
 
 import network from "../network/network";
@@ -56,6 +58,7 @@ class UploadDocument extends Component {
       callback: 0,
       urlImg: null,
       urlDoc: null,
+      urlVideo: null
     };
   }
 
@@ -75,6 +78,25 @@ class UploadDocument extends Component {
           this,
           response.assets[0].uri,
           type,
+          fileImg,
+          fileDoc,
+          fileVideo
+        );
+      }
+    });
+  };
+
+  openVideoPicker = () => {
+    ImagePicker.launchImageLibrary({ mediaType: "video" }, (response) => {
+      if (response) {
+        let fileImg = this.state.media.file_img;
+        let fileDoc = this.state.media.file_doc;
+        let fileVideo = this.state.media.file_video;
+
+        functions.upload(
+          this,
+          response.assets[0].uri,
+          'video',
           fileImg,
           fileDoc,
           fileVideo
@@ -108,14 +130,31 @@ class UploadDocument extends Component {
     else if (this.state.statusUpload.status == 200)
       view = <Text style={[styles.success]}>{text2}</Text>;
 
-    let urlIamage;
+    let urlIamage, view1;
 
     if(this.state.callback == 0) {
       urlIamage = (this.state.urlImg == null) ? global.urlImage + this.state.media.file_img : global.urlImage + this.state.urlImg;
-
+view1 = <Image
+source={{ uri: urlIamage }}
+style={{ width: "100%", height: "100%" }}
+/>
     } else if(this.state.callback == 1) {
       urlIamage = (this.state.urlDoc == null) ? global.urlImage + this.state.media.file_doc : global.urlImage + this.state.urlDoc;
-    } 
+      <Image
+      source={{ uri: urlIamage }}
+      style={{ width: "100%", height: "100%" }}
+    />
+    } else {
+      urlIamage = (this.state.urlVideo == null) ? global.urlImage + this.state.media.file_video : global.urlImage + this.state.urlVideo;
+     
+view1 = <Video
+source={{ uri: urlIamage }}
+style={{ width: '100%', height: '100%' }}
+resizeMode="cover"
+repeat={true}
+paused={false}
+/>
+    }
 
 
     return (
@@ -123,10 +162,7 @@ class UploadDocument extends Component {
         <Portal>
           <Modal visible={this.state.visible}>
             <View style={[style.modal, style.modal2]}>
-              <Image
-                source={{ uri: urlIamage }}
-                style={{ width: "100%", height: "100%" }}
-              />
+              {view1}
             </View>
             <View style={style.close}>
               <Href
@@ -189,6 +225,9 @@ class UploadDocument extends Component {
                   ) : null}
                 </Href>
               </View>
+              
+              
+              <Href style={{ marginBottom: 90, marginTop:20 }} onPress={() => this.openVideoPicker()}>
               <IconUpload
                 img1={rectangle}
                 img2={camera}
@@ -196,6 +235,18 @@ class UploadDocument extends Component {
                 text2="VIDEO-STATEMENT"
                 style={style.marginTop1}
               />
+                  {this.state.media.file_video ? (
+                    <View style={style.viewEdit1}>
+                      <Href onPress={() => this.setState({ visible: true, callback: 2 })}>
+                        <Icon name="eye" size={20} color="#fff" />
+                      </Href>
+                      <Href onPress={() => null}>
+                        <Icon name="trash-o" size={20} color="#fff" />
+                      </Href>
+                    </View>
+                  ) : null}
+                </Href>
+             
               <BackNext
                 nextScreen="WillingnessChange"
                 position="absolute"
@@ -231,6 +282,15 @@ const style = StyleSheet.create({
     position: "absolute",
     left: 0,
     top: -40,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+
+  viewEdit1: {
+    position: "absolute",
+    left: 0,
+    top: 0,
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
