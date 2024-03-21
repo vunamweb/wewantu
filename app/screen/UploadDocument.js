@@ -237,9 +237,10 @@ class UploadDocument extends Component {
               </View>
 
               <Href
-                style={{ marginBottom: 90, marginTop: 20 }}
+                style={style.viewVideo}
                 onPress={() => this.openVideoPicker()}
               >
+                <View>
                 <IconUpload
                   img1={rectangle}
                   img2={camera}
@@ -261,6 +262,7 @@ class UploadDocument extends Component {
                     </Href>
                   </View>
                 ) : null}
+                </View>
               </Href>
 
               <BackNext
@@ -310,6 +312,11 @@ const style = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    //backgroundColor: 'blue'
+  },
+
+  viewVideo: {
+    marginBottom: 90, marginTop: 20
   },
 
   close: {
