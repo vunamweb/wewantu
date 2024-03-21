@@ -34,6 +34,7 @@ global.urlInsertChat = 'api/v1/chat/insert';
 global.urlChat = 'api/v1/chat';
 global.urlUpload = 'api/v1/upload';
 global.urlMedia = 'api/v1/media';
+global.urlMediaUpdate = 'api/v1/media/update';
 
 // JOB
 global.urlRootJob = 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/';

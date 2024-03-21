@@ -55,7 +55,9 @@ class UploadDocument extends Component {
         status: null,
       },
       visible: false,
+      visible1: false,
       callback: 0,
+      typeDelete: 0
     };
   }
 
@@ -102,6 +104,12 @@ class UploadDocument extends Component {
     });
   };
 
+  delete = () => {
+     this.setState({ visible1: false });
+     
+     functions.deleteMedia(this, this.state.typeDelete);
+  }
+
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
@@ -116,6 +124,9 @@ class UploadDocument extends Component {
     try {
       var text1 = commonData.upload_error;
       var text2 = commonData.upload_success;
+      var text3 = commonData.are_you_sure_to_delete;
+      var text4 = commonData.yes;
+      var text5 = commonData.no;
     } catch (error) {
       console.log(error);
     }
@@ -178,6 +189,26 @@ class UploadDocument extends Component {
               </Href>
             </View>
           </Modal>
+          <Modal visible={this.state.visible1}>
+            <View style={style.modalDeleteRoot}>
+              <Text style={style.textHeaderModal}>{text3}</Text>
+              <View style={style.modalDelete}>
+                <Href onPress={() => this.delete()} style={style.buttonModal}>
+                  <Text>{text4}</Text>
+                </Href>
+                <Href
+                  onPress={() =>
+                    this.setState({
+                      visible1: false,
+                    })
+                  }
+                  style={style.buttonModal}
+                >
+                  <Text>{text5}</Text>
+                </Href>
+              </View>
+            </View>
+          </Modal>
         </Portal>
         <View style={styles.flexFull}>
           <Header component={this} Notification={false} />
@@ -206,7 +237,7 @@ class UploadDocument extends Component {
                       >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
-                      <Href onPress={() => null}>
+                      <Href onPress={() => this.setState({ visible1: true, typeDelete: 0 })}>
                         <Icon name="trash-o" size={20} color="#fff" />
                       </Href>
                     </View>
@@ -228,7 +259,7 @@ class UploadDocument extends Component {
                       >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
-                      <Href onPress={() => null}>
+                      <Href onPress={() => this.setState({ visible1: true, typeDelete: 1 })}>
                         <Icon name="trash-o" size={20} color="#fff" />
                       </Href>
                     </View>
@@ -257,7 +288,7 @@ class UploadDocument extends Component {
                     >
                       <Icon name="eye" size={20} color="#fff" />
                     </Href>
-                    <Href onPress={() => null}>
+                    <Href onPress={() => this.setState({ visible1: true, typeDelete: 2 })}>
                       <Icon name="trash-o" size={20} color="#fff" />
                     </Href>
                   </View>
@@ -345,6 +376,33 @@ const style = StyleSheet.create({
     marginLeft: "10%",
     marginRight: "10%",*/
     //marginLeft: -20,
+  },
+
+  modalDelete: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+  },
+
+  modalDeleteRoot: {
+    width: "80%",
+    height: 150,
+    marginLeft: "10%",
+    marginRight: "10%",
+    backgroundColor: "#ccc",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+
+  textHeaderModal: {
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  buttonModal: {
+    padding: 10,
+    backgroundColor: "#898166",
+    borderRadius: 10,
   },
 });
 

@@ -661,6 +661,69 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
+  deleteMedia = async (component, type) => {
+    let url = global.urlRootWewantu + global.urlMediaUpdate;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    let nameFile = type + ";" + user_id;
+
+    const data = new FormData();
+
+    data.append("file", nameFile);
+
+    var callback = async (responseData) => {
+      let media = component.state.media;
+
+      if (type == 0) {
+        media.file_img = null;
+
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          media: media,
+          //callback: 0,
+        });
+      } else if (type == 1) {
+        media.file_doc = null;
+
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          media: media,
+          //callback: 1,
+        });
+      } else {
+        media.file_video = null;
+
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          media: media,
+          //callback: 2,
+        });
+      }
+
+      return;
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   activeAuction = async (component) => {
     let url = global.urlRoot + global.urlAuction;
 
