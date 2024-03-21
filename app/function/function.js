@@ -622,28 +622,37 @@ class Functions {
     var callback = async (responseData) => {
       nameFile_1 = nameFile_1.replace("doc.doc", "img.jpg");
 
-      if (type == "img")
+      let media = component.state.media;
+
+      if (type == "img") {
+        media.file_img = nameFile_1;
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
-          urlImg: nameFile_1,
-          callback: 0
+          media: media,
+          callback: 0,
         });
-      else if (type == "doc")
+      } else if (type == "doc") {
+        media.file_doc = nameFile_1;
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
-          urlDoc: nameFile_1,
-          callback: 1
+          media: media,
+          callback: 1,
         });
-       else
-       component.setState({
-        ActivityIndicator: false,
-        statusUpload: responseData,
-        urlVideo: nameFile_1,
-        callback: 2
-      });
-     
+      } else {
+        media.file_video = nameFile_1;
+
+        component.setState({
+          ActivityIndicator: false,
+          statusUpload: responseData,
+          media: media,
+          callback: 2,
+        });
+      }
+
       return;
     };
 
@@ -1027,7 +1036,7 @@ class Functions {
 
           obj.file_img = item.file_img;
           obj.file_doc = item.file_doc != "null" ? item.file_doc : null;
-          obj.file_video = (item.file_video != "null") ? item.file_video : null;
+          obj.file_video = item.file_video != "null" ? item.file_video : null;
         }
       });
 

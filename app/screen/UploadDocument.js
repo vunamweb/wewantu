@@ -16,7 +16,7 @@ import { hideNavigationBar } from "react-native-navigation-bar-color";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import Video from 'react-native-video';
+import Video from "react-native-video";
 
 import * as ImagePicker from "react-native-image-picker";
 
@@ -56,9 +56,6 @@ class UploadDocument extends Component {
       },
       visible: false,
       callback: 0,
-      urlImg: null,
-      urlDoc: null,
-      urlVideo: null
     };
   }
 
@@ -66,7 +63,7 @@ class UploadDocument extends Component {
     functions.getListMedia(this);
   };
 
-  openImagePicker = (type) => {  
+  openImagePicker = (type) => {
     ImagePicker.launchImageLibrary({}, (response) => {
       if (response) {
         //setMediaFiles([...mediaFiles, { type: "image", uri: response.assets[0].uri }]);
@@ -96,7 +93,7 @@ class UploadDocument extends Component {
         functions.upload(
           this,
           response.assets[0].uri,
-          'video',
+          "video",
           fileImg,
           fileDoc,
           fileVideo
@@ -132,38 +129,43 @@ class UploadDocument extends Component {
 
     let urlIamage, view1;
 
-    if(this.state.callback == 0) {
-      urlIamage = (this.state.urlImg == null) ? global.urlImage + this.state.media.file_img : global.urlImage + this.state.urlImg;
-view1 = <Image
-source={{ uri: urlIamage }}
-style={{ width: "100%", height: "100%" }}
-/>
-    } else if(this.state.callback == 1) {
-      urlIamage = (this.state.urlDoc == null) ? global.urlImage + this.state.media.file_doc : global.urlImage + this.state.urlDoc;
-      <Image
-      source={{ uri: urlIamage }}
-      style={{ width: "100%", height: "100%" }}
-    />
-    } else {
-      urlIamage = (this.state.urlVideo == null) ? global.urlImage + this.state.media.file_video : global.urlImage + this.state.urlVideo;
-     
-view1 = <Video
-source={{ uri: urlIamage }}
-style={{ width: '100%', height: '100%' }}
-resizeMode="cover"
-repeat={true}
-paused={false}
-/>
-    }
+    if (this.state.callback == 0) {
+      urlIamage = global.urlImage + this.state.media.file_img;
 
+      view1 = (
+        <Image
+          source={{ uri: urlIamage }}
+          style={{ width: "100%", height: "100%" }}
+        />
+      );
+    } else if (this.state.callback == 1) {
+      urlIamage = global.urlImage + this.state.media.file_doc;
+
+      view1 = (
+        <Image
+          source={{ uri: urlIamage }}
+          style={{ width: "100%", height: "100%" }}
+        />
+      );
+    } else {
+      urlIamage = global.urlImage + this.state.media.file_video;
+
+      view1 = (
+        <Video
+          source={{ uri: urlIamage }}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
+          repeat={true}
+          paused={false}
+        />
+      );
+    }
 
     return (
       <Provider>
         <Portal>
           <Modal visible={this.state.visible}>
-            <View style={[style.modal, style.modal2]}>
-              {view1}
-            </View>
+            <View style={[style.modal, style.modal2]}>{view1}</View>
             <View style={style.close}>
               <Href
                 onPress={() =>
@@ -188,7 +190,7 @@ paused={false}
               />
               <View style={{ marginBottom: 20 }}>{view}</View>
               <View style={style.view1}>
-                <Href onPress={() => this.openImagePicker('img')}>
+                <Href onPress={() => this.openImagePicker("img")}>
                   <IconUpload
                     img1={rectangle}
                     img2={arrowUp}
@@ -197,7 +199,11 @@ paused={false}
                   />
                   {this.state.media.file_img ? (
                     <View style={style.viewEdit}>
-                      <Href onPress={() => this.setState({ visible: true, callback: 0 })}>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible: true, callback: 0 })
+                        }
+                      >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
                       <Href onPress={() => null}>
@@ -206,7 +212,7 @@ paused={false}
                     </View>
                   ) : null}
                 </Href>
-                <Href onPress={() => this.openImagePicker('doc')}>
+                <Href onPress={() => this.openImagePicker("doc")}>
                   <IconUpload
                     img1={rectangle}
                     img2={arrowUp}
@@ -215,7 +221,11 @@ paused={false}
                   />
                   {this.state.media.file_doc ? (
                     <View style={style.viewEdit}>
-                      <Href onPress={() => this.setState({ visible: true, callback: 1 })}>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible: true, callback: 1 })
+                        }
+                      >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
                       <Href onPress={() => null}>
@@ -225,28 +235,34 @@ paused={false}
                   ) : null}
                 </Href>
               </View>
-              
-              
-              <Href style={{ marginBottom: 90, marginTop:20 }} onPress={() => this.openVideoPicker()}>
-              <IconUpload
-                img1={rectangle}
-                img2={camera}
-                text1="MEIN"
-                text2="VIDEO-STATEMENT"
-                style={style.marginTop1}
-              />
-                  {this.state.media.file_video ? (
-                    <View style={style.viewEdit1}>
-                      <Href onPress={() => this.setState({ visible: true, callback: 2 })}>
-                        <Icon name="eye" size={20} color="#fff" />
-                      </Href>
-                      <Href onPress={() => null}>
-                        <Icon name="trash-o" size={20} color="#fff" />
-                      </Href>
-                    </View>
-                  ) : null}
-                </Href>
-             
+
+              <Href
+                style={{ marginBottom: 90, marginTop: 20 }}
+                onPress={() => this.openVideoPicker()}
+              >
+                <IconUpload
+                  img1={rectangle}
+                  img2={camera}
+                  text1="MEIN"
+                  text2="VIDEO-STATEMENT"
+                  style={style.marginTop1}
+                />
+                {this.state.media.file_video ? (
+                  <View style={style.viewEdit1}>
+                    <Href
+                      onPress={() =>
+                        this.setState({ visible: true, callback: 2 })
+                      }
+                    >
+                      <Icon name="eye" size={20} color="#fff" />
+                    </Href>
+                    <Href onPress={() => null}>
+                      <Icon name="trash-o" size={20} color="#fff" />
+                    </Href>
+                  </View>
+                ) : null}
+              </Href>
+
               <BackNext
                 nextScreen="WillingnessChange"
                 position="absolute"
