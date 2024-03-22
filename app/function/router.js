@@ -485,10 +485,10 @@ class Router {
           },
         },
 
-        UploadDocument_1: {
+        Record: {
           screen: UploadDocument_1,
           navigationOptions: {
-            header: null,
+           
           },
         },
       },

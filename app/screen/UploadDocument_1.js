@@ -1,84 +1,175 @@
-import React, { useState, useEffect } from "react";
-import { View, ScrollView, Image, Dimensions, Button } from "react-native";
+import React, { Component, useState, useRef, useEffect } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  Image,
+  Alert,
+  AppRegistry,
+  TouchableOpacity,
+  ActivityIndicator,
+  TextInput,
+  Button,
+} from "react-native";
+import { Camera, useCameraDevices } from "react-native-vision-camera";
+import Video from "react-native-video";
 
-import Video from 'react-native-video';
+import Icon from "react-native-vector-icons/FontAwesome";
 
-import RNFS from "react-native-fs";
-//import ImagePicker from "react-native-image-picker";
-import * as ImagePicker from 'react-native-image-picker';
+import functions from "../function/function";
 
-const DeviceMediaScreen = () => {
-  const [mediaFiles, setMediaFiles] = useState([]);
+function Meida() {
+  const [recording, setRecording] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [response, setResponse] = useState();
+  const [uploadVideo, setUploadVideo] = useState(false);
+  const [text, onChangeText] = React.useState();
+  const [video, setVideo] = React.useState({});
+  const [type, setType] = React.useState("front");
+  const [mirrorImage, setMirrorImage] = React.useState(true);
 
-  useEffect(() => {
-    //loadMediaFromDevice();
-  }, []);
+  //const devices = useCameraDevices('wide-angle-camera');
+  const devices = useCameraDevices();
+  //const devices = await Camera.getAvailableCameraDevices();
+  //const device = devices.back;
+  const device = type == "back" ? devices.back : devices.front;
 
-  const loadMediaFromDevice = async () => {
-    try {
-      const imagesDir = `${RNFS.CachesDirectoryPath}`;
-      const videosDir = `${RNFS.CachesDirectoryPath}`;
+  const camera = useRef(null);
 
-      const imageFiles = await RNFS.readDir(imagesDir);
-      const videoFiles = await RNFS.readDir(videosDir);
+  const size = 30;
 
-      const images = imageFiles.map((file) => ({
-        type: "image",
-        uri: `file://${file.path}`,
-      }));
-      const videos = videoFiles.map((file) => ({
-        type: "video",
-        uri: `file://${file.path}`,
-      }));
+  const startRecording = async () => {
+    setRecording(true);
 
-      setMediaFiles([...images, ...videos]);
-    } catch (error) {
-      console.error("Error loading media:", error);
-    }
-  };
-
-  const openImagePicker = () => {
-    ImagePicker.launchImageLibrary({}, (response) => {
-      if (response.uri) {
-        setMediaFiles([...mediaFiles, { type: "image", uri: response.assets[0].uri }]);
-      }
+    camera.current.startRecording({
+      flash: "on",
+      onRecordingFinished: async (video) => {
+        setVideo(video);
+        setUploadVideo(true);
+      },
+      onRecordingError: (error) => console.error(error),
     });
   };
 
-  const openVideoPicker = () => {
-    ImagePicker.launchImageLibrary({ mediaType: "video" }, (response) => {
-      if (response.uri) {
-        setMediaFiles([...mediaFiles, { type: "video", uri: response.uri }]);
-      }
-    });
+  const upload = () => {
+    let fileImg = global.uploadDocument.state.media.file_img;
+    let fileDoc = global.uploadDocument.state.media.file_doc;
+    let fileVideo = global.uploadDocument.state.media.file_video;
+
+    functions.upload(
+      global.uploadDocument,
+      video.path,
+      "video",
+      fileImg,
+      fileDoc,
+      fileVideo,
+      1
+    );
+
+    setProcessing(true);
   };
 
-  return (
-    <ScrollView>
-    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        {mediaFiles.map((item, index) => (
-          <View key={index} style={{ margin: 5 }}>
-            {item.type === "image" ? (
-              <Image
-                source={{ uri: item.uri }}
-                style={{ width: 100, height: 100 }}
-              />
-            ) : (
-              <Video
-                source={{ uri: item.uri }}
-                style={{ width: 100, height: 100 }}
-                resizeMode="cover"
-                repeat={true}
-                paused={true}
-              />
-            )}
-          </View>
-        ))}
-            </View>
-      <Button title="Pick Image" onPress={openImagePicker} />
-      <Button title="Pick Video" onPress={openImagePicker} />
-    </ScrollView>
+  const stopRecording = async () => {
+    await camera.current.stopRecording();
+  };
+
+  const front = () => {
+    setType("front");
+    setMirrorImage(true);
+  };
+
+  const back = () => {
+    setType("back");
+    setMirrorImage(false);
+  };
+
+  let button = (
+    <TouchableOpacity onPress={startRecording}>
+      <Icon name="play" size={size} color="#fff" />
+    </TouchableOpacity>
   );
-};
 
-export default DeviceMediaScreen;
+  if (recording) {
+    button = (
+      <TouchableOpacity onPress={stopRecording}>
+        <Icon name="stop" size={size} color="#fff" />
+      </TouchableOpacity>
+    );
+  }
+
+  if (uploadVideo) {
+    button = <View />;
+  }
+
+  if (processing) {
+    button = (
+      <View>
+        <ActivityIndicator animating size={18} />
+      </View>
+    );
+  }
+
+  let display = (
+    <View>
+      <Camera
+        ref={camera}
+        device={device}
+        isActive={true}
+        video={true}
+        audio={true}
+        type={type}
+        mirrorImage={mirrorImage}
+        style={styles.camera}
+      />
+      <View style={styles.viewAction}>
+        <TouchableOpacity style={{ marginRight: 20 }} onPress={front}>
+          <Icon name="camera" size={size} color="#fff" />
+        </TouchableOpacity>
+        {button}
+        {/*<TouchableOpacity onPress={back}>
+          <Text style={{ fontSize: 14, color: "red" }}> Back </Text>
+      </TouchableOpacity>*/}
+      </View>
+    </View>
+  );
+
+  if (uploadVideo) {
+    upload();
+
+    setUploadVideo(false);
+    } 
+
+  if (device == null) return <Text>Waiting...</Text>;
+
+  return <View style={styles.viewRoot}>{display}</View>;
+}
+
+const styles = StyleSheet.create({
+  viewRoot: {
+    flex: 1,
+  },
+
+  uploadVideo: {
+    width: "100%",
+    height: "70%",
+  },
+
+  viewAction: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "#898166",
+    height: "10%",
+  },
+
+  camera: {
+    width: "100%",
+    height: "90%",
+  },
+});
+
+export default Meida;

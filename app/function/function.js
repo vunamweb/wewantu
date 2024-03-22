@@ -559,7 +559,7 @@ class Functions {
     return currentSeconds;
   };
 
-  upload = async (component, uri, type, file1, file2, file3) => {
+  upload = async (component, uri, type, file1, file2, file3, comeback = 0) => {
     let url = global.urlRootWewantu + global.urlUpload;
 
     var datauser = await this.getDataUser();
@@ -624,7 +624,14 @@ class Functions {
 
       let media = component.state.media;
 
-      if (type == "img") {
+      if (comeback == 1) {
+        global.uploadDocument.state.media.file_video = nameFile_1;
+        this.gotoScreenWithParam(
+          null,
+          global.uploadDocument.props.navigation,
+          "UploadDocument"
+        );
+      } else if (type == "img") {
         media.file_img = nameFile_1;
 
         component.setState({
@@ -656,7 +663,8 @@ class Functions {
       return;
     };
 
-    component.setState({ ActivityIndicator: true });
+    if(comeback != 1)
+     component.setState({ ActivityIndicator: true });
 
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };

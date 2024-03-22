@@ -57,11 +57,14 @@ class UploadDocument extends Component {
       visible: false,
       visible1: false,
       callback: 0,
-      typeDelete: 0
+      typeDelete: 0,
+      diplayTypeCamera: false,
     };
   }
 
   componentDidMount = () => {
+    global.uploadDocument = this;
+
     functions.getListMedia(this);
   };
 
@@ -105,10 +108,10 @@ class UploadDocument extends Component {
   };
 
   delete = () => {
-     this.setState({ visible1: false });
-     
-     functions.deleteMedia(this, this.state.typeDelete);
-  }
+    this.setState({ visible1: false });
+
+    functions.deleteMedia(this, this.state.typeDelete);
+  };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -116,6 +119,10 @@ class UploadDocument extends Component {
 
   callBack = (check, index) => {
     return;
+  };
+
+  gotoRecordvideo = () => {
+    functions.gotoScreenWithParam(null, this.props.navigation, "Record");
   };
 
   render() {
@@ -130,6 +137,8 @@ class UploadDocument extends Component {
     } catch (error) {
       console.log(error);
     }
+
+    var diplayTypeCamera = this.state.diplayTypeCamera ? "flex" : "none";
 
     var view = null;
 
@@ -217,8 +226,7 @@ class UploadDocument extends Component {
               <TextHeader text1="that's" text2="my" text3="input" />
               <ActivityIndicator
                 size="small"
-                animating={this.state.ActivityIndicator}
-              />
+                animating={this.state.ActivityIndicator}/>
               <View style={{ marginBottom: 20 }}>{view}</View>
               <View style={style.view1}>
                 <Href onPress={() => this.openImagePicker("img")}>
@@ -237,7 +245,11 @@ class UploadDocument extends Component {
                       >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
-                      <Href onPress={() => this.setState({ visible1: true, typeDelete: 0 })}>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible1: true, typeDelete: 0 })
+                        }
+                      >
                         <Icon name="trash-o" size={20} color="#fff" />
                       </Href>
                     </View>
@@ -259,7 +271,11 @@ class UploadDocument extends Component {
                       >
                         <Icon name="eye" size={20} color="#fff" />
                       </Href>
-                      <Href onPress={() => this.setState({ visible1: true, typeDelete: 1 })}>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible1: true, typeDelete: 1 })
+                        }
+                      >
                         <Icon name="trash-o" size={20} color="#fff" />
                       </Href>
                     </View>
@@ -269,30 +285,48 @@ class UploadDocument extends Component {
 
               <Href
                 style={style.viewVideo}
-                onPress={() => this.openVideoPicker()}
+                onPress={() =>
+                  this.setState({
+                    diplayTypeCamera: !this.state.diplayTypeCamera,
+                  })
+                }
               >
                 <View>
-                <IconUpload
-                  img1={rectangle}
-                  img2={camera}
-                  text1="MEIN"
-                  text2="VIDEO-STATEMENT"
-                  style={style.marginTop1}
-                />
-                {this.state.media.file_video ? (
-                  <View style={style.viewEdit1}>
-                    <Href
-                      onPress={() =>
-                        this.setState({ visible: true, callback: 2 })
-                      }
-                    >
-                      <Icon name="eye" size={20} color="#fff" />
+                  <IconUpload
+                    img1={rectangle}
+                    img2={camera}
+                    text1="MEIN"
+                    text2="VIDEO-STATEMENT"
+                    style={style.marginTop1}
+                  />
+                  {this.state.media.file_video ? (
+                    <View style={style.viewEdit1}>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible: true, callback: 2 })
+                        }
+                      >
+                        <Icon name="eye" size={20} color="#fff" />
+                      </Href>
+                      <Href
+                        onPress={() =>
+                          this.setState({ visible1: true, typeDelete: 2 })
+                        }
+                      >
+                        <Icon name="trash-o" size={20} color="#fff" />
+                      </Href>
+                    </View>
+                  ) : null}
+                  <View
+                    style={[style.viewEdit2, { display: diplayTypeCamera }]}
+                  >
+                    <Href onPress={() => this.openVideoPicker()}>
+                      <Icon name="file-video-o" size={20} color="#fff" />
                     </Href>
-                    <Href onPress={() => this.setState({ visible1: true, typeDelete: 2 })}>
-                      <Icon name="trash-o" size={20} color="#fff" />
+                    <Href onPress={() => this.gotoRecordvideo()}>
+                      <Icon name="video-camera" size={20} color="#fff" />
                     </Href>
                   </View>
-                ) : null}
                 </View>
               </Href>
 
@@ -346,8 +380,22 @@ const style = StyleSheet.create({
     //backgroundColor: 'blue'
   },
 
+  viewEdit2: {
+    position: "absolute",
+    left: "100%",
+    bottom: 30,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
+    backgroundColor: "#898166",
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderRadius: 10,
+  },
+
   viewVideo: {
-    marginBottom: 90, marginTop: 20
+    marginBottom: 90,
+    marginTop: 20,
   },
 
   close: {
