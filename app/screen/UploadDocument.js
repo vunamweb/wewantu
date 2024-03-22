@@ -63,6 +63,8 @@ class UploadDocument extends Component {
   }
 
   componentDidMount = () => {
+    hideNavigationBar();
+
     global.uploadDocument = this;
 
     functions.getListMedia(this);
@@ -203,7 +205,7 @@ class UploadDocument extends Component {
               <Text style={style.textHeaderModal}>{text3}</Text>
               <View style={style.modalDelete}>
                 <Href onPress={() => this.delete()} style={style.buttonModal}>
-                  <Text>{text4}</Text>
+                  <Text style={styles.textCapitalize}>{text4}</Text>
                 </Href>
                 <Href
                   onPress={() =>
@@ -213,7 +215,7 @@ class UploadDocument extends Component {
                   }
                   style={style.buttonModal}
                 >
-                  <Text>{text5}</Text>
+                  <Text style={styles.textCapitalize}>{text5}</Text>
                 </Href>
               </View>
             </View>

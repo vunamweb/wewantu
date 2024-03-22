@@ -626,6 +626,8 @@ class Functions {
 
       if (comeback == 1) {
         global.uploadDocument.state.media.file_video = nameFile_1;
+        global.uploadDocument.state.diplayTypeCamera = false;
+        
         this.gotoScreenWithParam(
           null,
           global.uploadDocument.props.navigation,
@@ -663,9 +665,15 @@ class Functions {
       return;
     };
 
-    if(comeback != 1)
-     component.setState({ ActivityIndicator: true });
+    if (comeback != 1) {
+      let statusUpload = component.state.statusUpload;
+      statusUpload.status = null;
 
+      component.setState({
+        ActivityIndicator: true,
+        statusUpload: statusUpload,
+      });
+    }
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
@@ -727,7 +735,10 @@ class Functions {
       return;
     };
 
-    component.setState({ ActivityIndicator: true });
+    let statusUpload = component.state.statusUpload;
+    statusUpload.status = null;
+
+    component.setState({ ActivityIndicator: true, statusUpload: statusUpload });
 
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };

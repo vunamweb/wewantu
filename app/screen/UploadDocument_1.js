@@ -19,6 +19,8 @@ import Video from "react-native-video";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import { hideNavigationBar } from "react-native-navigation-bar-color";
+
 import functions from "../function/function";
 
 function Meida() {
@@ -30,6 +32,8 @@ function Meida() {
   const [video, setVideo] = React.useState({});
   const [type, setType] = React.useState("front");
   const [mirrorImage, setMirrorImage] = React.useState(true);
+
+  hideNavigationBar();
 
   //const devices = useCameraDevices('wide-angle-camera');
   const devices = useCameraDevices();
