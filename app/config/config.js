@@ -35,6 +35,9 @@ global.urlChat = 'api/v1/chat';
 global.urlUpload = 'api/v1/upload';
 global.urlMedia = 'api/v1/media';
 global.urlMediaUpdate = 'api/v1/media/update';
+global.urlDriveLicense = 'api/v1/driver_licenses';
+global.urlUpdateUserDriveLicense = 'api/v1/update/User/Drive';
+global.urlUserDriveLicense = 'api/v1/user/{user_id}/driver_licenses';
 
 // JOB
 global.urlRootJob = 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/';

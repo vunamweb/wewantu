@@ -627,7 +627,7 @@ class Functions {
       if (comeback == 1) {
         global.uploadDocument.state.media.file_video = nameFile_1;
         global.uploadDocument.state.diplayTypeCamera = false;
-        
+
         this.gotoScreenWithParam(
           null,
           global.uploadDocument.props.navigation,
@@ -739,6 +739,41 @@ class Functions {
     statusUpload.status = null;
 
     component.setState({ ActivityIndicator: true, statusUpload: statusUpload });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
+  updateUserDriveLicense = async (component, driveLicenses) => {
+    let url = global.urlRootWewantu + global.urlUpdateUserDriveLicense;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("user_id", user_id);
+    data.append("drive_licenses", driveLicenses);
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+      });
+
+      return;
+    };
+
+    component.setState({ ActivityIndicator: true });
 
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
@@ -1131,6 +1166,56 @@ class Functions {
       }
 
       component.setState({ media: obj, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListDriveLiense = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlDriveLicense;
+
+    var callback = async (responseData) => {
+      let listDiveLicense = [];
+
+      responseData.map((item, index) => {
+        listDiveLicense[index] = {};
+
+        listDiveLicense[index].id = item.driver_license_id;
+        listDiveLicense[index].name = item.driver_license;
+      });
+
+      let url = global.urlRootWewantu + global.urlUserDriveLicense;
+      url = url.replace("{user_id}", user_id);
+
+      var callback1 = async (responseData) => {
+        let userDriveLicense = [];
+
+        responseData.map((item, index) => {
+          userDriveLicense.push(item.driver_license_id);
+        });
+
+        component.setState({
+          listDiveLicense: listDiveLicense,
+          userDriveLicense: userDriveLicense,
+          ActivityIndicator: false,
+        });
+      };
+
+      network.fetchGET_HEADER(url, null, token, callback1);
     };
 
     component.setState({ ActivityIndicator: true });

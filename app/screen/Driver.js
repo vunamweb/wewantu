@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -22,85 +27,7 @@ import Switch from "../components/Switch";
 import Header from "../components/Header";
 
 import styles from "../../app/style/style";
-
-const data = [
-  {
-    id: 1,
-    name: "B/B17",
-  },
-  {
-    id: 2,
-    name: "B96",
-  },
-  {
-    id: 3,
-    name: "B196",
-  },
-  {
-    id: 4,
-    name: "BE",
-  },
-  {
-    id: 5,
-    name: "A1",
-  },
-  {
-    id: 6,
-    name: "A2",
-  },
-  {
-    id: 1,
-    name: "B/B17",
-  },
-  {
-    id: 2,
-    name: "B96",
-  },
-  {
-    id: 3,
-    name: "B196",
-  },
-  {
-    id: 4,
-    name: "BE",
-  },
-  {
-    id: 5,
-    name: "A1",
-  },
-  {
-    id: 1,
-    name: "B/B17",
-  },
-  {
-    id: 2,
-    name: "B96",
-  },
-  {
-    id: 3,
-    name: "B196",
-  },
-  {
-    id: 4,
-    name: "BE",
-  },
-  {
-    id: 1,
-    name: "B/B17",
-  },
-  {
-    id: 2,
-    name: "B96",
-  },
-  {
-    id: 3,
-    name: "B196",
-  },
-  {
-    id: 4,
-    name: "BE",
-  },
-];
+import functions from "../function/function";
 
 const imgClose = require("../images/close.png");
 
@@ -112,11 +39,16 @@ class Driver extends Component {
 
     this.state = {
       visible: false,
+      ActivityIndicator: false,
+      listDiveLicense: [],
+      userDriveLicense: [],
     };
   }
 
   componentDidMount = () => {
     hideNavigationBar();
+
+    functions.getListDriveLiense(this);
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -129,6 +61,18 @@ class Driver extends Component {
 
   setSwitch = (index) => {
     this.switch[index]((isEnable) => !isEnable);
+  };
+
+  close = () => {
+    this.setState({ visible: false });
+
+    let driveLicence = "";
+
+    this.state.listDiveLicense.map((item, index) => {
+      if (this.switch[index]) driveLicence = driveLicence + item.id + ";";
+    });
+
+    functions.updateUserDriveLicense(this, driveLicence);
   };
 
   render() {
@@ -182,17 +126,15 @@ class Driver extends Component {
                   FÜHRERSCHEINKLASSEN
                 </Text>
                 <View style={style.close}>
-                  <Href
-                    onPress={() =>
-                      this.setState({
-                        visible: false,
-                      })
-                    }
-                  >
+                  <Href onPress={() => this.close()}>
                     <Image source={imgClose} />
                   </Href>
                 </View>
-                {data.map(({ name, id }, index) => {
+                {this.state.listDiveLicense.map(({ name, id }, index) => {
+                  let visible = this.state.userDriveLicense.includes(id)
+                    ? true
+                    : false;
+
                   return (
                     <View style={styles.fullWith}>
                       <View style={style.line} />
@@ -215,6 +157,7 @@ class Driver extends Component {
                             additionalThumb={style.additionalThumb}
                             component={this}
                             index={index}
+                            visible={visible}
                           />
                         </View>
                       </Href>
@@ -230,6 +173,10 @@ class Driver extends Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
               <TextHeader text1={text1} text2={text2} text3={text3} />
+              <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
               <HeadLine style={style.headLine} text={text4} />
               <View style={[styles.fullWith, style.root]}>
                 <CheckBox

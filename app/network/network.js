@@ -128,7 +128,7 @@ class Network {
       headers: {
         //Accept: "application/json",
         //"Content-Type": "multipart/form-data",
-        //Authorization: token,
+        Authorization: token,
       },
       body: body,
     })
