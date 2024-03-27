@@ -42,6 +42,11 @@ global.urlLanguage = "api/v1/languages";
 global.urlInsertUserLanguage = "api/v1/insert/User/language";
 global.urlUserLanguages = "api/v1/user/{user_id}/languages";
 global.urlUserDeleteLanguages = "api/v1/delete/User/language";
+global.urlWorkathome = "api/v1/work_at_home";
+global.urlWorkatnight = "api/v1/work_at_night";
+global.urlWorkatweekend = "api/v1/work_at_weekend";
+global.urlAmbition = "api/v1/ambition";
+global.urlInsertJobProfile = "api/v1/insert/User/jobprofile";
 
 // JOB
 global.urlRootJob =

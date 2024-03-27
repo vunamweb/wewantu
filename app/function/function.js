@@ -820,6 +820,50 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
+  insertUserProfile = async (component, dataJob) => {
+    let url = global.urlRootWewantu + global.urlInsertJobProfile;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("user_id", user_id);
+    data.append("job_id", dataJob.job);
+    data.append("desired_salary", dataJob.gross_year);
+    data.append("desired_weekly_hours", dataJob.week_hour);
+    data.append("desired_working_days_per_week", dataJob.day_per_week);
+    data.append("desired_holiday_days_per_year", dataJob.day_per_year);
+    data.append("desired_work_at_home_id", dataJob.work_home);
+    data.append("desired_work_at_weekend_id", dataJob.work_weekend);
+    data.append("desired_work_at_night_id", dataJob.work_night);
+    data.append("postalcode", 246467);
+    data.append("nationwide", 24);
+    data.append("max_distance", dataJob.distance);
+    data.append("ambitions_id", dataJob.intres);
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   deleteUserLanguage = async (component, language_id) => {
     let url = global.urlRootWewantu + global.urlUserDeleteLanguages;
 
@@ -1242,6 +1286,138 @@ class Functions {
       }
 
       component.setState({ media: obj, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListWAH = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlWorkathome;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.id = item.desired_work_at_home_id;
+        obj.label = item.value;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ data1: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListWAN = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlWorkatnight;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.id = item.desired_work_at_night_id;
+        obj.label = item.value;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ data2: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListWWK = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlWorkatweekend;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.id = item.desired_work_at_weekend_id;
+        obj.label = item.value;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ data3: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListAmbitiion = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlAmbition;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.id = item.ambitions_id;
+        obj.label = item.ambition;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ data4: data, ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });

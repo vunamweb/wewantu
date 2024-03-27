@@ -5,6 +5,7 @@ import {
   AsyncStorage,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -47,6 +48,7 @@ class JobProfileFinal extends Component {
     this.state = {
       visibel1: false,
       visible2: false,
+      ActivityIndicator: false,
     };
   }
 
@@ -123,16 +125,21 @@ class JobProfileFinal extends Component {
     return (
       <View style={[styles.fullWith, style.view3]}>
         <View style={styles.flexFull}>
-        <Switch
-                activeTrackColor={"#898166"}
-                inactiveTrackColor={"#898166"}
-                activeThumbColor={"#fff"}
-                inactiveThumbColor={"#3e3e3e"}
-                size={30}
-                component={this}
-                index={0}
-                container={{ position: 'absolute', right: 5, top: 5, borderWidth: 0 }}
-              />
+          <Switch
+            activeTrackColor={"#898166"}
+            inactiveTrackColor={"#898166"}
+            activeThumbColor={"#fff"}
+            inactiveThumbColor={"#3e3e3e"}
+            size={30}
+            component={this}
+            index={0}
+            container={{
+              position: "absolute",
+              right: 5,
+              top: 5,
+              borderWidth: 0,
+            }}
+          />
           {/*borderTop*/}
           <View style={style.view2}>
             <Text
@@ -152,7 +159,10 @@ class JobProfileFinal extends Component {
             </Text>
           </View>
           <View style={[styles.fullWith, style.view1]}>
-            <Href style={style.imgDelete} onPress={() => this.delete(job, index)}>
+            <Href
+              style={style.imgDelete}
+              onPress={() => this.delete(job, index)}
+            >
               <Image source={imgDelete} />
             </Href>
             <Href onPress={() => this.edit(index)}>
@@ -166,7 +176,18 @@ class JobProfileFinal extends Component {
   };
 
   componentDidMount = async () => {
-    //hideNavigationBar();
+    hideNavigationBar();
+
+    var data = this.props.navigation.state.params.data;
+
+    try {
+      data = JSON.parse(data);
+    } catch (error) {
+      data = [];
+      console.log(error);
+    }
+
+    functions.insertUserProfile(this, data.data[data.index]);
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -260,10 +281,21 @@ class JobProfileFinal extends Component {
           <ScrollView contentContainerStyle={styles.scroll}>
             <Background>
               <TextHeader text1="job" text2="profile" />
-              <View style={[styles.fullWith, styles.flexRowStart, style.view, style.view1_]}>
+              <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
+              <View
+                style={[
+                  styles.fullWith,
+                  styles.flexRowStart,
+                  style.view,
+                  style.view1_,
+                ]}
+              >
                 <HeadLine style={style.headLine} text="Was ich machen will" />
                 <Href
-                  style={{ position: 'absolute', right: -20 }}
+                  style={{ position: "absolute", right: -20 }}
                   onPress={() =>
                     this.setState({
                       visibel1: true,
@@ -328,7 +360,7 @@ const style = StyleSheet.create({
   },
 
   view1_: {
-    marginLeft: -20
+    marginLeft: -20,
   },
 
   viewPlus: {
@@ -338,7 +370,7 @@ const style = StyleSheet.create({
   },
 
   view1: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     alignItems: "center",
     flexDirection: "row",
     paddingLeft: 5,
@@ -427,8 +459,8 @@ const style = StyleSheet.create({
   },
 
   imgDelete: {
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });
 
 export default JobProfileFinal;

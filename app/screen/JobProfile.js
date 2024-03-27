@@ -59,12 +59,21 @@ class JobProfile extends Component {
       isBack: false,
       search: "",
       jobs: [],
-      position: 1
+      position: 1,
+      data1: [],
+      data2: [],
+      data3: [],
+      data4: [],
     };
   }
 
   componentDidMount = () => {
     functions.getJobs(this);
+
+    functions.getListWAH(this);
+    functions.getListWAN(this);
+    functions.getListWWK(this);
+    functions.getListAmbitiion(this);
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -205,160 +214,60 @@ class JobProfile extends Component {
       var text2 = commonData.profile;
       var text3 = commonData.what_i_want_to_do;
 
-      global.data1 = [
-        {
-          id: 0,
-          label: commonData.must_have,
-          require: false,
-        },
-      
-        {
-          id: 1,
-          label: commonData.no_way,
-          require: false,
-        },
-      
-        {
-          id: 2,
-          label: commonData.nice_to_have,
-          require: false,
-        },
-      
-        {
-          id: 3,
-          label: commonData.i_do_not_care,
-          require: false,
-        },
-      ];
-      
-      global.data2 = [
-        {
-          id: 0,
-          label: commonData.no_thank,
-          require: false,
-        },
-      
-        {
-          id: 1,
-          label: commonData.no_issue,
-          require: false,
-        },
-      
-        {
-          id: 2,
-          label: commonData.if_nessary,
-          require: false,
-        },
-      
-        {
-          id: 3,
-          label: commonData.i_do_not_care,
-          require: false,
-        },
-      ];
-      
-      global.data3 = [
-        {
-          id: 0,
-          label: commonData.no_way,
-          require: false,
-        },
-      
-        {
-          id: 1,
-          label: commonData.no_issue,
-          require: false,
-        },
-      
-        {
-          id: 2,
-          label: commonData.as_part_of,
-          require: false,
-        },
-      
-        {
-          id: 3,
-          label: commonData.i_do_not_care,
-          require: false,
-        },
-      ];
-      
-      global.data4 = [
-        {
-          id: 0,
-          label: commonData.i_will_be_new_boss,
-          require: false,
-        },
-      
-        {
-          id: 1,
-          label: commonData.career_yes_please,
-          require: false,
-        },
-      
-        {
-          id: 2,
-          label: commonData.yes_if_you_have_to,
-          require: false,
-        },
-      
-        {
-          id: 3,
-          label: commonData.ambi_was,
-          require: false,
-        },
-      ];
-
+      global.data1 = this.state.data1;
+      global.data2 = this.state.data2;
+      global.data3 = this.state.data3;
+      global.data4 = this.state.data4;
     } catch (error) {
       console.log(error);
     }
- 
+
     return (
       <Provider>
         <Portal>
           <Modal visible={visible}>
-          <View style={style.modalHeader}>
-            <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                  Beruf
-                </Text>
-                <TextInput
-                  onChangeText={(value) => this.setState({ search: value })}
-                  value={this.state.search}
-                  returnKeyType="next"
-                  component={this}
-                  styleParent={[
-                    {
-                      borderColor: "#414141",
-                    },
-                    styles.textInput,
-                    style.textInput1,
-                  ]}
-                  styleTextInput={style.styleTextInput}
-                  leftIcon="search"
-                  colorIcon="#414141"
-                  size={20}
-                  fontAwesome="true"
-                  onLeftClick={() => null}
-                  leftStyle={style.leftStyle}
-                  bgFocus="#898166"
-                  bgBlur="white"
-                />
-                <View style={style.close}>
-                  <Href
-                    onPress={() =>
-                      this.setState({
-                        visible: false,
-                      })
-                    }
-                  >
-                    <Image source={imgClose} />
-                  </Href>
-                </View>
+            <View style={style.modalHeader}>
+              <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
+                Beruf
+              </Text>
+              <TextInput
+                onChangeText={(value) => this.setState({ search: value })}
+                value={this.state.search}
+                returnKeyType="next"
+                component={this}
+                styleParent={[
+                  {
+                    borderColor: "#414141",
+                  },
+                  styles.textInput,
+                  style.textInput1,
+                ]}
+                styleTextInput={style.styleTextInput}
+                leftIcon="search"
+                colorIcon="#414141"
+                size={20}
+                fontAwesome="true"
+                onLeftClick={() => null}
+                leftStyle={style.leftStyle}
+                bgFocus="#898166"
+                bgBlur="white"
+              />
+              <View style={style.close}>
+                <Href
+                  onPress={() =>
+                    this.setState({
+                      visible: false,
+                    })
+                  }
+                >
+                  <Image source={imgClose} />
+                </Href>
+              </View>
             </View>
             <ScrollView onScroll={this.handleScroll}>
               <View style={style.modal}>
                 {this.state.jobs.map(({ name, id }, index) => {
-                   if (
+                  if (
                     name.includes(this.state.search) &&
                     index < number * this.state.position
                   )
