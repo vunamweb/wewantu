@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -28,6 +33,7 @@ class PersonalData_Language extends Component {
     this.state = {
       languages: [],
       visible: false,
+      ActivityIndicator: false,
     };
   }
 
@@ -54,11 +60,16 @@ class PersonalData_Language extends Component {
     var language = this.props.navigation.state.params.data;
 
     var language = language + ";" + data[position].label;
-    functions.gotoScreenWithParam(
+
+    let languageId = global.chooseLanguage;
+
+    functions.insertUserLanguage(this, languageId, position, language);
+
+    /*functions.gotoScreenWithParam(
       language,
       this.props.navigation,
       "PersonalData_4"
-    );
+    );*/
   };
 
   render() {
@@ -105,6 +116,10 @@ class PersonalData_Language extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Background>
             <TextHeader text={text1} />
+            <ActivityIndicator
+              size="small"
+              animating={this.state.ActivityIndicator}
+            />
             <View style={[styles.fullWith, style.root]}>
               <Text style={styles.fontBoldNormal}>{selectedLanguage}</Text>
               <CheckBox

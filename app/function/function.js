@@ -778,6 +778,82 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
+  insertUserLanguage = async (component, language_id, level, dataReturn) => {
+    let url = global.urlRootWewantu + global.urlInsertUserLanguage;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("user_id", user_id);
+    data.append("language_id", language_id);
+    data.append("level", level);
+
+    var callback = async (responseData) => {
+      dataReturn = dataReturn + ";" + language_id;
+
+      component.setState({
+        ActivityIndicator: false,
+      });
+
+      this.gotoScreenWithParam(
+        dataReturn,
+        component.props.navigation,
+        "PersonalData_4"
+      );
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
+  deleteUserLanguage = async (component, language_id) => {
+    let url = global.urlRootWewantu + global.urlUserDeleteLanguages;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("user_id", user_id);
+    data.append("language_id", language_id);
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+        visible1: false,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   activeAuction = async (component) => {
     let url = global.urlRoot + global.urlAuction;
 
@@ -1216,6 +1292,80 @@ class Functions {
       };
 
       network.fetchGET_HEADER(url, null, token, callback1);
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListUserLanguages = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlUserLanguages;
+    url = url.replace("{user_id}", user_id);
+
+    var callback = async (responseData) => {
+      let userLanguages = [];
+
+      responseData.map((item, index) => {
+        userLanguages[index] = {};
+
+        userLanguages[index].id = item.language.language_id;
+        userLanguages[index].name = item.language.language;
+        userLanguages[index].level = item.level;
+      });
+
+      component.setState({
+        ActivityIndicator: false,
+        userLanguages: userLanguages,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListLanguages = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlLanguage;
+
+    var callback = async (responseData) => {
+      let listLanguages = [];
+
+      responseData.map((item, index) => {
+        listLanguages[index] = {};
+
+        listLanguages[index].id = item.language_id;
+        listLanguages[index].name = item.language;
+      });
+
+      component.setState({
+        languageServer: listLanguages,
+        ActivityIndicator: false,
+      });
     };
 
     component.setState({ ActivityIndicator: true });

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, PixelRatio } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  PixelRatio,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -41,66 +47,10 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 
 var preLanguage = null;
 
-var deleteItem = null;
+var deleteItem = null,
+  languageId;
 
-const data = [
-  {
-    id: 1,
-    name: "Bulgarisch",
-  },
-  {
-    id: 2,
-    name: "Dänisch",
-  },
-  {
-    id: 4,
-    name: "Deutsch",
-  },
-  {
-    id: 5,
-    name: "Englisch",
-  },
-  {
-    id: 6,
-    name: "Estnisch",
-  },
-  {
-    id: 7,
-    name: "Finnisch",
-  },
-  {
-    id: 8,
-    name: "Französisch",
-  },
-  {
-    id: 11,
-    name: "Griechisch",
-  },
-  {
-    id: 13,
-    name: "Irisch (Gälisch)",
-  },
-  {
-    id: 14,
-    name: "Italienisch",
-  },
-  {
-    id: 15,
-    name: "Katalanisch",
-  },
-  {
-    id: 16,
-    name: "Kroatisch",
-  },
-  {
-    id: 17,
-    name: "Norwegisch",
-  },
-  {
-    id: 18,
-    name: "Rumänisch",
-  },
-];
+var text1_1, text1_2, text1_3, text1_4;
 
 class PersonalData_4 extends Component {
   constructor(props) {
@@ -108,6 +58,8 @@ class PersonalData_4 extends Component {
 
     this.state = {
       languages: [],
+      languageServer: [],
+      userLanguages: [],
       position: null,
       visible: false,
       visible1: false,
@@ -115,11 +67,15 @@ class PersonalData_4 extends Component {
       closeModal: false,
       isBack: false,
       search: "",
+      ActivityIndicator: false,
     };
   }
 
   componentDidMount = () => {
     hideNavigationBar();
+
+    functions.getListLanguages(this);
+    functions.getListUserLanguages(this);
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -153,10 +109,52 @@ class PersonalData_4 extends Component {
       var languages = this.props.navigation.state.params.data;
       languages = languages.split(",");
 
+      this.state.userLanguages.map((item, index) => {
+        let nameLanguages = this.getNameLanguage(item);
+
+        languages.push(nameLanguages);
+      });
+
       return languages;
+    } else {
+      let text,
+        serverLanguages = [];
+
+      this.state.userLanguages.map((item, index) => {
+        let nameLanguages = this.getNameLanguage(item);
+
+        serverLanguages.push(nameLanguages);
+      });
+
+      return serverLanguages;
     }
 
     return [];
+  };
+
+  getNameLanguage = (item) => {
+    let text;
+
+    switch (item.level) {
+      case 1:
+        text = text1_2;
+        break;
+
+      case 2:
+        text = text1_3;
+        break;
+
+      case 3:
+        text = text1_4;
+        break;
+
+      default:
+        text = text1_1;
+    }
+
+    let nameLanguages = item.name + ";" + text + ";" + item.id;
+
+    return nameLanguages;
   };
 
   checkExitLanguage = (selectLanguage) => {
@@ -178,7 +176,9 @@ class PersonalData_4 extends Component {
     return check;
   };
 
-  gotoScreenWithParam = (selectLanguage) => {
+  gotoScreenWithParam = (selectLanguage, idLanguage) => {
+    global.chooseLanguage = idLanguage;
+
     var data =
       preLanguage != null ? preLanguage + "," + selectLanguage : selectLanguage;
 
@@ -193,8 +193,10 @@ class PersonalData_4 extends Component {
     }
   };
 
-  openModal = (item) => {
+  openModal = (item, language_id) => {
     deleteItem = item;
+    languageId = language_id;
+
     this.setState({ visible1: true });
   };
 
@@ -217,7 +219,9 @@ class PersonalData_4 extends Component {
 
     this.props.navigation.state.params.data = result;
 
-    this.setState({ visible1: false });
+    functions.deleteUserLanguage(this, languageId);
+
+    //this.setState({ visible1: false });
   };
 
   render() {
@@ -242,6 +246,11 @@ class PersonalData_4 extends Component {
       var text3 = commonData.are_you_sure_to_delete;
       var text4 = commonData.yes;
       var text5 = commonData.no;
+
+      text1_1 = commonData.mother_tongue;
+      text1_2 = commonData.business_fluent_in_spoken_and_written;
+      text1_3 = commonData.school_level;
+      text1_4 = commonData.Can_order_a_pizza;
     } catch (error) {
       console.log(error);
     }
@@ -291,12 +300,14 @@ class PersonalData_4 extends Component {
                     <Image source={imgClose} />
                   </Href>
                 </View>
-                {data.map(({ name, id }, index) => {
+                {this.state.languageServer.map(({ name, id }, index) => {
                   if (name.includes(this.state.search))
                     return (
                       <View style={styles.fullWith}>
                         <View style={style.line} />
-                        <Href onPress={() => this.gotoScreenWithParam(name)}>
+                        <Href
+                          onPress={() => this.gotoScreenWithParam(name, id)}
+                        >
                           <View
                             style={[
                               styles.fullWith,
@@ -339,6 +350,10 @@ class PersonalData_4 extends Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
               <TextHeader text={text1} />
+              <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
               <HeadLine require={true} text={text2} />
               <View style={style.languages} />
               {languages.map((item, index) => {
@@ -349,7 +364,7 @@ class PersonalData_4 extends Component {
                     <View style={styles.fullWith}>
                       <View style={[styles.fullWith, style.delete]}>
                         <Text style={styles.fontBoldSmall}>{item[0]}</Text>
-                        <Href onPress={() => this.openModal(index)}>
+                        <Href onPress={() => this.openModal(index, item[2])}>
                           <Image width={20} height={18} source={imgDelete} />
                         </Href>
                       </View>
