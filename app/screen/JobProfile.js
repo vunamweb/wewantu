@@ -82,12 +82,12 @@ class JobProfile extends Component {
   }
 
   componentDidMount = () => {
-    //functions.getJobs(this);
+    functions.getJobs(this);
 
-    /*functions.getListWAH(this);
+    functions.getListWAH(this);
     functions.getListWAN(this);
     functions.getListWWK(this);
-    functions.getListAmbitiion(this);*/
+    functions.getListAmbitiion(this);
 
     functions.getListUserJobprofiles(this);
   };
@@ -98,7 +98,7 @@ class JobProfile extends Component {
       job = global.data[job].name;
 
       var workHome = item.work_home;
-      workHome = global.data1[workHome].label;
+      workHome = functions.getLabelWorkat(global.data1, workHome); //global.data1[workHome].label;
 
       var distance = item.distance;
       var distance1 = item.distance1;
@@ -402,7 +402,7 @@ class JobProfile extends Component {
                 navigation={this.props.navigation}
               />
               <View style={styles.fullWith}>
-                <View style={style.view1}>
+                <View style={style.buttonPlus}>
                   <ButtonImage
                     onPress={() =>
                       this.setState({
@@ -435,7 +435,7 @@ const style = StyleSheet.create({
     marginTop: 30,
   },
 
-  view1: {
+  buttonPlus: {
     width: 70,
     marginTop: MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON,
     marginBottom: 100,

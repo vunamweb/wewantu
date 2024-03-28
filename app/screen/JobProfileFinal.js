@@ -110,7 +110,7 @@ class JobProfileFinal extends Component {
       job = global.data[job].name;
 
       var workHome = item.work_home;
-      workHome = global.data1[workHome].label;
+      workHome = functions.getLabelWorkat(global.data1, workHome); //global.data1[workHome].label;
 
       var distance = item.distance;
       var distance1 = item.distance1;

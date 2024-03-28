@@ -19,6 +19,18 @@ class Functions {
     return data;
   };
 
+  getLabelWorkat = (data, id) => {
+    let str = null;
+
+    data.map((item, index) => {
+      let result = item.id.localeCompare(id);
+
+      if (result == 0) str = item.label;
+    });
+
+    return str;
+  };
+
   getCountNotification = () => {
     let count = 0;
 
