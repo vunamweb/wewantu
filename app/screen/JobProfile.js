@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, PixelRatio } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  PixelRatio,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -18,6 +24,8 @@ import ButtonImage from "../components/ButtonImage";
 import Image from "../components/Image";
 import Href from "../components/Href";
 import Header from "../components/Header";
+import Collapse from "../components/Collapse";
+import Switch from "../components/Switch";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
@@ -32,7 +40,9 @@ const LEFT_SEARCH = windowWidth / 2;
 
 const icon = require("../images/plus.png");
 const imgClose = require("../images/close.png");
-const imgDelete = require("../images/icon_delete.png");
+const imgDelete = require("../images/delete_job_profile.png");
+const imgDeleteLarge = require("../images/delete_job_profile_large.png");
+const imgEdit = require("../images/edit_job_profile.png");
 
 const pixelRatio = global.pixelRatio;
 
@@ -49,14 +59,18 @@ class JobProfile extends Component {
   constructor(props) {
     super(props);
 
+    this.switch = [];
+
     this.state = {
       languages: [],
+      userJobprofile: [],
       position: null,
       visible: false,
       visible1: false,
       openModal: false,
       closeModal: false,
       isBack: false,
+      ActivityIndicator: false,
       search: "",
       jobs: [],
       position: 1,
@@ -68,12 +82,85 @@ class JobProfile extends Component {
   }
 
   componentDidMount = () => {
-    functions.getJobs(this);
+    //functions.getJobs(this);
 
-    functions.getListWAH(this);
+    /*functions.getListWAH(this);
     functions.getListWAN(this);
     functions.getListWWK(this);
-    functions.getListAmbitiion(this);
+    functions.getListAmbitiion(this);*/
+
+    functions.getListUserJobprofiles(this);
+  };
+
+  _renderItem = ({ item, index }) => {
+    try {
+      var job = item.job;
+      job = global.data[job].name;
+
+      var workHome = item.work_home;
+      workHome = global.data1[workHome].label;
+
+      var distance = item.distance;
+      var distance1 = item.distance1;
+
+      var week = item.week_hour;
+
+      var salary = item.gross_year;
+    } catch (error) {
+      console.log(error);
+    }
+
+    return (
+      <View style={[styles.fullWith, style.view3]}>
+        <View style={styles.flexFull}>
+          <Switch
+            activeTrackColor={"#898166"}
+            inactiveTrackColor={"#898166"}
+            activeThumbColor={"#fff"}
+            inactiveThumbColor={"#3e3e3e"}
+            size={30}
+            component={this}
+            index={0}
+            container={{
+              position: "absolute",
+              right: 5,
+              top: 5,
+              borderWidth: 0,
+            }}
+          />
+          {/*borderTop*/}
+          <View style={style.view2}>
+            <Text
+              style={[styles.fontBoldSmall, styles.textCapitalize, style.text2]}
+            >
+              {job}/-In
+            </Text>
+            <Text
+              style={[styles.fontBoldSmall, styles.textCapitalize, style.text1]}
+            >
+              {distance} km Radius um {distance1}
+            </Text>
+            <Text
+              style={[styles.fontBoldSmall, styles.textCapitalize, style.text1]}
+            >
+              {week} h Woche • Gehalt {salary} • Homeoffice {workHome}
+            </Text>
+          </View>
+          <View style={[styles.fullWith, style.view1]}>
+            <Href
+              style={style.imgDelete}
+              onPress={() => this.delete(job, index)}
+            >
+              <Image source={imgDelete} />
+            </Href>
+            <Href onPress={() => this.edit(index)}>
+              <Image source={imgEdit} />
+            </Href>
+          </View>
+          {/*borderBottom*/}
+        </View>
+      </View>
+    );
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -222,6 +309,8 @@ class JobProfile extends Component {
       console.log(error);
     }
 
+    var dataJob = this.state.userJobprofile;
+
     return (
       <Provider>
         <Portal>
@@ -297,8 +386,21 @@ class JobProfile extends Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
               <TextHeader text1={text1} text2={text2} />
+              <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
               <HeadLine style={style.headLine} text={text3} />
               <View style={style.languages} />
+              <Collapse
+                title=""
+                style={style.collapse}
+                data={dataJob}
+                renderItem={this._renderItem}
+                col={1}
+                ref={this.collapse}
+                navigation={this.props.navigation}
+              />
               <View style={styles.fullWith}>
                 <View style={style.view1}>
                   <ButtonImage
@@ -448,6 +550,37 @@ const style = StyleSheet.create({
     paddingRight: 30,
     backgroundColor: "#414141",
     alignItems: "center",
+  },
+
+  view3: {
+    backgroundColor: "#E4E4E4",
+    marginBottom: 15,
+  },
+
+  view2: {
+    paddingTop: 10,
+    paddingLeft: 20,
+  },
+
+  view1: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 0,
+  },
+
+  imgDelete: {
+    marginRight: 5,
+  },
+
+  text1: {
+    color: "#898166",
+  },
+
+  text2: {
+    color: "#000",
   },
 });
 

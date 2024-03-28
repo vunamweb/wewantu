@@ -47,6 +47,8 @@ global.urlWorkatnight = "api/v1/work_at_night";
 global.urlWorkatweekend = "api/v1/work_at_weekend";
 global.urlAmbition = "api/v1/ambition";
 global.urlInsertJobProfile = "api/v1/insert/User/jobprofile";
+global.urlGetJobProfile = "api/v1/user/{user_id}/job_search_profiles";
+
 
 // JOB
 global.urlRootJob =

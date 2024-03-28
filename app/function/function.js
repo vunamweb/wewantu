@@ -1512,6 +1512,61 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
+  getListUserJobprofiles = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlGetJobProfile;
+    url = url.replace("{user_id}", user_id);
+
+    var callback = async (responseData) => {
+      let userJobprofile = [];
+
+      responseData.map((item, index) => {
+        userJobprofile[index] = {};
+
+        try {
+          userJobprofile[index].job = item.job_id;
+          userJobprofile[index].week_hour = item.desired_weekly_hours;
+          userJobprofile[index].gross_year = item.desired_salary;
+          userJobprofile[index].day_per_year =
+            item.desired_holiday_days_per_year;
+          userJobprofile[index].day_per_week =
+            item.desired_working_days_per_week;
+          userJobprofile[index].work_home =
+            item.desired_work_at_home.desired_work_at_home_id;
+          userJobprofile[index].work_weekend =
+            item.desired_work_at_weekend.desired_work_at_weekend_id;
+          userJobprofile[index].work_night =
+            item.desired_work_at_night.desired_work_at_night_id;
+          userJobprofile[index].distance = item.max_distance;
+          userJobprofile[index].distance1 = 0;
+          userJobprofile[index].intres = item.ambitions.ambitions_id;
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      component.setState({
+        ActivityIndicator: false,
+        userJobprofile: userJobprofile,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
   getListLanguages = async (component) => {
     var datauser = await this.getDataUser();
     let token = null,
