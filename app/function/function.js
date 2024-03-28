@@ -910,6 +910,38 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
+  deleteUserJobProfile = async (component, jobProfile_id) => {
+    let url = global.urlRootWewantu + global.urlUserDeleteJobprofile;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("jobprofile_id", jobProfile_id);
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   activeAuction = async (component) => {
     let url = global.urlRoot + global.urlAuction;
 
@@ -1548,6 +1580,7 @@ class Functions {
         userJobprofile[index] = {};
 
         try {
+          userJobprofile[index].job_search_profile_id = item.job_search_profile_id;
           userJobprofile[index].job = item.job_id;
           userJobprofile[index].week_hour = item.desired_weekly_hours;
           userJobprofile[index].gross_year = item.desired_salary;

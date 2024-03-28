@@ -55,6 +55,8 @@ var preLanguage = null;
 
 var deleteItem = null;
 
+var deleteJob, indexDeleteJob, jobProfile_Id;
+
 class JobProfile extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +69,7 @@ class JobProfile extends Component {
       position: null,
       visible: false,
       visible1: false,
+      visible2: false,
       openModal: false,
       closeModal: false,
       isBack: false,
@@ -149,7 +152,9 @@ class JobProfile extends Component {
           <View style={[styles.fullWith, style.view1]}>
             <Href
               style={style.imgDelete}
-              onPress={() => this.delete(job, index)}
+              onPress={() =>
+                this.deleteJobProfile(job, index, item.job_search_profile_id)
+              }
             >
               <Image source={imgDelete} />
             </Href>
@@ -268,6 +273,27 @@ class JobProfile extends Component {
     this.setState({ visible1: false });
   };
 
+  deleteJobProfile = (job, index, jobProfileId) => {
+    //deleteJob = job;
+    indexDeleteJob = index;
+    jobProfile_Id = jobProfileId;
+
+    this.setState({ visible2: true });
+  };
+
+  deleteJob = () => {
+    try {
+      var data = this.state.userJobprofile;
+      data.splice(indexDeleteJob, 1);
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setState({ visible2: false, userJobprofile: data });
+    
+    functions.deleteUserJobProfile(this, jobProfile_Id);
+};
+
   handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
     const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
@@ -380,6 +406,26 @@ class JobProfile extends Component {
               </View>
             </ScrollView>
           </Modal>
+          <Modal visible={this.state.visible2}>
+            <View style={style.modalDeleteRoot}>
+              <Text style={[styles.fontBoldLargeMedium, style.textHeaderModal]}>
+                Willst Du Dein Jobprofil {"\n"} wirklich löschen?
+              </Text>
+              <Text style={style.textHeaderModal}>
+                Du kannst es auch {"\n"} vorübergehend pausieren.
+              </Text>
+              <Text style={[styles.fontBoldSmall, style.textJob]} />
+              <Button
+                color="white"
+                text="ABBRUCH"
+                style={[styles.button, style.buttonCancel]}
+                onPress={() => this.setState({ visible2: false })}
+              />
+              <Href style={style.deleteModal} onPress={() => this.deleteJob()}>
+                <Image style={style.deleteModal} source={imgDeleteLarge} />
+              </Href>
+            </View>
+          </Modal>
         </Portal>
         <View style={styles.flexFull}>
           <Header component={this} />
@@ -459,9 +505,20 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
 
+  deleteModal: {
+    position: "absolute",
+    bottom: 10,
+    left: "50%",
+  },
+
   modalHeadLine: {
     marginTop: 30,
     marginBottom: 30,
+  },
+
+  buttonCancel: {
+    backgroundColor: "#898166",
+    marginTop: 0,
   },
 
   line: {
@@ -506,17 +563,24 @@ const style = StyleSheet.create({
 
   modalDeleteRoot: {
     width: "80%",
-    height: 150,
     marginLeft: "10%",
     marginRight: "10%",
-    backgroundColor: "#898166",
-    justifyContent: "center",
-    borderRadius: 10,
+    backgroundColor: "#E4E4E4",
+    paddingTop: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: "80%",
   },
 
   textHeaderModal: {
-    textAlign: "center",
+    color: "#000",
     marginBottom: 20,
+  },
+
+  textJob: {
+    marginTop: 20,
+    marginBottom: 30,
+    color: "#000",
   },
 
   buttonModal: {
