@@ -76,6 +76,8 @@ class PersonalData_4 extends Component {
 
     functions.getListLanguages(this);
     functions.getListUserLanguages(this);
+
+    global.updateLanguage = false;
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -104,32 +106,60 @@ class PersonalData_4 extends Component {
     return true;
   };
 
+  existLanguage = (data, langauge) => {
+    let exist = false;
+
+    data.map((item, index) => {
+      let a = item.split(";");
+
+      if (a[2] == langauge) exist = true;
+    });
+
+    return exist;
+  };
+
   getAllLanguages = () => {
-    if (this.props.navigation.state.params != undefined) {
-      var languages = this.props.navigation.state.params.data;
-      languages = languages.split(",");
+    let serverLanguages = [];
 
-      this.state.userLanguages.map((item, index) => {
-        let nameLanguages = this.getNameLanguage(item);
+    this.state.userLanguages.map((item, index) => {
+      let nameLanguages = this.getNameLanguage(item);
 
-        languages.push(nameLanguages);
-      });
+      serverLanguages.push(nameLanguages);
+    });
 
-      return languages;
-    } else {
-      let text,
-        serverLanguages = [];
+    if (this.props.navigation.state.params != undefined && global.updateLanguage) {
+      serverLanguages.push(this.props.navigation.state.params.data);
 
-      this.state.userLanguages.map((item, index) => {
-        let nameLanguages = this.getNameLanguage(item);
+      let param = this.props.navigation.state.params.data.split(";");
 
-        serverLanguages.push(nameLanguages);
-      });
+      let $obj = {};
 
-      return serverLanguages;
+      $obj.id = param[2];
+      $obj.name = param[0];
+
+      switch (param[1]) {
+        case text1_2:
+          $obj.level = 1;
+          break;
+
+        case text1_3:
+          $obj.level = 2;
+          break;
+
+        case text1_4:
+          $obj.level = 3;
+          break;
+
+        default:
+          $obj.level = 0;
+      }
+
+      this.state.userLanguages.push($obj);
+
+      global.updateLanguage = false;
     }
 
-    return [];
+    return serverLanguages;
   };
 
   getNameLanguage = (item) => {
@@ -159,16 +189,10 @@ class PersonalData_4 extends Component {
 
   checkExitLanguage = (selectLanguage) => {
     var check = true;
-
-    if (this.props.navigation.state.params == undefined) return true;
-
-    var languages = this.props.navigation.state.params.data;
-    languages = languages.split(",");
+    var languages = this.state.userLanguages;
 
     languages.map((item, index) => {
-      item = item.split(";");
-
-      if (item[0] == selectLanguage) {
+      if (item.name == selectLanguage) {
         check = false;
       }
     });
@@ -179,8 +203,7 @@ class PersonalData_4 extends Component {
   gotoScreenWithParam = (selectLanguage, idLanguage) => {
     global.chooseLanguage = idLanguage;
 
-    var data =
-      preLanguage != null ? preLanguage + "," + selectLanguage : selectLanguage;
+    var data = selectLanguage;
 
     if (this.checkExitLanguage(selectLanguage)) {
       functions.gotoScreenWithParam(
@@ -205,19 +228,13 @@ class PersonalData_4 extends Component {
   };
 
   delete = () => {
-    var result = "";
-
-    var languages = this.props.navigation.state.params.data;
-    languages = languages.split(",");
+    var languages = this.state.userLanguages;
 
     languages.map((item, index) => {
       if (deleteItem == index) {
         languages.splice(index, 1);
-        deleteItem = -1;
-      } else result = result + item + ",";
+      }
     });
-
-    this.props.navigation.state.params.data = result;
 
     functions.deleteUserLanguage(this, languageId);
 
@@ -329,7 +346,7 @@ class PersonalData_4 extends Component {
               <Text style={style.textHeaderModal}>{text3}</Text>
               <View style={style.modalDelete}>
                 <Href onPress={() => this.delete()} style={style.buttonModal}>
-                  <Text>{text4}</Text>
+                  <Text style={styles.textCapitalize}>{text4}</Text>
                 </Href>
                 <Href
                   onPress={() =>
@@ -339,7 +356,7 @@ class PersonalData_4 extends Component {
                   }
                   style={style.buttonModal}
                 >
-                  <Text>{text5}</Text>
+                  <Text style={styles.textCapitalize}>{text5}</Text>
                 </Href>
               </View>
             </View>

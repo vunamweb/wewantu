@@ -14,8 +14,10 @@ function MyCheckBox({ data, callBack, type, ...props }) {
   if (props.component != undefined && props.component.setPosition != undefined)
     props.component.setPosition = setPosition;
 
-  const onPress = (index) => {
-    var setIndex = position != index ? index : -1;
+  const onPress = (id, index) => {
+    let value = (id == undefined) ? index : id;
+
+    var setIndex = position != value ? value : -1;
 
     setPosition(setIndex);
     callBack(setIndex);
@@ -32,7 +34,7 @@ function MyCheckBox({ data, callBack, type, ...props }) {
         var check = index == position ? true : false;
 
         return (
-          <Href onPress={() => onPress(id)}>
+          <Href onPress={() => onPress(id, index)}>
             {type == undefined ? (
               <View style={[{ flexDirection: "row" }, props.styleRowCheckbox]}>
                 <CheckBox
@@ -40,7 +42,7 @@ function MyCheckBox({ data, callBack, type, ...props }) {
                   checkedIcon={null}
                   uncheckedIcon={null}
                   checked={check}
-                  onPress={() => onPress(id)}
+                  onPress={() => onPress(id, index)}
                   {...props}
                 />
                 <Text
@@ -64,7 +66,7 @@ function MyCheckBox({ data, callBack, type, ...props }) {
                   checkedIcon={null}
                   uncheckedIcon={null}
                   checked={check}
-                  onPress={() => onPress(id)}
+                  onPress={() => onPress(id, index)}
                   {...props}
                 />
                 {textRequire}

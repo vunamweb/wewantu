@@ -30,6 +30,8 @@ class PersonalData_Language extends Component {
   constructor(props) {
     super(props);
 
+    this.callBack.bind(this);
+
     this.state = {
       languages: [],
       visible: false,
@@ -57,14 +59,19 @@ class PersonalData_Language extends Component {
   };
 
   callBack = (position) => {
-    var language = this.props.navigation.state.params.data;
+    try {
+      var language = this.props.navigation.state.params.data;
 
-    var language = language + ";" + data[position].label;
+      let languageId = global.chooseLanguage;
 
-    let languageId = global.chooseLanguage;
+      var language = language + ";" + data[position].label + ';' + languageId;
 
-    functions.insertUserLanguage(this, languageId, position, language);
+      global.updateLanguage  = true;
 
+      functions.insertUserLanguage(this, languageId, position, language);
+    } catch (error) {
+      console.log(error);
+    }
     /*functions.gotoScreenWithParam(
       language,
       this.props.navigation,
