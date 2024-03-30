@@ -85,6 +85,8 @@ class JobProfile extends Component {
   }
 
   componentDidMount = () => {
+    global.jobprofile = this;
+    
     functions.getJobs(this);
 
     functions.getListWAH(this);
@@ -225,10 +227,7 @@ class JobProfile extends Component {
   };
 
   gotoScreenWithParam = (job) => {
-    var data =
-      this.props.navigation.state.params != undefined
-        ? JSON.parse(this.props.navigation.state.params.data)
-        : {};
+    var data = {};
 
     var index = data.index != undefined ? data.index : 0;
 
@@ -255,24 +254,6 @@ class JobProfile extends Component {
     this.setState({ visible1: false });
   };
 
-  delete = () => {
-    var result = "";
-
-    var languages = this.props.navigation.state.params.data;
-    languages = languages.split(",");
-
-    languages.map((item, index) => {
-      if (deleteItem == index) {
-        languages.splice(index, 1);
-        deleteItem = -1;
-      } else result = result + item + ",";
-    });
-
-    this.props.navigation.state.params.data = result;
-
-    this.setState({ visible1: false });
-  };
-
   deleteJobProfile = (job, index, jobProfileId) => {
     //deleteJob = job;
     indexDeleteJob = index;
@@ -284,7 +265,9 @@ class JobProfile extends Component {
   deleteJob = () => {
     try {
       var data = this.state.userJobprofile;
+
       data.splice(indexDeleteJob, 1);
+      //global.userJobprofile.splice(indexDeleteJob, 1);
     } catch (error) {
       console.log(error);
     }

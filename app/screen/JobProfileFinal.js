@@ -35,7 +35,7 @@ const imgDeleteLarge = require("../images/delete_job_profile_large.png");
 const imgEdit = require("../images/edit_job_profile.png");
 const iconPlus = require("../images/plus.png");
 
-var deleteJob, indexDeleteJob;
+var deleteJob, indexDeleteJob, jobProfile_Id;
 
 class JobProfileFinal extends Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class JobProfileFinal extends Component {
       visibel1: false,
       visible2: false,
       ActivityIndicator: false,
+      userJobprofile: [],
     };
   }
 
@@ -59,22 +60,28 @@ class JobProfileFinal extends Component {
     functions.gotoScreen(this.props.navigation, link);
   };
 
-  delete = (job, index) => {
+  delete = (job, index, jobProfileId) => {
     deleteJob = job;
     indexDeleteJob = index;
+
+    jobProfile_Id = jobProfileId;
 
     this.setState({ visible2: true });
   };
 
   deleteJob = () => {
-    var data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+    try {
+      var data = this.state.userJobprofile;
+      data.splice(indexDeleteJob, 1);
 
-    data.data.splice(indexDeleteJob, 1);
+      //global.userJobprofile.splice(indexDeleteJob, 1);
+    } catch (error) {
+      console.log(error);
+    }
 
-    this.props.navigation.state.params.data = JSON.stringify(data);
-
-    this.setState({ visible2: false });
+    this.setState({ visible2: false, userJobprofile: data });
+    
+    functions.deleteUserJobProfile(this, jobProfile_Id);
   };
 
   edit = (index) => {
@@ -161,7 +168,7 @@ class JobProfileFinal extends Component {
           <View style={[styles.fullWith, style.view1]}>
             <Href
               style={style.imgDelete}
-              onPress={() => this.delete(job, index)}
+              onPress={() => this.delete(job, index, item.job_search_profile_id)}
             >
               <Image source={imgDelete} />
             </Href>
@@ -178,31 +185,41 @@ class JobProfileFinal extends Component {
   componentDidMount = async () => {
     hideNavigationBar();
 
-    var data = this.props.navigation.state.params.data;
+    var data;
 
     try {
+      data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
+
+      let userProfileJob = this.updateUserProfile(data);
+
+      functions.insertUserProfile(this, data.data[data.index], userProfileJob);
     } catch (error) {
-      data = [];
       console.log(error);
     }
-
-    functions.insertUserProfile(this, data.data[data.index]);
-  };
+};
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
 
-  render() {
-    var data = this.props.navigation.state.params.data;
+  updateUserProfile = (data) => {
+    let userJobprofile = global.userJobprofile;
+
     try {
-      data = JSON.parse(data);
+      userJobprofile.map((item, index) => {
+        data.data.push(item);
+      });
     } catch (error) {
-      data = [];
       console.log(error);
+
+      return data;
     }
 
+    return data.data;
+  };
+
+  render() {
     return (
       <Provider>
         <Portal>
@@ -308,7 +325,7 @@ class JobProfileFinal extends Component {
               <Collapse
                 title=""
                 style={style.collapse}
-                data={data.data}
+                data={this.state.userJobprofile}
                 renderItem={this._renderItem}
                 col={1}
                 ref={this.collapse}

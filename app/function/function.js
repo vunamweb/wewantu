@@ -832,7 +832,7 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
-  insertUserProfile = async (component, dataJob) => {
+  insertUserProfile = async (component, dataJob, userJobprofile) => {
     let url = global.urlRootWewantu + global.urlInsertJobProfile;
 
     var datauser = await this.getDataUser();
@@ -866,14 +866,21 @@ class Functions {
     data.append("ambitions_id", dataJob.intres);
 
     var callback = async (responseData) => {
+
+      userJobprofile[0].job_search_profile_id = responseData.joprofile_id;
+
+      global.userJobprofile = userJobprofile;
+      global.jobprofile.state.userJobprofile = userJobprofile;
+       
       component.setState({
+        userJobprofile: userJobprofile,
         ActivityIndicator: false,
       });
     };
 
     component.setState({ ActivityIndicator: true });
 
-    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+    network.fetchPOST_HEADER(url, data, token, callback);
   };
 
   deleteUserLanguage = async (component, language_id) => {
@@ -1601,6 +1608,8 @@ class Functions {
           console.log(error);
         }
       });
+
+      global.userJobprofile = userJobprofile;
 
       component.setState({
         ActivityIndicator: false,
