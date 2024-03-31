@@ -150,6 +150,8 @@ class JobProfile_6 extends Component {
         value = value.replace(match, "");
         this.setState({ value5: value });
 
+        this.input5.current.blur();
+
         break;
 
       default:
@@ -219,7 +221,7 @@ class JobProfile_6 extends Component {
       this.state.value2 == "" &&
       this.state.value3 == "" &&
       this.state.value4 == "" &&
-      this.state.value5 == ""
+      this.state.value5 == "" && this.state.disableSlide
     ) {
       try {
         this.state.enable1 = false;
