@@ -213,7 +213,7 @@ class JobProfileFinal extends Component {
 
       functions.insertAndUpdateUserProfile(
         this,
-        data.data[data.index],
+        this.validate(data.data[data.index]),
         userProfileJob,
         data.edit,
         data.position
@@ -222,6 +222,22 @@ class JobProfileFinal extends Component {
       console.log(error);
     }
   };
+
+  validate = (data) => {
+    if(data.work_home == 0)
+    data.work_home = global.data1[0].id;
+
+    if(data.work_night == 0)
+    data.work_night = global.data3[0].id;
+
+    if(data.work_weekend == 0)
+    data.work_weekend = global.data2[0].id;
+
+    if(data.intres == 0)
+    data.intres = global.data4[0].id;
+
+    return data;
+  }
 
   static navigationOptions = ({ navigation }) => ({
     title: "",

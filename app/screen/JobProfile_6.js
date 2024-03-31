@@ -90,68 +90,6 @@ class JobProfile_6 extends Component {
   };
 
   gotoNextStep = (component) => {
-    /*let value1 = this.state.value1;
-    let value2 = this.state.value2;
-    let value3 = this.state.value3;
-    let value4 = this.state.value4;
-    let value5 = this.state.value5;
-    let marginTop = 20;
-
-    if (value1 == "") {
-      component.setState({
-        colorBorder1: "red",
-        marginTop: marginTop,
-        errorMessage: "Please enter value",
-      });
-      return false;
-    } else if (value1 != "") {
-      component.setState({ colorBorder1: borderColor, errorMessage: "" });
-    }
-
-    if (value2 == "") {
-      component.setState({
-        colorBorder2: "red",
-        errorMessage: "Please enter value",
-        marginTop: marginTop,
-      });
-      return false;
-    } else {
-      component.setState({ colorBorder2: borderColor, errorMessage: "" });
-    }
-
-    if (value3 == "") {
-      component.setState({
-        colorBorder3: "red",
-        errorMessage: "Please enter value",
-        marginTop: marginTop,
-      });
-      return false;
-    } else {
-      component.setState({ colorBorder3: borderColor, errorMessage: "" });
-    }
-
-    if (value4 == "") {
-      component.setState({
-        colorBorder4: "red",
-        errorMessage: "Please enter value",
-        marginTop: marginTop,
-      });
-      return false;
-    } else {
-      component.setState({ colorBorder4: borderColor, errorMessage: "" });
-    }
-
-    if (value5 == "") {
-      component.setState({
-        colorBorder5: "red",
-        errorMessage: "Please enter value",
-        marginTop: marginTop,
-      });
-      return false;
-    } else {
-      component.setState({ colorBorder5: borderColor, errorMessage: "" });
-    }*/
-
     return true;
   };
 
