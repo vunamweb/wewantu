@@ -80,16 +80,29 @@ class JobProfileFinal extends Component {
     }
 
     this.setState({ visible2: false, userJobprofile: data });
-    
+
     functions.deleteUserJobProfile(this, jobProfile_Id);
   };
 
-  edit = (index) => {
-    var data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+  edit = (position, edit) => {
+    var data;
 
-    data.index = index;
-    data.openModal = true;
+    try {
+      data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
+      //data.index = index;
+      data.openModal = true;
+    } catch (error) {
+      data = {};
+      //data.index = index;
+      data.openModal = true;
+
+      console.log(error);
+    }
+
+    global.jobprofile.state.edit = edit;
+    global.jobprofile.state.positionEdit = position;
 
     functions.gotoScreenWithParam(
       JSON.stringify(data),
@@ -168,11 +181,13 @@ class JobProfileFinal extends Component {
           <View style={[styles.fullWith, style.view1]}>
             <Href
               style={style.imgDelete}
-              onPress={() => this.delete(job, index, item.job_search_profile_id)}
+              onPress={() =>
+                this.delete(job, index, item.job_search_profile_id)
+              }
             >
               <Image source={imgDelete} />
             </Href>
-            <Href onPress={() => this.edit(index)}>
+            <Href onPress={() => this.edit(index, item.job_search_profile_id)}>
               <Image source={imgEdit} />
             </Href>
           </View>
@@ -191,13 +206,22 @@ class JobProfileFinal extends Component {
       data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
 
-      let userProfileJob = this.updateUserProfile(data);
+      let userProfileJob =
+        data.position == -1
+          ? this.updateUserProfile(data)
+          : global.userJobprofile;
 
-      functions.insertUserProfile(this, data.data[data.index], userProfileJob);
+      functions.insertAndUpdateUserProfile(
+        this,
+        data.data[data.index],
+        userProfileJob,
+        data.edit,
+        data.position
+      );
     } catch (error) {
       console.log(error);
     }
-};
+  };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",

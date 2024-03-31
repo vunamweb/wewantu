@@ -75,6 +75,8 @@ class JobProfile extends Component {
       isBack: false,
       ActivityIndicator: false,
       search: "",
+      edit: -1,
+      positionEdit: -1,
       jobs: [],
       position: 1,
       data1: [],
@@ -86,7 +88,7 @@ class JobProfile extends Component {
 
   componentDidMount = () => {
     global.jobprofile = this;
-    
+
     functions.getJobs(this);
 
     functions.getListWAH(this);
@@ -95,6 +97,10 @@ class JobProfile extends Component {
     functions.getListAmbitiion(this);
 
     functions.getListUserJobprofiles(this);
+  };
+
+  edit = (edit, position) => {
+    this.setState({ visible: true, edit: edit, positionEdit: position });
   };
 
   _renderItem = ({ item, index }) => {
@@ -160,7 +166,7 @@ class JobProfile extends Component {
             >
               <Image source={imgDelete} />
             </Href>
-            <Href onPress={() => this.edit(index)}>
+            <Href onPress={() => this.edit(item.job_search_profile_id, index)}>
               <Image source={imgEdit} />
             </Href>
           </View>
@@ -228,6 +234,8 @@ class JobProfile extends Component {
 
   gotoScreenWithParam = (job) => {
     var data = {};
+    data.edit = this.state.edit;
+    data.position = this.state.positionEdit;
 
     var index = data.index != undefined ? data.index : 0;
 
@@ -273,9 +281,9 @@ class JobProfile extends Component {
     }
 
     this.setState({ visible2: false, userJobprofile: data });
-    
+
     functions.deleteUserJobProfile(this, jobProfile_Id);
-};
+  };
 
   handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;

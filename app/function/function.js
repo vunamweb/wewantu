@@ -832,7 +832,13 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
-  insertUserProfile = async (component, dataJob, userJobprofile) => {
+  insertAndUpdateUserProfile = async (
+    component,
+    dataJob,
+    userJobprofile,
+    jobprofile_id,
+    position
+  ) => {
     let url = global.urlRootWewantu + global.urlInsertJobProfile;
 
     var datauser = await this.getDataUser();
@@ -864,14 +870,21 @@ class Functions {
     data.append("nationwide", 24);
     data.append("max_distance", dataJob.distance);
     data.append("ambitions_id", dataJob.intres);
+    data.append("jobprofile_id", jobprofile_id);
 
     var callback = async (responseData) => {
+      // if insert
+      if (jobprofile_id == -1) {
+        userJobprofile[0].job_search_profile_id = responseData.joprofile_id;
 
-      userJobprofile[0].job_search_profile_id = responseData.joprofile_id;
+        global.userJobprofile = userJobprofile;
+        global.jobprofile.state.userJobprofile = userJobprofile;
+      } else {
+        // update
+        userJobprofile[position] = dataJob;
+        userJobprofile[position].job_search_profile_id = jobprofile_id;
+      }
 
-      global.userJobprofile = userJobprofile;
-      global.jobprofile.state.userJobprofile = userJobprofile;
-       
       component.setState({
         userJobprofile: userJobprofile,
         ActivityIndicator: false,
@@ -1587,7 +1600,8 @@ class Functions {
         userJobprofile[index] = {};
 
         try {
-          userJobprofile[index].job_search_profile_id = item.job_search_profile_id;
+          userJobprofile[index].job_search_profile_id =
+            item.job_search_profile_id;
           userJobprofile[index].job = item.job_id;
           userJobprofile[index].week_hour = item.desired_weekly_hours;
           userJobprofile[index].gross_year = item.desired_salary;
