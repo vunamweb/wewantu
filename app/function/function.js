@@ -1245,7 +1245,7 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
-  insertUserEducation = async (component, dataEducation, dataParam) => {
+  insertUserEducation = async (component, dataEducation) => {
     var datauser = await this.getDataUser();
     let token = null,
       user_id;
@@ -1273,8 +1273,26 @@ class Functions {
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
+      // id return of education
+      dataEducation.id = responseData.educational_stage_id;
+
+      try {
+        // update state
+        global.reviewTraining.state.trainning.push(dataEducation);
+
+        const strAsyncStorage = global.trainning;
+
+        // update local
+        await this.setDataAsyncStorage(
+          strAsyncStorage,
+          JSON.stringify(global.reviewTraining.state.trainning)
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
       this.gotoScreenWithParam(
-        dataParam,
+        null,
         component.props.navigation,
         "ReviewTrainingUniversity"
       );
@@ -1739,7 +1757,9 @@ class Functions {
 
         try {
           userEducations[index].type = null;
-          userEducations[index].educationstage_id = item.educational_stage_type.educational_stage_type_id;
+          userEducations[index].educationstage_id =
+            item.educational_stage_type.educational_stage_type_id;
+          userEducations[index].id = item.educational_stage_id;
           userEducations[index].job = item.institute;
           userEducations[index].job_id = item.job_id;
           userEducations[index].name = item.company;
@@ -1747,6 +1767,13 @@ class Functions {
           console.log(error);
         }
       });
+
+      const strAsyncStorage = global.trainning;
+
+      await this.setDataAsyncStorage(
+        strAsyncStorage,
+        JSON.stringify(userEducations)
+      );
 
       component.setState({
         ActivityIndicator: false,
@@ -1756,6 +1783,33 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  deleteEducation = async (component, education_id) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlDeleteUserEducatation;
+    url = url.replace("{education_id}", education_id);
+
+    var callback = async (responseData) => {
+      component.setState({
+        ActivityIndicator: false,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchDELETE_HEADER(url, null, token, callback, null);
   };
 
   getListLanguages = async (component) => {

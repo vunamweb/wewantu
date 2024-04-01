@@ -40,7 +40,8 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 const MARGIN_TOP_PLUSBUTTON = -30 * pixelRatio * PixelRatio.getFontScale();
 
 var preLanguage = null;
-var deleteItem = null;
+var deleteItem = null,
+  deleteId;
 
 const strAsyncStorage = global.trainning;
 
@@ -88,22 +89,13 @@ class ReviewTrainingUniversity extends Component {
     )
       functions.getListUserEducation(this);
     else {
+      try {
+        trainning = JSON.parse(trainning);
+      } catch (error) {
+        trainning = [];
+      }
+
       this.setState({ trainning: trainning });
-    }
-
-    if (this.props.navigation.state.params != undefined)
-      functions.setDataAsyncStorage(
-        strAsyncStorage,
-        this.props.navigation.state.params.data
-      );
-    else {
-      component.props.navigation.state.params = {};
-
-      component.props.navigation.state.params.data = await functions.getDataAsyncStorage(
-        strAsyncStorage
-      );
-
-      console.log("ok");
     }
 
     functions.getListEducationalStageTypes(this); // get list of education stage type
@@ -114,45 +106,31 @@ class ReviewTrainingUniversity extends Component {
   });
 
   getAllTraining = async () => {
-    var data;
+    var data = await functions.getDataAsyncStorage(strAsyncStorage);
 
-    if (this.props.navigation.state.params != undefined) {
-      data = this.props.navigation.state.params.data;
-
-      data = JSON.parse(data);
-      data = data.data;
-
-      return data;
-    } else {
-      data = await functions.getDataAsyncStorage(strAsyncStorage);
-
-      /*this.props.navigation.state.params = {};
-      this.props.navigation.state.params.data = data;*/
-
-      if (data != null) return JSON.parse(data).data;
-    }
-
-    return [];
+    return data;
   };
 
-  openModal = (item) => {
-    deleteItem = item;
+  openModal = (index, id) => {
+    deleteItem = index;
+    deleteId = id;
+
     this.setState({ visible1: true });
   };
 
-  delete = () => {
-    var data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+  delete = async () => {
+    try {
+      global.reviewTraining.state.trainning.splice(deleteItem, 1);
 
-    var trainings = data.data;
+      await functions.setDataAsyncStorage(
+        strAsyncStorage,
+        JSON.stringify(global.reviewTraining.state.trainning)
+      );
+    } catch (error) {
+      console.log(error);
+    }
 
-    trainings.map((item, index) => {
-      if (deleteItem == index) trainings.splice(index, 1);
-    });
-
-    data.data = trainings;
-
-    this.props.navigation.state.params.data = JSON.stringify(data);
+    functions.deleteEducation(this, deleteId);
 
     this.setState({ visible1: false });
   };
@@ -233,15 +211,7 @@ class ReviewTrainingUniversity extends Component {
       console.log(error);
     }
 
-    try {
-      trainings =
-        this.props.navigation.state.params == undefined ||
-        this.props.navigation.state.params.data == null
-          ? this.state.trainning
-          : JSON.parse(this.props.navigation.state.params.data).data;
-    } catch (error) {
-      trainings = [];
-    }
+    trainings = this.state.trainning;
 
     trainings = this.setTypeFortraining(trainings);
 
@@ -308,7 +278,7 @@ class ReviewTrainingUniversity extends Component {
                             {item.job}
                           </Text>
                         </Href>
-                        <Href onPress={() => this.openModal(index)}>
+                        <Href onPress={() => this.openModal(index, item.id)}>
                           <Image width={20} height={18} source={imgDelete} />
                         </Href>
                       </View>

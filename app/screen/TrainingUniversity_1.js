@@ -62,7 +62,7 @@ class TrainingUniversity_1 extends Component {
     var data =
       this.props.navigation.state.params != undefined
         ? this.props.navigation.state.params.data
-        : null;
+        : global.reviewTraining.state.trainning;
 
     // if is first time go to this screen
     if (data == null) {

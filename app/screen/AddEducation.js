@@ -106,7 +106,7 @@ class AddEducation extends Component {
       var strAsyncStorage = global.trainning;
       let dataEcuation, count;
 
-      await functions.setDataAsyncStorage(strAsyncStorage, data);
+      //await functions.setDataAsyncStorage(strAsyncStorage, data);
 
       try {
         dataEcuation = JSON.parse(data);
@@ -118,7 +118,7 @@ class AddEducation extends Component {
         count = 0;
       }
 
-      functions.insertUserEducation(this, dataEcuation.data[count], data);
+      functions.insertUserEducation(this, dataEcuation.data[count]);
     }
   };
 
@@ -189,11 +189,12 @@ class AddEducation extends Component {
     this.gotoReview();
   };
 
-  addEducation = (data, type, educationstage_id) => {
+  addEducation = (data, type, educationstage_id, id) => {
     var obj = {};
 
     obj.type = type;
     obj.educationstage_id = educationstage_id;
+    obj.id = id;
     obj.job = this.state.job;
     obj.job_id = this.state.job_id;
     obj.name = this.state.company;
@@ -214,6 +215,7 @@ class AddEducation extends Component {
 
     var type = data.type;
     var educationstage_id = data.educationstage_id;
+    var id = data.id;
     var add = true;
 
     if (data.edit == null) {
@@ -228,10 +230,10 @@ class AddEducation extends Component {
         });
 
         if (add) {
-          this.addEducation(data.data, type, educationstage_id);
+          this.addEducation(data.data, type, educationstage_id, id);
         }
       } else {
-        this.addEducation(data.data, type, educationstage_id);
+        this.addEducation(data.data, type, educationstage_id, id);
       }
     }
 
