@@ -419,17 +419,22 @@ class Functions {
     network.fetchPOST_HEADER_1(url, body, token, callback);
   };
 
-  logout = (navigation) => {
+  logout = async (navigation) => {
     let url = global.urlRootWewantu + global.urlLogout;
 
     const userId = global.commonData.user.user_id;
 
-    const username = global.userWeantu;
-    const password = global.passwordWeantu;
+    var datauser = await this.getDataUser();
+    let token = null;
+    
+    try {
+      datauser = JSON.parse(datauser);
 
-    const base64Credentials = btoa(`${username}:${password}`);
+      user_id = datauser.user.user_id;
 
-    var token = "Basic " + base64Credentials + "";
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
 
     let body = null;
 
