@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 
 import Text from "../components/Paragraph";
 import { ScrollView } from "react-native-gesture-handler";
@@ -35,16 +35,30 @@ class TrainingUniversity_1 extends Component {
       zip: null,
       errorMessage: "",
       display: "none",
+      EducationalStageTypes: [
+        {
+          id: 0,
+        },
+        {
+          id: 0,
+        },
+        {
+          id: 0,
+        },
+      ],
+      ActivityIndicator: false,
     };
   }
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    functions.getListEducationalStageTypes(this);
+  };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
 
-  gotoNextStep = (type) => {
+  gotoNextStep = (type, educationstage_id) => {
     var data =
       this.props.navigation.state.params != undefined
         ? this.props.navigation.state.params.data
@@ -55,17 +69,22 @@ class TrainingUniversity_1 extends Component {
       data = {};
 
       data.type = type;
+      data.educationstage_id = educationstage_id;
+
       data.data = [];
 
       data.data[0] = {};
 
       data.data[0].type = type;
+      data.data[0].educationstage_id = educationstage_id;
       data.data[0].job = null;
       data.data[0].name = null;
     } else {
       // if ready go to this screen
       data = JSON.parse(data);
+
       data.type = type;
+      data.educationstage_id = educationstage_id;
     }
 
     data.edit = undefined;
@@ -97,26 +116,36 @@ class TrainingUniversity_1 extends Component {
           <Background>
             <Logo navigation={this.props.navigation} type={1} />
             <TextHeader text1={text1} text2={text2} text3={text3} />
+            <ActivityIndicator
+              size="small"
+              animating={this.state.ActivityIndicator}
+            />
             <HeadLine style={style.headlineFirst} text={text4} />
             <Button
               color="white"
               text={text5}
               style={[styles.button, style.button]}
-              onPress={() => this.gotoNextStep(0)}
+              onPress={() =>
+                this.gotoNextStep(0, this.state.EducationalStageTypes[0].id)
+              }
             />
             <HeadLine text={text6} />
             <Button
               color="white"
               text={text6}
               style={[styles.button, style.button]}
-              onPress={() => this.gotoNextStep(1)}
+              onPress={() =>
+                this.gotoNextStep(1, this.state.EducationalStageTypes[1].id)
+              }
             />
             <HeadLine text={text7 + "/" + text8} />
             <Button
               color="white"
               text={text7}
               style={[styles.button, style.button]}
-              onPress={() => this.gotoNextStep(2)}
+              onPress={() =>
+                this.gotoNextStep(2, this.state.EducationalStageTypes[2].id)
+              }
             />
             <BackNext
               style={style.backNext}

@@ -71,6 +71,7 @@ class AddEducation extends Component {
 
     this.state = {
       job: null,
+      job_id: null,
       company: null,
       visible: false,
       visible1: false,
@@ -103,18 +104,25 @@ class AddEducation extends Component {
       });
     else {
       var strAsyncStorage = global.trainning;
+      let dataEcuation, count;
 
       await functions.setDataAsyncStorage(strAsyncStorage, data);
 
-      functions.gotoScreenWithParam(
-        data,
-        this.props.navigation,
-        "ReviewTrainingUniversity"
-      );
+      try {
+        dataEcuation = JSON.parse(data);
+        count = dataEcuation.data.length - 1;
+      } catch (error) {
+        dataEcuation = {};
+        dataEcuation.data = [];
+
+        count = 0;
+      }
+
+      functions.insertUserEducation(this, dataEcuation.data[count], data);
     }
   };
 
-  setJob = (name) => {
+  setJob = (name, job_id) => {
     var check = true;
 
     var data = this.props.navigation.state.params.data;
@@ -137,7 +145,12 @@ class AddEducation extends Component {
       }
 
       this.input1.current.blur();
-      this.setState({ job: name, visible: false, display1: "flex" });
+      this.setState({
+        job: name,
+        job_id: job_id,
+        visible: false,
+        display1: "flex",
+      });
     }
   };
 
@@ -176,21 +189,31 @@ class AddEducation extends Component {
     this.gotoReview();
   };
 
-  addEducation = (data, type) => {
+  addEducation = (data, type, educationstage_id) => {
     var obj = {};
 
     obj.type = type;
+    obj.educationstage_id = educationstage_id;
     obj.job = this.state.job;
+    obj.job_id = this.state.job_id;
     obj.name = this.state.company;
 
     data.push(obj);
   };
 
   getEducation = () => {
-    data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+    try {
+      data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+    } catch (error) {
+      data = {};
+      data.data = [];
+
+      console.log(error);
+    }
 
     var type = data.type;
+    var educationstage_id = data.educationstage_id;
     var add = true;
 
     if (data.edit == null) {
@@ -205,10 +228,10 @@ class AddEducation extends Component {
         });
 
         if (add) {
-          this.addEducation(data.data, type);
+          this.addEducation(data.data, type, educationstage_id);
         }
       } else {
-        this.addEducation(data.data, type);
+        this.addEducation(data.data, type, educationstage_id);
       }
     }
 
@@ -341,42 +364,42 @@ class AddEducation extends Component {
         <Portal>
           <Modal visible={this.state.visible}>
             <View style={style.modalHeader}>
-            <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                  Beruf
-                </Text>
-                <TextInput
-                  onChangeText={(value) => this.setState({ search: value })}
-                  value={this.state.search}
-                  returnKeyType="next"
-                  component={this}
-                  styleParent={[
-                    {
-                      borderColor: "#414141",
-                    },
-                    styles.textInput,
-                    style.textInput1,
-                  ]}
-                  styleTextInput={style.styleTextInput}
-                  leftIcon="search"
-                  colorIcon="#414141"
-                  size={20}
-                  fontAwesome="true"
-                  onLeftClick={() => null}
-                  leftStyle={style.leftStyle}
-                  bgFocus="#898166"
-                  bgBlur="white"
-                />
-                <View style={style.close}>
-                  <Href
-                    onPress={() =>
-                      this.setState({
-                        visible: false,
-                      })
-                    }
-                  >
-                    <Image source={imgClose} />
-                  </Href>
-                </View>
+              <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
+                Beruf
+              </Text>
+              <TextInput
+                onChangeText={(value) => this.setState({ search: value })}
+                value={this.state.search}
+                returnKeyType="next"
+                component={this}
+                styleParent={[
+                  {
+                    borderColor: "#414141",
+                  },
+                  styles.textInput,
+                  style.textInput1,
+                ]}
+                styleTextInput={style.styleTextInput}
+                leftIcon="search"
+                colorIcon="#414141"
+                size={20}
+                fontAwesome="true"
+                onLeftClick={() => null}
+                leftStyle={style.leftStyle}
+                bgFocus="#898166"
+                bgBlur="white"
+              />
+              <View style={style.close}>
+                <Href
+                  onPress={() =>
+                    this.setState({
+                      visible: false,
+                    })
+                  }
+                >
+                  <Image source={imgClose} />
+                </Href>
+              </View>
             </View>
             <ScrollView onScroll={this.handleScroll}>
               <View style={style.modal}>
@@ -388,7 +411,7 @@ class AddEducation extends Component {
                     return (
                       <View style={styles.fullWith}>
                         <View style={style.line} />
-                        <Href onPress={() => this.setJob(name)}>
+                        <Href onPress={() => this.setJob(name, id)}>
                           <View
                             style={[
                               styles.fullWith,

@@ -49,7 +49,8 @@ global.urlAmbition = "api/v1/ambition";
 global.urlInsertJobProfile = "api/v1/insert/User/jobprofile";
 global.urlGetJobProfile = "api/v1/user/{user_id}/job_search_profiles";
 global.urlUserDeleteJobprofile = "api/v1/delete/User/jobprofile";
-
+global.urlEducationalStageTypes = "api/v1/educational_stage_types";
+global.urlInsertEducational = "api/v1/educational_stage";
 
 // JOB
 global.urlRootJob =

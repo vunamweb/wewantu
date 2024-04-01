@@ -426,7 +426,7 @@ class Functions {
 
     var datauser = await this.getDataUser();
     let token = null;
-    
+
     try {
       datauser = JSON.parse(datauser);
 
@@ -1245,6 +1245,45 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
+  insertUserEducation = async (component, dataEducation, dataParam) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlInsertEducational;
+
+    let body = {};
+    let data;
+
+    body.user_id = user_id;
+    body.company = dataEducation.name;
+    body.educational_stage_type_id = dataEducation.educationstage_id;
+    body.institute = dataEducation.job;
+    body.job_id = dataEducation.job_id;
+
+    data = JSON.stringify(body);
+
+    var callback = async (responseData) => {
+      this.gotoScreenWithParam(
+        dataParam,
+        component.props.navigation,
+        "ReviewTrainingUniversity"
+      );
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchPOST_HEADER(url, data, token, callback);
+  };
+
   getListUser = async (component) => {
     var datauser = await this.getDataUser();
     let token = null;
@@ -1388,6 +1427,41 @@ class Functions {
       });
 
       component.setState({ data1: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListEducationalStageTypes = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlEducationalStageTypes;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.id = item.educational_stage_type_id;
+        obj.label = item.educational_stage;
+
+        data.push(obj);
+      });
+
+      component.setState({
+        EducationalStageTypes: data,
+        ActivityIndicator: false,
+      });
     };
 
     component.setState({ ActivityIndicator: true });

@@ -126,10 +126,12 @@ class ReviewTrainingUniversity extends Component {
   };
 
   add = () => {
-    var data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
-
+    var data;
+    
     try {
+      data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
       data.add = true;
     } catch (error) {
       console.log(error);
