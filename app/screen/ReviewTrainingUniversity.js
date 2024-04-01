@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, PixelRatio } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  PixelRatio,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -46,20 +52,44 @@ class ReviewTrainingUniversity extends Component {
 
     this.state = {
       trainning: [],
+      listEducation: [],
+      EducationalStageTypes: [
+        {
+          id: 0,
+        },
+        {
+          id: 0,
+        },
+        {
+          id: 0,
+        },
+      ],
       visible: false,
       visible1: false,
       openModal: false,
       closeModal: false,
       isBack: false,
+      ActivityIndicator: false,
     };
   }
 
   componentDidMount = async () => {
     component = this;
 
+    global.reviewTraining = this;
+
     var trainning = await this.getAllTraining();
 
-    this.setState({ trainning: trainning });
+    // if not data is saved in local
+    if (
+      trainning == null ||
+      trainning == undefined ||
+      (Array.isArray(trainning) && trainning.length == 0)
+    )
+      functions.getListUserEducation(this);
+    else {
+      this.setState({ trainning: trainning });
+    }
 
     if (this.props.navigation.state.params != undefined)
       functions.setDataAsyncStorage(
@@ -75,6 +105,8 @@ class ReviewTrainingUniversity extends Component {
 
       console.log("ok");
     }
+
+    functions.getListEducationalStageTypes(this); // get list of education stage type
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -127,7 +159,7 @@ class ReviewTrainingUniversity extends Component {
 
   add = () => {
     var data;
-    
+
     try {
       data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
@@ -163,6 +195,24 @@ class ReviewTrainingUniversity extends Component {
     );
   };
 
+  setTypeFortraining = (training) => {
+    try {
+      training.map((item, index) => {
+        if (item.educationstage_id == this.state.EducationalStageTypes[0].id)
+          training[index].type = 0;
+        else if (
+          item.educationstage_id == this.state.EducationalStageTypes[1].id
+        )
+          training[index].type = 1;
+        else training[index].type = 2;
+      });
+    } catch (error) {
+      return training;
+    }
+
+    return training;
+  };
+
   render() {
     var trainings; //= this.state.trainning;
 
@@ -185,12 +235,15 @@ class ReviewTrainingUniversity extends Component {
 
     try {
       trainings =
-        this.props.navigation.state.params == undefined
+        this.props.navigation.state.params == undefined ||
+        this.props.navigation.state.params.data == null
           ? this.state.trainning
           : JSON.parse(this.props.navigation.state.params.data).data;
     } catch (error) {
       trainings = [];
     }
+
+    trainings = this.setTypeFortraining(trainings);
 
     return (
       <Provider>
@@ -221,6 +274,10 @@ class ReviewTrainingUniversity extends Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
               <TextHeader text1={text1} text2={text2} text3={text3} />
+              <ActivityIndicator
+                size="large"
+                animating={this.state.ActivityIndicator}
+              />
               <HeadLine style={style.headLine} text={text4} />
               <View style={style.languages} />
               {trainings.map((item, index) => {
@@ -293,11 +350,12 @@ class ReviewTrainingUniversity extends Component {
 const style = StyleSheet.create({
   textJob: {
     paddingRight: 10,
-    width: '90%'
+    width: "90%",
   },
 
   view1: {
     width: 70,
+    marginBottom: 50,
     marginTop: MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON,
   },
 

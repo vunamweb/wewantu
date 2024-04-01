@@ -1714,6 +1714,50 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
+  getListUserEducation = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlGetUserEducatation;
+    url = url.replace("{user_id}", user_id);
+
+    var callback = async (responseData) => {
+      let userEducations = [];
+
+      responseData.map((item, index) => {
+        userEducations[index] = {};
+
+        try {
+          userEducations[index].type = null;
+          userEducations[index].educationstage_id = item.educational_stage_type.educational_stage_type_id;
+          userEducations[index].job = item.institute;
+          userEducations[index].job_id = item.job_id;
+          userEducations[index].name = item.company;
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      component.setState({
+        ActivityIndicator: false,
+        trainning: userEducations,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
   getListLanguages = async (component) => {
     var datauser = await this.getDataUser();
     let token = null,

@@ -51,7 +51,7 @@ class TrainingUniversity_1 extends Component {
   }
 
   componentDidMount = () => {
-    functions.getListEducationalStageTypes(this);
+    //functions.getListEducationalStageTypes(this);
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -107,6 +107,12 @@ class TrainingUniversity_1 extends Component {
       var text7 = commonData.studies;
       var text8 = commonData.university_of_apply_science;
     } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      this.state.EducationalStageTypes = global.reviewTraining.state.EducationalStageTypes;
+    } catch(error) {
       console.log(error);
     }
 
