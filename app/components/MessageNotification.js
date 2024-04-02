@@ -60,23 +60,22 @@ const gotoChat = async (item, index) => {
 };
 
 const renderItem = ({ item, index }) => {
-  if(!item.data.read)
-  return (
-    <Href onPress={() => gotoChat(item, index)}>
-      <View style={[style.render]}>
-        <Text style={[styles.fontNormal, styles.fontBoldSmall]}>
-          {item.data.name}
-        </Text>
-        <Text style={styles.fontNormal}>{item.data.message}</Text>
-        <Text style={[styles.fontNormalSmall, style.dateTime]}>
-          {item.data.date}
-        </Text>
-      </View>
-    </Href>
-  ); 
-  else 
-  return null;
-} 
+  if (!item.data.read)
+    return (
+      <Href onPress={() => gotoChat(item, index)}>
+        <View style={[style.render]}>
+          <Text style={[styles.fontNormal, styles.fontBoldSmall]}>
+            {item.data.name}
+          </Text>
+          <Text style={styles.fontNormal}>{item.data.message}</Text>
+          <Text style={[styles.fontNormalSmall, style.dateTime]}>
+            {item.data.date}
+          </Text>
+        </View>
+      </Href>
+    );
+  else return null;
+};
 
 export default function MessageNotification(props) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -97,19 +96,21 @@ export default function MessageNotification(props) {
             <Text style={style.text1}>{functions.getCountNotification()}</Text>
           </View>
         ) : null}
-        <View
-          style={[
-            style.inforNotification,
-            { display: display, width: windowWidth / 1 },
-          ]}
-        >
-          <FlatListViewNormal
-            data={global.notification}
-            renderItem={renderItem}
-            horizontal={false}
-            col="1"
-          />
-        </View>
+        {functions.getCountNotification() > 0 ? (
+          <View
+            style={[
+              style.inforNotification,
+              { display: display, width: windowWidth / 1 },
+            ]}
+          >
+            <FlatListViewNormal
+              data={global.notification}
+              renderItem={renderItem}
+              horizontal={false}
+              col="1"
+            />
+          </View>
+        ) : null}
       </Href>
       <Href
         onPress={() =>

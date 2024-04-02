@@ -263,7 +263,8 @@ class PersonalData_4 extends Component {
       var text3 = commonData.are_you_sure_to_delete;
       var text4 = commonData.yes;
       var text5 = commonData.no;
-
+      var text6 = commonData.languages;
+      
       text1_1 = commonData.mother_tongue;
       text1_2 = commonData.business_fluent_in_spoken_and_written;
       text1_3 = commonData.school_level;
@@ -279,7 +280,7 @@ class PersonalData_4 extends Component {
             <ScrollView>
               <View style={style.modal}>
                 <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                  Muttersprache
+                  {text6}
                 </Text>
                 <TextInput
                   onChangeText={(value) => this.setState({ search: value })}

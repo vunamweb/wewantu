@@ -467,9 +467,10 @@ const style = StyleSheet.create({
   },
 
   viewPlus: {
-    width: 70,
+    width: 50,
     marginTop: 30,
     marginBottom: 100,
+    marginLeft: -20
   },
 
   view1: {
@@ -531,8 +532,9 @@ const style = StyleSheet.create({
   buttonPlus: {
     backgroundColor: "#414141",
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
-    height: 60,
+    height: 50,
   },
 
   deleteModal: {

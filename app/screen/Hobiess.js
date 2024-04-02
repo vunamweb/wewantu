@@ -59,7 +59,7 @@ class Hobiess extends Component {
     return (
       <View style={styles.flexFull}>
         <ScrollView keyboardShouldPersistTaps={'always'} contentContainerStyle={{ flexGrow: 1 }}>
-          <Background>
+          <Background center="true">
             <Header component={this} Notification={false} />
             <TextHeader text1={text1} text2={text2} text3={text3} />
             <HeadLine style={style.headLine} text={text4} />

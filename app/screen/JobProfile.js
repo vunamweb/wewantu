@@ -516,16 +516,18 @@ const style = StyleSheet.create({
   },
 
   buttonPlus: {
-    width: 70,
+    width: 50,
     marginTop: MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON,
     marginBottom: 100,
+    marginLeft: -20
   },
 
   button: {
     backgroundColor: "#414141",
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
-    height: 60,
+    height: 50,
   },
 
   modal: {

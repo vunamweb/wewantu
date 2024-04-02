@@ -78,14 +78,18 @@ class UploadDocument extends Component {
         let fileDoc = this.state.media.file_doc;
         let fileVideo = this.state.media.file_video;
 
-        functions.upload(
-          this,
-          response.assets[0].uri,
-          type,
-          fileImg,
-          fileDoc,
-          fileVideo
-        );
+        try {
+          functions.upload(
+            this,
+            response.assets[0].uri,
+            type,
+            fileImg,
+            fileDoc,
+            fileVideo
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -97,14 +101,18 @@ class UploadDocument extends Component {
         let fileDoc = this.state.media.file_doc;
         let fileVideo = this.state.media.file_video;
 
-        functions.upload(
-          this,
-          response.assets[0].uri,
-          "video",
-          fileImg,
-          fileDoc,
-          fileVideo
-        );
+        try {
+          functions.upload(
+            this,
+            response.assets[0].uri,
+            "video",
+            fileImg,
+            fileDoc,
+            fileVideo
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -228,7 +236,8 @@ class UploadDocument extends Component {
               <TextHeader text1="that's" text2="my" text3="input" />
               <ActivityIndicator
                 size="small"
-                animating={this.state.ActivityIndicator}/>
+                animating={this.state.ActivityIndicator}
+              />
               <View style={{ marginBottom: 20 }}>{view}</View>
               <View style={style.view1}>
                 <Href onPress={() => this.openImagePicker("img")}>

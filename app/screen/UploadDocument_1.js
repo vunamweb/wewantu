@@ -81,8 +81,13 @@ function Meida() {
   };
 
   const front = () => {
-    setType("front");
-    setMirrorImage(true);
+    if(!mirrorImage) {
+      setType("front");
+      setMirrorImage(true);
+    } else {
+      setType("back");
+      setMirrorImage(false);  
+    }
   };
 
   const back = () => {
