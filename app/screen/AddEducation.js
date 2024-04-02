@@ -51,6 +51,8 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 
 const number = 100;
 
+const strAsyncStorage = global.trainning;
+
 var data;
 
 var textHeader;
@@ -118,7 +120,24 @@ class AddEducation extends Component {
         count = 0;
       }
 
-      functions.insertUserEducation(this, dataEcuation.data[count]);
+      // if add
+      if (dataEcuation.add)
+        functions.insertUserEducation(this, dataEcuation.data[count]);
+      else {
+        let education_id, data;
+
+        try {
+          let position = dataEcuation.edit;
+
+          let data = dataEcuation.data[position];
+
+          education_id = data.id;
+
+          //delete data.id;
+
+          functions.updateUserEducation(this, education_id, data, position);
+        } catch (error) {}
+      }
     }
   };
 
@@ -174,19 +193,30 @@ class AddEducation extends Component {
     this.setState({ visible1: true });
   };
 
-  delete = () => {
-    data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+  delete = async () => {
+    let dataEcuation, education_id;
 
-    var edit = data.edit;
+    try {
+      dataEcuation = JSON.parse(data);
 
-    data.data.splice(edit, 1);
+      let position = dataEcuation.edit;
 
-    this.props.navigation.state.params.data = JSON.stringify(data);
-    data = this.props.navigation.state.params.data;
+      // id of education will be deleted
+      education_id = dataEcuation.data[position].id;
 
-    this.setState({ visible1: false });
-    this.gotoReview();
+      global.reviewTraining.state.trainning.splice(position, 1);
+
+      // update local
+      await functions.setDataAsyncStorage(
+        strAsyncStorage,
+        JSON.stringify(global.reviewTraining.state.trainning)
+      );
+
+      // delete education id from server
+      functions.deleteEducation(this, education_id, true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   addEducation = (data, type, educationstage_id, id) => {

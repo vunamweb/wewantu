@@ -1302,6 +1302,68 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
+  updateUserEducation = async (
+    component,
+    education_id,
+    dataEducation,
+    position
+  ) => {
+    let url = global.urlRootWewantu + global.urlUpdateUserEducatation;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    const data = new FormData();
+
+    data.append("institute", dataEducation.job);
+    data.append("job_id", dataEducation.job_id);
+    data.append("company", dataEducation.name);
+    data.append("education_id", education_id);
+
+    var callback = async (responseData) => {
+      try {
+        global.reviewTraining.state.trainning[position] = dataEducation;
+
+        const strAsyncStorage = global.trainning;
+
+        // update local
+        await this.setDataAsyncStorage(
+          strAsyncStorage,
+          JSON.stringify(global.reviewTraining.state.trainning)
+        );
+
+        this.gotoScreenWithParam(
+          null,
+          component.props.navigation,
+          "ReviewTrainingUniversity"
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
+      component.setState({
+        ActivityIndicator: false,
+      });
+
+      return;
+    };
+
+    component.setState({ ActivityIndicator: true });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   getListUser = async (component) => {
     var datauser = await this.getDataUser();
     let token = null;
@@ -1785,7 +1847,7 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
-  deleteEducation = async (component, education_id) => {
+  deleteEducation = async (component, education_id, callBack = false) => {
     var datauser = await this.getDataUser();
     let token = null,
       user_id = null;
@@ -1806,6 +1868,14 @@ class Functions {
       component.setState({
         ActivityIndicator: false,
       });
+
+      // if delete from add education, then comeback
+      if (callBack)
+        this.gotoScreenWithParam(
+          null,
+          component.props.navigation,
+          "ReviewTrainingUniversity"
+        );
     };
 
     component.setState({ ActivityIndicator: true });

@@ -53,6 +53,7 @@ global.urlEducationalStageTypes = "api/v1/educational_stage_types";
 global.urlInsertEducational = "api/v1/educational_stage";
 global.urlGetUserEducatation = "api/v1/user/{user_id}/educational_stages";
 global.urlDeleteUserEducatation = "api/v1/educational_stage/{education_id}";
+global.urlUpdateUserEducatation = "api/v1/update/educational_stage";
 
 // JOB
 global.urlRootJob =

@@ -160,11 +160,18 @@ class ReviewTrainingUniversity extends Component {
   };
 
   edit = (edit) => {
-    var data = this.props.navigation.state.params.data;
-    data = JSON.parse(data);
+    //var data = this.props.navigation.state.params.data;
+    //data = JSON.parse(data);
+    var data = {};
 
+    data.data = this.state.trainning;
     data.edit = edit;
-    data.type = data.data[edit].type;
+
+    try {
+      data.type = data.data[edit].type;
+    } catch (error) {
+      console.log(error);
+    }
 
     functions.gotoScreenWithParam(
       JSON.stringify(data),
