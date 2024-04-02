@@ -168,6 +168,7 @@ class JobProfile extends Component {
     return (
       <View style={[styles.fullWith, style.view3]}>
         <View style={styles.flexFull}>
+          <View style={style.parentSwitch}>
           <Switch
             activeTrackColor={"#898166"}
             inactiveTrackColor={"#898166"}
@@ -176,13 +177,11 @@ class JobProfile extends Component {
             size={30}
             component={this}
             index={0}
-            container={{
-              position: "absolute",
-              right: 5,
-              top: 5,
-              borderWidth: 0,
-            }}
+            visible={false}
+            container={style.container}
+            additionalThumb={style.additionalThumb}
           />
+          </View>
           {/*borderTop*/}
           <View style={style.view2}>
             <Text
@@ -683,6 +682,23 @@ const style = StyleSheet.create({
     color: "#000",
     width: "70%"
   },
+
+  additionalThumb: {
+    height: 0,
+    width: 25,
+    borderRadius: 5,
+    paddingTop: 15,
+  },
+
+  container: {
+    height: 25,
+    width: 60,
+    borderWidth: 0,
+  },
+
+  parentSwitch: {
+    position: 'absolute', right: 10, top: 10, zIndex: 9999999
+  }
 });
 
 export default JobProfile;

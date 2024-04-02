@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Switch from "react-native-switch-toggles-2";
+
+import Image from "../components/Image";
+
+const imgOff = require("../images/off.png");
+const imgOn = require("../images/on.png");
 
 export default function MySwitch({ mode, style, ...props }) {
   const [isEnabled, setIsEnabled] = useState(props.visible ? true : false);
@@ -9,6 +14,11 @@ export default function MySwitch({ mode, style, ...props }) {
   props.component.switch[props.index] = isEnabled;
 
   return (
+    <View>
+      {
+        isEnabled ? <Image style={styles.imgon} source={imgOn} /> : <Image style={styles.imgoff} source={imgOff} /> 
+      }
+      
     <Switch
       containerStyle={[styles.container, props.container]}
       additionalThumbStyle={[styles.additionalThumb, props.additionalThumb]}
@@ -20,6 +30,7 @@ export default function MySwitch({ mode, style, ...props }) {
       value={isEnabled}
       onChange={(value) => setIsEnabled(value)}
     />
+    </View>
   );
 }
 
@@ -36,4 +47,24 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingTop: 20,
   },
+
+  imgoff: {
+    position: 'absolute',
+    right: 5,
+    top: '50%',
+    marginTop: -7,
+    zIndex: 99999,
+    width: 15,
+    height: 15
+  },
+
+  imgon: {
+    position: 'absolute',
+    left: 5,
+    top: '50%',
+    marginTop: -7,
+    zIndex: 99999,
+    width: 15,
+    height: 15
+  }
 });
