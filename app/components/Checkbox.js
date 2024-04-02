@@ -30,8 +30,8 @@ function MyCheckBox({ data, callBack, type, ...props }) {
           <Text style={[style.require, styles.fontBoldNormal]}>*</Text>
         ) : null;
 
-        var bgColor = index == position ? style.bgCheck : style.bgNotCheck;
-        var check = index == position ? true : false;
+        var bgColor = (index == position || id == position) ? style.bgCheck : style.bgNotCheck;
+        var check = (index == position || id == position) ? true : false;
 
         return (
           <Href onPress={() => onPress(id, index)}>
