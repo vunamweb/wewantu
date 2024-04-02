@@ -140,6 +140,23 @@ class PersonalData_3 extends Component {
       console.log(error);
     }
 
+    var param = {};
+
+    try {
+      param = JSON.parse(this.props.navigation.state.params.data);
+
+      param.step3 = {};
+
+      param.step3.street = this.state.street;
+      param.step3.no = this.state.no;
+      param.step3.address = this.state.address;
+      param.step3.zip = this.state.zip;
+      param.step3.city = this.state.city;
+      param.step3.year = this.state.year;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       <Provider>
         <Portal>

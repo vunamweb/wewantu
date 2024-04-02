@@ -106,6 +106,18 @@ class PersonalData_2 extends Component {
       console.log(error);
     }
 
+    var param = {};
+
+    try {
+      param = JSON.parse(this.props.navigation.state.params.data);
+
+      param.step2 = {};
+      param.step2.mobile = this.state.mobile;
+      param.step2.email = this.state.email;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />
@@ -147,6 +159,7 @@ class PersonalData_2 extends Component {
             />
             <BackNext
               nextScreen="PersonalData_3"
+              data={JSON.stringify(param)}
               position="absolute"
               callBack={this.gotoNextStep}
               navigation={this.props.navigation}

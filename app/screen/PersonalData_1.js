@@ -133,6 +133,18 @@ class PersonalData_1 extends Component {
       console.log(error);
     }
 
+    var param = {};
+
+    try {
+      param.step1 = {};
+      param.step1.sex = this.index;
+      param.step1.titel = this.state.title;
+      param.step1.firstName = this.state.firstName;
+      param.step1.lastName = this.state.lastName;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />
@@ -194,6 +206,7 @@ class PersonalData_1 extends Component {
             />
             <BackNext
               nextScreen="PersonalData_2"
+              data={JSON.stringify(param)}
               position="relative"
               backEnable={false}
               callBack={this.gotoNextStep}
