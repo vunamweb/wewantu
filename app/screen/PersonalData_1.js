@@ -14,6 +14,7 @@ import BackNext from "../components/BackNext";
 import Header from "../components/Header";
 
 import styles from "../../app/style/style";
+import functions from "../function/function";
 
 const borderColor = "#000";
 const imgProfile = require("../images/user_profile.png");
@@ -49,7 +50,7 @@ class PersonalData_1 extends Component {
     title: "",
   });
 
-  gotoNextStep = () => {
+  gotoNextStep = async () => {
     let firstName = this.state.firstName;
     let lastName = this.state.lastName;
     let marginTop = 20;
@@ -86,6 +87,38 @@ class PersonalData_1 extends Component {
       component.setState({ colorBorder2: borderColor, errorMessage: "" });
     }
 
+    if (this.isInsert()) {
+      var datauser = await functions.getDataUser();
+      var user_id;
+
+      try {
+        datauser = JSON.parse(datauser);
+
+        user_id = datauser.user.user_id;
+      } catch (error) {}
+
+      datauser.user.another.sex = this.index;
+      datauser.user.another.title = this.state.title;
+      datauser.user.another.prename = this.state.firstName;
+      datauser.user.another.lastname = this.state.lastName;
+      datauser.user.another.user_id = user_id;
+
+      var obj = {};
+
+      obj.sex = this.index;
+      obj.title = this.state.title;
+      obj.prename = this.state.firstName;
+      obj.lastname = this.state.lastName;
+      obj.user_id = user_id;
+
+      global.commonData.user.another.sex = this.index;
+      global.commonData.user.another.title = this.state.title;
+      global.commonData.user.another.prename = this.state.firstName;
+      global.commonData.user.another.lastname = this.state.lastName;
+
+      functions.updateUser(datauser, obj);
+    }
+
     return true;
   };
 
@@ -97,8 +130,33 @@ class PersonalData_1 extends Component {
     this.index = index;
   };
 
+  isInsert = () => {
+    let sex, title, firstName, lastName;
+
+    try {
+      sex = global.commonData.user.another.sex;
+      title = global.commonData.user.another.title;
+      firstName = global.commonData.user.another.prename;
+      lastName = global.commonData.user.another.lastname;
+
+      if (
+        sex == this.index &&
+        title == this.state.title &&
+        firstName == this.state.firstName &&
+        lastName == this.state.lastName
+      )
+        return false;
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
+  };
+
   render() {
     var commonData = global.commonData.languages;
+    var setIndex;
 
     try {
       var text1 = commonData.that_s;
@@ -133,6 +191,31 @@ class PersonalData_1 extends Component {
       console.log(error);
     }
 
+    try {
+      this.state.firstName =
+        this.state.firstName != null
+          ? this.state.firstName
+          : global.commonData.user.another.prename;
+
+      this.state.lastName =
+        this.state.lastName != null
+          ? this.state.lastName
+          : global.commonData.user.another.lastname;
+
+      this.state.title =
+        this.state.title != null
+          ? this.state.title
+          : global.commonData.user.another.title;
+
+      setIndex =
+        global.commonData.user.another.sex == null ||
+        global.commonData.user.another.sex == undefined
+          ? -1
+          : global.commonData.user.another.sex;
+    } catch (error) {
+      console.log(error);
+    }
+
     var param = {};
 
     try {
@@ -159,6 +242,7 @@ class PersonalData_1 extends Component {
               data={data}
               callBack={this.callBack}
               style={style.CheckBox}
+              //setIndex={setIndex}
             />
             <TextInput
               placeholder={text6}

@@ -198,12 +198,19 @@ class Network {
       },
       body: body,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        var result = {};
+
+        result = {};
+        result.status = response.status;
+
+        return result;
+      })
       .then((responseData) => {
         callback(responseData);
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(error);
       });
   }
 

@@ -211,61 +211,7 @@ class Functions {
     network.fetchPATCH_HEADER(url, body, token, callback);
   };
 
-  addProductTocart = async (productId, Shop, quantity, component) => {
-    let url = global.urlRoot + global.urlAddProductToCart;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Shop = this.convertShopToID(Shop);
-    body.Code = productId;
-    body.Quantity = quantity;
-    data = JSON.stringify(body);
-
-    callback = async (responseData) => {
-      await AsyncStorage.setItem("cart", JSON.stringify(responseData.data));
-
-      component.setState({ order: true, countCart: responseData.data.length });
-    };
-
-    network.fetchPUT_HEADER(url, data, token, callback);
-  };
-
-  addProductTocartBuyNow = async (productId, Shop, quantity, component) => {
-    let url = global.urlRoot + global.urlAddProductToCart;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Shop = this.convertShopToID(Shop);
-    body.Code = productId;
-    body.Quantity = quantity;
-    data = JSON.stringify(body);
-
-    callback = async (responseData) => {
-      await AsyncStorage.setItem("cart", JSON.stringify(responseData.data));
-
-      component.setState({ ActivityIndicator: false });
-
-      functions.gotoScreenWithParam(
-        JSON.stringify(responseData.data),
-        component.props.navigation,
-        "PaymentScreen"
-      );
-    };
-
-    network.fetchPUT_HEADER(url, data, token, callback);
-  };
-
-  convertShopToID = (shop) => {
+ convertShopToID = (shop) => {
     switch (shop) {
       case "amazon":
         return "amz";
@@ -986,34 +932,6 @@ class Functions {
     network.fetchPOST_HEADER(url, body, token, callback);
   };
 
-  updateUser = (data, component) => {
-    let url = global.urlRoot + global.urlUpdateUser;
-    let token = data.token;
-
-    let body = {},
-      body1;
-
-    body.Name = data.name;
-    body.Address = data.phone;
-    body.Phone = data.address;
-    body.DOB = "cvddzz";
-    body = JSON.parse(JSON.stringify(body));
-
-    callback = async (responseData) => {
-      if (responseData.data == null) {
-        component.setState({ messageError: global.updateUserNotOk });
-        //component.setState({ messageSuccess: global.updateUserOk });
-        component.setState({ ActivityIndicator: false });
-      } else {
-        component.setState({ messageSuccess: global.updateUserOk });
-        component.setState({ ActivityIndicator: false });
-      }
-    };
-
-    component.setState({ ActivityIndicator: true });
-    network.fetchPATCH_HEADER(url, body, token, callback);
-  };
-
   changePass = (oldPass, newPass, token, component) => {
     let url = global.urlRoot + global.urlChangePassword;
 
@@ -1035,36 +953,6 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchPATCH_HEADER(url, body, token, callback);
-  };
-
-  addAddess = async (name, phone, address, component) => {
-    let url = global.urlRoot + global.urlAddAdress;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Name = name;
-    body.Address = phone;
-    body.Phone = address;
-    data = JSON.stringify(body);
-
-    callback = async (responseData) => {
-      if (responseData.data == null) {
-        component.setState({ messageError: global.updateUserNotOk });
-        //component.setState({ messageSuccess: global.updateUserOk });
-        component.setState({ ActivityIndicator: false });
-      } else {
-        component.setState({ messageSuccess: global.updateUserOk });
-        component.setState({ ActivityIndicator: false });
-      }
-    };
-
-    component.setState({ ActivityIndicator: true });
-    network.fetchPUT_HEADER(url, data, token, callback);
   };
 
   getListAddress = async (component) => {
@@ -1245,6 +1133,60 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
+  insertAdress = async (dataAddress) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {
+      listJobAPI = undefined;
+      listJoBlike = [];
+    }
+
+    let url = global.urlRootWewantu + urlInsertaddress;
+
+    let body = {};
+    let data;
+
+    body.city = dataAddress.city;
+    body.postal_code = dataAddress.zip;
+    body.street = dataAddress.street;
+    body.house_number = dataAddress.no;
+    body.address_addition = dataAddress.address;
+    body.year_birthday = dataAddress.year;
+    body.state = null;
+    body.country = dataAddress.country;
+
+    data = JSON.stringify(body);
+
+    var callback = async (responseData) => {
+      let datauser = await functions.getDataUser();
+
+      try {
+        datauser = JSON.parse(datauser);
+      } catch (error) {
+        console.log(error);
+      }
+
+      datauser.user.another.street = dataAddress.street;
+      datauser.user.another.house_number = dataAddress.no;
+      datauser.user.another.address_addition = dataAddress.address;
+      datauser.user.another.postal_code = dataAddress.zip;
+      datauser.user.another.state = dataAddress.city;
+      datauser.user.another.year_birthday = dataAddress.year;
+
+      global.commonData.user.another = datauser.user.another;
+
+      await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+    };
+
+    network.fetchPOST_HEADER(url, data, token, callback);
+  };
+
   insertUserEducation = async (component, dataEducation) => {
     var datauser = await this.getDataUser();
     let token = null,
@@ -1300,6 +1242,35 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchPOST_HEADER(url, data, token, callback);
+  };
+
+  updateUser = async (dataUser, dataAnother) => {
+    var datauser = await this.getDataUser();
+    let token = null,
+      user_id;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlUpdateUser;
+
+    var data;
+
+    try {
+      data = JSON.stringify(dataAnother);
+    } catch (error) {}
+
+    var callback = async (responseData) => {
+      await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+    };
+
+    network.fetchPUT_HEADER(url, data, token, callback);
   };
 
   updateUserEducation = async (
@@ -1728,6 +1699,54 @@ class Functions {
       component.setState({
         ActivityIndicator: false,
         userLanguages: userLanguages,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getUser = async (component, dataUser) => {
+    let token, user_id;
+
+    try {
+      user_id = dataUser.user.user_id;
+
+      token = dataUser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlGetUser;
+    url = url.replace("{user_id}", user_id);
+
+    var callback = async (responseData) => {
+      try {
+        dataUser.user.another = {};
+
+        dataUser.user.another.mail = responseData[0].mail;
+        dataUser.user.another.prename = responseData[0].prename;
+        dataUser.user.another.lastname = responseData[0].lastname;
+        dataUser.user.another.sex = responseData[0].sex;
+        dataUser.user.another.address_id = responseData[0].address_id;
+        dataUser.user.another.mobile_phone_number =
+          responseData[0].mobile_phone_number;
+        dataUser.user.another.street = responseData[0].street;
+        dataUser.user.another.house_number = responseData[0].house_number;
+        dataUser.user.another.address_addition =
+          responseData[0].address_addition;
+        dataUser.user.another.postal_code = responseData[0].postal_code;
+        dataUser.user.another.state = responseData[0].state;
+        dataUser.user.another.year_birthday = responseData[0].year_birthday;
+
+        global.commonData.user.another = dataUser.user.another;
+
+        await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+      } catch (error) {
+        console.log(error);
+      }
+
+      component.setState({
+        ActivityIndicator: false,
       });
     };
 
@@ -2482,231 +2501,6 @@ class Functions {
     component.setState({ ActivityIndicator: false, visible: true });
   };
 
-  addOrder = async (product, component) => {
-    var shop = this.convertIDToShop(product.Shop);
-
-    let url = global.urlRoot + global.urlAddOrder;
-    url = url.replace("{shop}", shop);
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Product = product.Code;
-
-    body.Address = {};
-    body.Address.Name = component.state.listAddress.data[0].Name;
-    body.Address.Address = component.state.listAddress.data[0].Address;
-    body.Address.Phone = component.state.listAddress.data[0].Phone;
-
-    body.Shipment = component.state.saveShip ? "air" : "sea";
-    body.Description = product.Name;
-    body.Payment = component.state.transfer ? "BankTransfer" : "Prepaid";
-    body.Qty = product.Quantity;
-
-    data = JSON.stringify(body);
-
-    callback = async (responseData) => {
-      console.log("OK");
-    };
-
-    //network.fetchPUT_HEADER(url, data, token, callback);
-    network.fetchPOST_HEADER(url, data, token, callback);
-  };
-
-  addBid = async (product, component) => {
-    let url = global.urlRoot + global.addBid;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Product = product.productID;
-    body.Price = component.state.money;
-
-    body.Address = {};
-    body.Address.Name = component.state.listAddress.data[0].Name;
-    body.Address.Address = component.state.listAddress.data[0].Address;
-    body.Address.Phone = component.state.listAddress.data[0].Phone;
-
-    body.Url = product.url;
-    body.Shipment = component.state.saveShip ? "air" : "sea";
-    body.Description = "";
-
-    data = JSON.stringify(body);
-
-    callback = (responseData) => {
-      if (!responseData.success)
-        component.setState({
-          type: 4,
-          errorFaildAuction: responseData.error,
-          visibleAlert: true,
-          ActivityIndicator1: false,
-        });
-      else
-        component.setState({
-          type: 5,
-          visibleAlert: true,
-          ActivityIndicator1: false,
-        });
-    };
-
-    component.setState({ ActivityIndicator1: true });
-    network.fetchPOST_HEADER(url, data, token, callback);
-  };
-
-  getOrders = async (component) => {
-    let url = global.urlRoot + global.urlgetOrder;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      component.setState({ orderList: responseData.data.items });
-      component.setState({ ActivityIndicator: false });
-    };
-
-    component.setState({ ActivityIndicator: true });
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getAuction = async (component) => {
-    let url = global.urlRoot + global.urlAutionOrder;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      component.setState({ orderList: responseData.data });
-      component.setState({ ActivityIndicator: false });
-    };
-
-    component.setState({ ActivityIndicator: true });
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getBanners = async (component) => {
-    let url = global.urlRoot + global.urlBanners;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      var listBanner = [];
-      var count;
-
-      for (count = 0; count < responseData.data.length; count++) {
-        var banner = {};
-
-        //banner.img = "https://neilpatel.com/wp-content/uploads/2021/02/ExamplesofSuccessfulBannerAdvertising-700x420.jpg";
-        banner.img = global.urlData + responseData.data[count];
-        listBanner.push(banner);
-      }
-
-      component.setState({
-        ActivityIndicator1: false,
-        ActivityIndicator5: false,
-        dataBanner: listBanner,
-      });
-    };
-
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getPoplularBranch = async (component) => {
-    let url = global.urlRoot + global.urlPopularBranch;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      var listPopularBranch = [];
-      var count;
-
-      for (count = 0; count < responseData.data.length; count++) {
-        listPopularBranch.push(responseData.data[count]);
-      }
-
-      component.setState({
-        ActivityIndicator2: false,
-        dataPopularBranch: listPopularBranch,
-      });
-    };
-
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getUserDetail = async (component) => {
-    let url = global.urlRoot + global.urlUserDetail;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      var count;
-
-      component.setState({ userDetail: responseData.data });
-    };
-
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getListBank = async (component) => {
-    let url = global.urlRoot + global.urlGetListBank;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      component.setState({ listBank: responseData, ActivityIndicator: false });
-    };
-
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
-  getHistorySearch = async (component) => {
-    let url = global.urlRoot + global.historySearch;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-
-    callback = async (responseData) => {
-      component.setState({
-        listSearchHistory: responseData.data,
-        ActivityIndicator: false,
-      });
-    };
-
-    network.fetchGET_HEADER(url, body, token, callback);
-  };
-
   sendSMS = async (component, mobile, pin) => {
     let url = global.urlSendSMS;
 
@@ -2818,41 +2612,6 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchDELETE_HEADER(url, data, token, callback);
-  };
-
-  addFavorite = async (productId, shop, component) => {
-    let url = global.urlRoot + global.addfavorite;
-
-    var datauser = await this.getDataUser();
-    datauser = JSON.parse(datauser);
-    var token = datauser.token;
-
-    let body = {};
-    let data;
-
-    body.Product = productId;
-    body.Site = shop;
-    data = JSON.stringify(body);
-
-    callback = async (responseData) => {
-      var listFavorite = component.state.ListFavorite;
-
-      if (responseData.success) {
-        var product = {};
-        product.Product = productId;
-        product._id = responseData.data;
-
-        listFavorite.push(product);
-      }
-
-      component.setState({
-        ActivityIndicator3: false,
-        ListFavorite: listFavorite,
-      });
-    };
-
-    component.setState({ ActivityIndicator3: true });
-    network.fetchPUT_HEADER(url, data, token, callback);
   };
 
   deleteFavorite = async (component, product) => {

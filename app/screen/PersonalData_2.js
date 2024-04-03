@@ -114,6 +114,15 @@ class PersonalData_2 extends Component {
       param.step2 = {};
       param.step2.mobile = this.state.mobile;
       param.step2.email = this.state.email;
+
+      this.state.mobile =
+        this.state.mobile != null
+          ? this.state.mobile
+          : global.commonData.user.another.mobile_phone_number;
+      this.state.email =
+        this.state.email != null
+          ? this.state.email
+          : global.commonData.user.another.mail;
     } catch (error) {
       console.log(error);
     }

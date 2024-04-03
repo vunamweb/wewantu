@@ -9,7 +9,9 @@ import Href from "./Href";
 import styles from "../../app/style/style";
 
 function MyCheckBox({ data, callBack, type, ...props }) {
-  const [position, setPosition] = useState(-1);
+  let setIndex = (props.setIndex == undefined) ? -1 : props.setIndex;
+
+  const [position, setPosition] = useState(setIndex);
 
   if (props.component != undefined && props.component.setPosition != undefined)
     props.component.setPosition = setPosition;

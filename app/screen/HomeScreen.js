@@ -5,6 +5,7 @@ import {
   AsyncStorage,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -36,6 +37,7 @@ class HomeScreen extends Component {
 
     this.state = {
       notification: [],
+      ActivityIndicator: false,
     };
   }
 
@@ -103,6 +105,8 @@ class HomeScreen extends Component {
       console.log(error);
     }
 
+    if (!this.existPersonalData(datauser)) functions.getUser(this, datauser);
+
     global.notification =
       datauser.notification != undefined ? datauser.notification : [];
 
@@ -117,6 +121,20 @@ class HomeScreen extends Component {
         global.screen = this;
       }
     );
+  };
+
+  existPersonalData = (datauser) => {
+    try {
+      if (datauser.user.another == undefined || datauser.user.another == null)
+        return false;
+      else {
+        global.commonData.user.another = datauser.user.another;
+        return true;
+      } 
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   componentWillUnmount() {
@@ -176,6 +194,10 @@ class HomeScreen extends Component {
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader text1={text1} text2={text2} text3={text3} />
+            <ActivityIndicator
+              size="small"
+              animating={this.state.ActivityIndicator}
+            />
             <Collapse
               title="Hồ sơ"
               data={data1}

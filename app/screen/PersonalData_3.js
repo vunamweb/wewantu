@@ -17,6 +17,7 @@ import Href from "../components/Href";
 import Image from "../components/Image";
 
 import styles from "../../app/style/style";
+import functions from "../../app/function/function";
 
 const borderColor = "#000";
 const imgClose = require("../images/close.png");
@@ -92,6 +93,9 @@ class PersonalData_3 extends Component {
     }
 
     this.saveZip(zip);
+
+    if (true) functions.insertAdress(this.state);
+
     return true;
   };
 
@@ -153,6 +157,36 @@ class PersonalData_3 extends Component {
       param.step3.zip = this.state.zip;
       param.step3.city = this.state.city;
       param.step3.year = this.state.year;
+
+      this.state.street =
+        this.state.street != null
+          ? this.state.street
+          : global.commonData.user.another.street;
+
+      this.state.no =
+        this.state.no != null
+          ? this.state.no
+          : global.commonData.user.another.house_number;
+
+      this.state.address =
+        this.state.address != null
+          ? this.state.address
+          : global.commonData.user.another.address_addition;
+
+      this.state.zip =
+        this.state.zip != ""
+          ? this.state.zip
+          : global.commonData.user.another.postal_code;
+
+      this.state.city =
+        this.state.city != null
+          ? this.state.city
+          : global.commonData.user.another.state;
+
+      this.state.year =
+        this.state.year != ""
+          ? this.state.year
+          : global.commonData.user.another.year_birthday + "";
     } catch (error) {
       console.log(error);
     }
