@@ -36,11 +36,11 @@ class PersonalData_3 extends Component {
       colorBorder2: borderColor,
       marginTop: 10,
       street: null,
-      no: null,
-      address: null,
+      house_number: null,
+      address_addition: null,
       city: null,
-      zip: "",
-      year: "",
+      postal_code: "",
+      year_birthday: "",
       errorMessage: "",
       display: "none",
       visible: false,
@@ -58,12 +58,12 @@ class PersonalData_3 extends Component {
 
     value = value.replace(match, "");
 
-    this.setState({ zip: value });
+    this.setState({ postal_code: value });
   };
 
   gotoNextStep = () => {
-    let zip = this.state.zip;
-    let year = this.state.year;
+    let zip = this.state.postal_code;
+    let year = this.state.year_birthday;
     let marginTop = 20;
 
     var component = this;
@@ -94,9 +94,45 @@ class PersonalData_3 extends Component {
 
     this.saveZip(zip);
 
-    if (true) functions.insertAdress(this.state);
+    // if user change any information of address, then insert or update to server
+    if (this.isInsertAndUpdate()) {
+      let zip = global.commonData.user.another.postal_code;
+
+      // if user has no address, then insert to database
+      if (zip == null || zip == undefined) functions.insertAdress(this.state);
+      // update user on server
+      else functions.updateAdress(this.state);
+    }
 
     return true;
+  };
+
+  isInsertAndUpdate = () => {
+    let street, no, address, zip, city, year;
+
+    try {
+      street = global.commonData.user.another.street;
+      no = global.commonData.user.another.house_number;
+      address = global.commonData.user.another.address_addition;
+      zip = global.commonData.user.another.postal_code;
+      city = global.commonData.user.another.city;
+      year = global.commonData.user.another.year_birthday;
+
+      if (
+        street == this.state.street &&
+        no == this.state.house_number &&
+        address == this.state.address_addition &&
+        zip == this.state.postal_code &&
+        city == this.state.city &&
+        year == this.state.year_birthday
+      )
+        return false;
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   };
 
   saveZip = async (zip) => {
@@ -122,7 +158,7 @@ class PersonalData_3 extends Component {
 
   render() {
     var year = this.initYear();
-    var numberYear = this.state.year + "";
+    var numberYear = this.state.year_birthday + "";
 
     var commonData = global.commonData.languages;
 
@@ -152,40 +188,40 @@ class PersonalData_3 extends Component {
       param.step3 = {};
 
       param.step3.street = this.state.street;
-      param.step3.no = this.state.no;
-      param.step3.address = this.state.address;
-      param.step3.zip = this.state.zip;
+      param.step3.no = this.state.house_number;
+      param.step3.address = this.state.address_addition;
+      param.step3.zip = this.state.postal_code;
       param.step3.city = this.state.city;
-      param.step3.year = this.state.year;
+      param.step3.year = this.state.year_birthday;
 
       this.state.street =
         this.state.street != null
           ? this.state.street
           : global.commonData.user.another.street;
 
-      this.state.no =
-        this.state.no != null
-          ? this.state.no
+      this.state.house_number =
+        this.state.house_number != null
+          ? this.state.house_number
           : global.commonData.user.another.house_number;
 
-      this.state.address =
-        this.state.address != null
-          ? this.state.address
+      this.state.address_addition =
+        this.state.address_addition != null
+          ? this.state.address_addition
           : global.commonData.user.another.address_addition;
 
-      this.state.zip =
-        this.state.zip != ""
-          ? this.state.zip
+      this.state.postal_code =
+        this.state.postal_code != ""
+          ? this.state.postal_code
           : global.commonData.user.another.postal_code;
 
       this.state.city =
         this.state.city != null
           ? this.state.city
-          : global.commonData.user.another.state;
+          : global.commonData.user.another.city;
 
-      this.state.year =
-        this.state.year != ""
-          ? this.state.year
+      this.state.year_birthday =
+        this.state.year_birthday != ""
+          ? this.state.year_birthday
           : global.commonData.user.another.year_birthday + "";
     } catch (error) {
       console.log(error);
@@ -262,8 +298,8 @@ class PersonalData_3 extends Component {
                 <View style={[style.view2, style.view2Marginleft]}>
                   <TextInput
                     placeholder={text3}
-                    onChangeText={(value) => this.setState({ no: value })}
-                    value={this.state.no}
+                    onChangeText={(value) => this.setState({ house_number: value })}
+                    value={this.state.house_number}
                     styleParent={[{}, styles.textInput, style.textInput]}
                     fontSize={styles.fontBoldSmallOfSmall}
                     bgFocus="white"
@@ -273,8 +309,8 @@ class PersonalData_3 extends Component {
               </View>
               <TextInput
                 placeholder={text4}
-                onChangeText={(value) => this.setState({ address: value })}
-                value={this.state.address}
+                onChangeText={(value) => this.setState({ address_addition: value })}
+                value={this.state.address_addition}
                 component={this}
                 styleParent={[{}, style.textInput, styles.textInput]}
                 bgFocus="white"
@@ -287,7 +323,7 @@ class PersonalData_3 extends Component {
                     maxLength={5}
                     placeholder={text6 + " *"}
                     onChangeText={(value) => this.onChangeValue(value)}
-                    value={this.state.zip}
+                    value={this.state.postal_code}
                     styleParent={[
                       {
                         borderColor: this.state.colorBorder1,

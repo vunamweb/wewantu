@@ -57,7 +57,7 @@ global.urlUpdateUserEducatation = "api/v1/update/educational_stage";
 global.urlGetUser = "api/v1/user/{user_id}";
 global.urlUpdateUser = "api/v1/user";
 global.urlInsertaddress = "api/v1/address";
-
+global.urlUpdateaddress = "api/v1/address";
 
 // JOB
 global.urlRootJob =

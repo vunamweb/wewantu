@@ -88,7 +88,44 @@ class PersonalData_2 extends Component {
       component.setState({ colorBorder2: borderColor, errorMessage: "" });
     }
 
+    if (this.isInsert()) {
+      var obj = {};
+
+      try {
+        obj.mail = this.state.email;
+        obj.mobile_phone_number = this.state.mobile;
+        obj.user_id = global.commonData.user.user_id;
+
+        global.commonData.user.another.mail = this.state.email;
+        global.commonData.user.another.mobile_phone_number = this.state.mobile;
+      } catch (error) {
+        console.log(error);
+      }
+
+      functions.updateUser(this, obj, 2);
+    }
+
     return true;
+  };
+
+  isInsert = () => {
+    let mobile, email;
+
+    try {
+      mobile = global.commonData.user.another.mobile_phone_number;
+      email = global.commonData.user.another.mail;
+
+      if (
+        mobile == this.state.mobile &&
+        email == this.state.email
+      )
+        return false;
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   };
 
   render() {

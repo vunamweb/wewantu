@@ -50,7 +50,7 @@ class PersonalData_1 extends Component {
     title: "",
   });
 
-  gotoNextStep = async () => {
+  gotoNextStep = () => {
     let firstName = this.state.firstName;
     let lastName = this.state.lastName;
     let marginTop = 20;
@@ -88,35 +88,24 @@ class PersonalData_1 extends Component {
     }
 
     if (this.isInsert()) {
-      var datauser = await functions.getDataUser();
-      var user_id;
-
-      try {
-        datauser = JSON.parse(datauser);
-
-        user_id = datauser.user.user_id;
-      } catch (error) {}
-
-      datauser.user.another.sex = this.index;
-      datauser.user.another.title = this.state.title;
-      datauser.user.another.prename = this.state.firstName;
-      datauser.user.another.lastname = this.state.lastName;
-      datauser.user.another.user_id = user_id;
-
       var obj = {};
 
-      obj.sex = this.index;
-      obj.title = this.state.title;
-      obj.prename = this.state.firstName;
-      obj.lastname = this.state.lastName;
-      obj.user_id = user_id;
+      try {
+        obj.sex = this.index;
+        obj.title = this.state.title;
+        obj.prename = this.state.firstName;
+        obj.lastname = this.state.lastName;
+        obj.user_id = global.commonData.user.user_id;
 
-      global.commonData.user.another.sex = this.index;
-      global.commonData.user.another.title = this.state.title;
-      global.commonData.user.another.prename = this.state.firstName;
-      global.commonData.user.another.lastname = this.state.lastName;
+        global.commonData.user.another.sex = this.index;
+        global.commonData.user.another.title = this.state.title;
+        global.commonData.user.another.prename = this.state.firstName;
+        global.commonData.user.another.lastname = this.state.lastName;
+      } catch (error) {
+        console.log(error);
+      }
 
-      functions.updateUser(datauser, obj);
+      functions.updateUser(this, obj);
     }
 
     return true;
@@ -212,6 +201,8 @@ class PersonalData_1 extends Component {
         global.commonData.user.another.sex == undefined
           ? -1
           : global.commonData.user.another.sex;
+
+       this.index = setIndex;   
     } catch (error) {
       console.log(error);
     }
@@ -242,7 +233,7 @@ class PersonalData_1 extends Component {
               data={data}
               callBack={this.callBack}
               style={style.CheckBox}
-              //setIndex={setIndex}
+              setIndex={setIndex}
             />
             <TextInput
               placeholder={text6}

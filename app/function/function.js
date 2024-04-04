@@ -211,7 +211,7 @@ class Functions {
     network.fetchPATCH_HEADER(url, body, token, callback);
   };
 
- convertShopToID = (shop) => {
+  convertShopToID = (shop) => {
     switch (shop) {
       case "amazon":
         return "amz";
@@ -1135,10 +1135,13 @@ class Functions {
 
   insertAdress = async (dataAddress) => {
     var datauser = await this.getDataUser();
-    let token = null;
+    let token = null,
+      user_id;
 
     try {
       datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
@@ -1153,35 +1156,35 @@ class Functions {
     let data;
 
     body.city = dataAddress.city;
-    body.postal_code = dataAddress.zip;
+    body.postal_code = dataAddress.postal_code;
     body.street = dataAddress.street;
-    body.house_number = dataAddress.no;
-    body.address_addition = dataAddress.address;
-    body.year_birthday = dataAddress.year;
+    body.house_number = dataAddress.house_number;
+    body.address_addition = dataAddress.address_addition;
+    body.year_birthday = dataAddress.year_birthday;
     body.state = null;
     body.country = dataAddress.country;
 
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
-      let datauser = await functions.getDataUser();
-
-      try {
-        datauser = JSON.parse(datauser);
-      } catch (error) {
-        console.log(error);
-      }
-
       datauser.user.another.street = dataAddress.street;
-      datauser.user.another.house_number = dataAddress.no;
-      datauser.user.another.address_addition = dataAddress.address;
-      datauser.user.another.postal_code = dataAddress.zip;
-      datauser.user.another.state = dataAddress.city;
-      datauser.user.another.year_birthday = dataAddress.year;
+      datauser.user.another.house_number = dataAddress.house_number;
+      datauser.user.another.address_addition = dataAddress.address_addition;
+      datauser.user.another.postal_code = dataAddress.postal_code;
+      datauser.user.another.city = dataAddress.city;
+      datauser.user.another.year_birthday = dataAddress.year_birthday;
 
       global.commonData.user.another = datauser.user.another;
 
-      await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+      await AsyncStorage.setItem("data", JSON.stringify(datauser));
+
+      // add address_id to user
+      data = {};
+
+      data.user_id = user_id;
+      data.address_id = responseData.address_id;
+
+      this.updateUser(this, data, 3);
     };
 
     network.fetchPOST_HEADER(url, data, token, callback);
@@ -1244,8 +1247,9 @@ class Functions {
     network.fetchPOST_HEADER(url, data, token, callback);
   };
 
-  updateUser = async (dataUser, dataAnother) => {
+  updateUser = async (component, dataAnother, step = 1) => {
     var datauser = await this.getDataUser();
+
     let token = null,
       user_id;
 
@@ -1267,7 +1271,80 @@ class Functions {
     } catch (error) {}
 
     var callback = async (responseData) => {
-      await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+      try {
+        // update user on step 1
+        if (step == 1) {
+          datauser.user.another.sex = component.index;
+          datauser.user.another.title = component.state.title;
+          datauser.user.another.prename = component.state.firstName;
+          datauser.user.another.lastname = component.state.lastName;
+        }
+        // update user on step 2
+        else if (step == 2) {
+          datauser.user.another.mail = component.state.email;
+          datauser.user.another.mobile_phone_number = component.state.mobile;
+        } else {
+          // update address for user
+          datauser.user.another.address_id = dataAnother.address_id;
+          global.commonData.user.another.address_id = dataAnother.address_id;
+        }
+
+        await AsyncStorage.setItem("data", JSON.stringify(datauser));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    network.fetchPUT_HEADER(url, data, token, callback);
+  };
+
+  updateAdress = async (dataAddress) => {
+    var datauser = await this.getDataUser();
+
+    let token = null,
+      user_id;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlUpdateaddress;
+
+    let body = {};
+    let data;
+
+    body.city = dataAddress.city;
+    body.postal_code = dataAddress.postal_code;
+    body.street = dataAddress.street;
+    body.house_number = dataAddress.house_number;
+    body.address_addition = dataAddress.address_addition;
+    body.year_birthday = dataAddress.year_birthday;
+    body.state = null;
+    body.country = dataAddress.country;
+    body.address_id = global.commonData.user.another.address_id;
+
+    data = JSON.stringify(body);
+
+    var callback = async (responseData) => {
+      try {
+        datauser.user.another.street = dataAddress.street;
+        datauser.user.another.house_number = dataAddress.house_number;
+        datauser.user.another.address_addition = dataAddress.address_addition;
+        datauser.user.another.postal_code = dataAddress.postal_code;
+        datauser.user.another.city = dataAddress.city;
+        datauser.user.another.year_birthday = dataAddress.year_birthday;
+
+        global.commonData.user.another = datauser.user.another;
+
+        await AsyncStorage.setItem("data", JSON.stringify(datauser));
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     network.fetchPUT_HEADER(url, data, token, callback);
@@ -1735,8 +1812,9 @@ class Functions {
         dataUser.user.another.address_addition =
           responseData[0].address_addition;
         dataUser.user.another.postal_code = responseData[0].postal_code;
-        dataUser.user.another.state = responseData[0].state;
+        dataUser.user.another.city = responseData[0].city;
         dataUser.user.another.year_birthday = responseData[0].year_birthday;
+        dataUser.user.another.address_id = responseData[0].address_id;
 
         global.commonData.user.another = dataUser.user.another;
 
