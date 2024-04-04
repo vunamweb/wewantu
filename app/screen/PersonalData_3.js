@@ -153,13 +153,10 @@ class PersonalData_3 extends Component {
 
   setYear = (name) => {
     this.input1.current.blur();
-    this.setState({ year: name, visible: false });
+    this.setState({ year_birthday: name, visible: false });
   };
 
   render() {
-    var year = this.initYear();
-    var numberYear = this.state.year_birthday + "";
-
     var commonData = global.commonData.languages;
 
     try {
@@ -222,10 +219,14 @@ class PersonalData_3 extends Component {
       this.state.year_birthday =
         this.state.year_birthday != ""
           ? this.state.year_birthday
-          : global.commonData.user.another.year_birthday + "";
+          : global.commonData.user.another.year_birthday;
     } catch (error) {
       console.log(error);
     }
+
+    var year = this.initYear();
+
+    var numberYear = this.state.year_birthday + "";
 
     return (
       <Provider>
@@ -298,7 +299,9 @@ class PersonalData_3 extends Component {
                 <View style={[style.view2, style.view2Marginleft]}>
                   <TextInput
                     placeholder={text3}
-                    onChangeText={(value) => this.setState({ house_number: value })}
+                    onChangeText={(value) =>
+                      this.setState({ house_number: value })
+                    }
                     value={this.state.house_number}
                     styleParent={[{}, styles.textInput, style.textInput]}
                     fontSize={styles.fontBoldSmallOfSmall}
@@ -309,7 +312,9 @@ class PersonalData_3 extends Component {
               </View>
               <TextInput
                 placeholder={text4}
-                onChangeText={(value) => this.setState({ address_addition: value })}
+                onChangeText={(value) =>
+                  this.setState({ address_addition: value })
+                }
                 value={this.state.address_addition}
                 component={this}
                 styleParent={[{}, style.textInput, styles.textInput]}
