@@ -156,7 +156,7 @@ class RegisterScreen_3 extends Component {
     return (
       <View style={styles.flexFull}>
         <ScrollView
-          keyboardShouldPersistTaps={"always"}
+          automaticallyAdjustKeyboardInsets={true}
           contentContainerStyle={{ flex: 1 }}
         >
           <Background>
