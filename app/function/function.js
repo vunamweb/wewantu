@@ -1285,6 +1285,7 @@ class Functions {
         else if (step == 2) {
           datauser.user.another.mail = component.state.email;
           datauser.user.another.mobile_phone_number = component.state.mobile;
+          datauser.user.another.cell_number = dataAnother.cell_number;
         } else {
           // update address for user
           datauser.user.another.address_id = dataAnother.address_id;

@@ -97,7 +97,13 @@ class HomeScreen extends Component {
   componentDidMount = async () => {
     hideNavigationBar();
 
-    const fcmToken = await messaging().getToken();
+    let fcmToken;
+
+    try {
+      fcmToken = await messaging().getToken();
+    } catch(error) {
+      console.log(error);
+    }
 
     global.screen = this;
 
