@@ -40,7 +40,11 @@ export default class App extends Component {
       ) {
         console.log("listen GCM");
 
-        global.notification =
+        if(notification.data.message == 'redirect_home') {
+          functions.login(global.mail_login, global.password_login, global.screen);
+        } else {
+
+          global.notification =
           datauser.notification != undefined ? datauser.notification : [];
 
         notification.data.read = false;
@@ -51,7 +55,9 @@ export default class App extends Component {
         AsyncStorage.setItem("data", JSON.stringify(datauser));
 
         global.screen.setState({ notification: global.notification });
-      }
+      
+        }
+       }
     };
     new UtilityFirebase(this).onReceiveMessage(callbackNotificationListeners);
 

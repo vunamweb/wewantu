@@ -11,6 +11,8 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { hideNavigationBar } from "react-native-navigation-bar-color";
 
+import messaging from "@react-native-firebase/messaging";
+
 import Background from "../components/Background";
 import TextHeader from "../components/TextHeader";
 import Text from "../components/Paragraph";
@@ -95,12 +97,33 @@ class HomeScreen extends Component {
   componentDidMount = async () => {
     hideNavigationBar();
 
+    const fcmToken = await messaging().getToken();
+
     global.screen = this;
 
     let datauser = await functions.getDataUser();
 
     try {
       datauser = JSON.parse(datauser);
+
+      let token = datauser.user.firebase_token;
+
+      if (token != fcmToken) {
+        datauser.user.firebase_token = fcmToken;
+
+        await AsyncStorage.setItem("data", JSON.stringify(datauser));
+
+        var obj = {};
+
+        try {
+          obj.firebase_token = fcmToken;
+          obj.user_id = datauser.user.user_id;
+        } catch (error) {
+          console.log(error);
+        }
+
+        functions.updateTokenUser(this, obj);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -130,7 +153,7 @@ class HomeScreen extends Component {
       else {
         global.commonData.user.another = datauser.user.another;
         return true;
-      } 
+      }
     } catch (error) {
       console.log(error);
       return false;

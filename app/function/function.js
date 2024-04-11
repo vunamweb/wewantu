@@ -109,6 +109,8 @@ class Functions {
   saveDataUser = async (responseData, component) => {
     try {
       global.commonData.user = responseData;
+      
+      if(component.switch != undefined)
       global.commonData.switch = component.switch[0];
 
       await AsyncStorage.setItem("data", JSON.stringify(global.commonData));
@@ -1293,6 +1295,36 @@ class Functions {
       } catch (error) {
         console.log(error);
       }
+    };
+
+    network.fetchPUT_HEADER(url, data, token, callback);
+  };
+
+  updateTokenUser = async (component, dataAnother) => {
+    var datauser = await this.getDataUser();
+
+    let token = null,
+      user_id;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlUpdateUser;
+
+    var data;
+
+    try {
+      data = JSON.stringify(dataAnother);
+    } catch (error) {}
+
+    var callback = async (responseData) => {
+      console.log("callback");
     };
 
     network.fetchPUT_HEADER(url, data, token, callback);

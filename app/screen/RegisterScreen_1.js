@@ -38,6 +38,8 @@ class RegisterScreen_1 extends Component {
   };
 
   componentDidMount = async () => {
+    hideNavigationBar();
+
     let userName = await AsyncStorage.getItem("userName");
     let passWord = await AsyncStorage.getItem("passWord");
 
@@ -131,7 +133,7 @@ class RegisterScreen_1 extends Component {
     return (
       <View style={styles.flexFull}>
         <ScrollView
-          keyboardShouldPersistTaps={"always"}
+          automaticallyAdjustKeyboardInsets={true}
           contentContainerStyle={{ flex: 1 }}
         >
           <Background>

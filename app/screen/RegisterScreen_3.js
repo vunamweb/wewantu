@@ -50,6 +50,8 @@ class RegisterScreen_3 extends Component {
 
   componentDidMount = async () => {
     this.requestUserPermission();
+
+    global.screen = this;
   };
 
   requestUserPermission = async () => {
@@ -67,6 +69,20 @@ class RegisterScreen_3 extends Component {
 
   getToken = async () => {
     const fcmToken = await messaging().getToken();
+
+    var datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      datauser.user = {};
+
+      datauser.user.firebase_token = fcmToken;
+
+      await AsyncStorage.setItem("data", JSON.stringify(datauser));
+    } catch (error) {
+      console.log(error);
+    }
     console.log("token: " + fcmToken);
 
     this.setState({ fcmToken: fcmToken });
@@ -127,6 +143,9 @@ class RegisterScreen_3 extends Component {
       object.lastName = lastName;
       object.mobile = data.mobile;
       object.firebase_token = this.state.fcmToken;
+
+      global.mail_login = email;
+      global.password_login = data.password;
 
       functions.register(object, this);
     } catch (error) {
@@ -238,18 +257,6 @@ class RegisterScreen_3 extends Component {
                 { backgroundColor: "#898166", marginTop: 0 },
               ]}
               onPress={() => this.gotoNextStep(this)}
-            />
-            <Button
-              color="white"
-              text={text7}
-              style={[
-                styles.button,
-                styles.Bottome_1,
-                { backgroundColor: "#3f3f3f" },
-              ]}
-              onPress={() =>
-                functions.gotoScreen(this.props.navigation, "LoginScreen")
-              }
             />
           </Background>
         </ScrollView>
