@@ -109,9 +109,9 @@ class Functions {
   saveDataUser = async (responseData, component) => {
     try {
       global.commonData.user = responseData;
-      
-      if(component.switch != undefined)
-      global.commonData.switch = component.switch[0];
+
+      if (component.switch != undefined)
+        global.commonData.switch = component.switch[0];
 
       await AsyncStorage.setItem("data", JSON.stringify(global.commonData));
     } catch (error) {
@@ -1863,6 +1863,20 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getJobProfileEdit = (userJobProfile, jobprofile_id) => {
+    var editUser = null;
+
+    try {
+      userJobProfile.map((item, index) => {
+        if (item.job_search_profile_id == jobprofile_id) editUser = item;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    return editUser;
   };
 
   getListUserJobprofiles = async (component) => {

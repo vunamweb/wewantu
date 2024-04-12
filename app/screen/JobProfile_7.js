@@ -78,6 +78,28 @@ class JobProfile_7 extends Component {
   };
 
   render() {
+    var edit = 0;
+    var editUser = null;
+    var setIndex = -1;
+
+    try {
+      var data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
+      edit = data.edit;
+
+      editUser = functions.getJobProfileEdit(
+        global.jobprofile.state.userJobprofile,
+        edit
+      );
+
+      setIndex = editUser.intres;
+
+      //minimumValue1 = editUser != null ? editUser.gross_year : minimumValue1;
+      //minimumValue2 = editUser != null ? editUser.week_hour : minimumValue2;
+    } catch (error) {
+      console.log(error);
+    }
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />
@@ -92,6 +114,7 @@ class JobProfile_7 extends Component {
               <Image source={icon} />
               <CheckBox
                 data={global.data4}
+                setIndex={setIndex}
                 callBack={this.callBack}
                 style={style.checkbox}
                 styleFont={style.text1}

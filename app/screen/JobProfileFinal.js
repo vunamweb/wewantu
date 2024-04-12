@@ -132,6 +132,8 @@ class JobProfileFinal extends Component {
   };
 
   edit = (position, edit) => {
+    global.typeEdit = 2;
+    
     var data;
 
     try {

@@ -144,6 +144,8 @@ class JobProfile extends Component {
   };
 
   edit = (edit, position) => {
+    global.typeEdit = 1;
+    
     this.setState({ visible: true, edit: edit, positionEdit: position });
   };
 
