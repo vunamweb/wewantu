@@ -333,6 +333,7 @@ class HowLong extends Component {
               <HeadLine style={style.headLine} text={text4} />
               <TextInput
                 onChangeText={(value) => this.setState({ job: value })}
+                hideKeyboard={true}
                 callBack={this.callBack}
                 value={this.state.job}
                 styleParent={[

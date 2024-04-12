@@ -23,11 +23,21 @@ class FinalTrainingUniversity extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      positionNext: false
+    };
   }
 
   componentDidMount = () => {
     hideNavigationBar();
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      (payload) => {
+        // Logic to handle when the screen comes into focus (navigated back)
+        this.setState({ positionNext: !this.state.positionNext });
+      }
+    );
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -35,6 +45,8 @@ class FinalTrainingUniversity extends Component {
   });
 
   callBack = (position) => {
+    global.positionNext = position;
+
     if (position == 0 || position == 1)
       functions.gotoScreen(this.props.navigation, "HowLong");
     else functions.gotoScreen(this.props.navigation, "Driver");
@@ -84,6 +96,9 @@ class FinalTrainingUniversity extends Component {
       console.log(error);
     }
 
+    let nextBack =
+      global.positionNext == 0 || global.positionNext == 1 ? "HowLong" : "Driver";
+
     return (
       <View style={styles.flexFull}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -117,7 +132,7 @@ class FinalTrainingUniversity extends Component {
     </View>*/}
             </View>
             <BackNext
-              nextScreen="TrainingUniversity"
+              nextScreen={nextBack}
               position="absolute"
               callBack={() => true}
               navigation={this.props.navigation}
