@@ -69,6 +69,7 @@ class TextInputHobbies extends Component {
         />
         <Href style={[style.viewAddWord, { display: display }]} onPress={() => this.add(this.state.description)}>
           <Text>{this.state.description}</Text>
+          <Icon style={style.send} name="send" size={24} color="#898166" />
         </Href>
         <View style={[styles.flexRow, style.viewTextList]}>
           {this.state.listWord.map((item, index) => {
@@ -122,7 +123,11 @@ const style = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 10,
     borderWidth: 1,
-  } 
+  },
+
+  send: {
+    position: 'absolute', right: 10, top: 10
+  }
 
 });
 

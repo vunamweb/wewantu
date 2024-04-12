@@ -16,6 +16,8 @@ import IconBottom from "../components/IconBottom";
 import BackNext from "../components/BackNext";
 import Header from "../components/Header";
 
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 import styles from "../../app/style/style";
 
 import "../config/config";
