@@ -68,7 +68,17 @@ class PersonalData_3 extends Component {
 
     var component = this;
 
-    if (zip.length != 5) {
+    if(zip == "" || zip == null || zip == " ") {
+      component.setState({
+        colorBorder1: "red",
+        marginTop: marginTop,
+        errorMessage: text11,
+        display: "flex",
+      });
+
+      return false;
+    }
+    else if (zip.length != 5) {
       component.setState({
         colorBorder1: "red",
         marginTop: marginTop,
