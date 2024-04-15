@@ -13,7 +13,7 @@ const arrowDown = require("../images/arrow.png");
 const pixelRatio = global.pixelRatio;
 
 // SET TOP, RIGHT FOR DRAWER
-const LINE_HEIGHT = 77 * pixelRatio * PixelRatio.getFontScale();
+const LINE_HEIGHT = 77 * pixelRatio;
 
 const windowHeight = Dimensions.get("window").height;
 

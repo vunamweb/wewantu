@@ -12,9 +12,9 @@ const arrowDown = require("../images/arrow.png");
 const pixelRatio = global.pixelRatio;
 
 // SET TOP, RIGHT FOR DRAWER
-const MARGIN_TOP_ROOT = (10 * pixelRatio) * PixelRatio.getFontScale();
-const MARGIN_BOTTOM_ROOT = (20 * pixelRatio) * PixelRatio.getFontScale() ;
-const MARGIN_TOP_TEXT = (-50 * pixelRatio) * PixelRatio.getFontScale() ;
+const MARGIN_TOP_ROOT = (10 * pixelRatio);
+const MARGIN_BOTTOM_ROOT = (20 * pixelRatio);
+const MARGIN_TOP_TEXT = (-50 * pixelRatio);
 
 export default function TextHeader1({ text }) {
 return (

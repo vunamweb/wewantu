@@ -58,7 +58,7 @@ const pixelRatio = global.pixelRatio;
 const number = 100;
 
 const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
-  50 * pixelRatio * PixelRatio.getFontScale();
+  50 * pixelRatio;
 
 
 var indexDeleteJob, jobProfile_Id;

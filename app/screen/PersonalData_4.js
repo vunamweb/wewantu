@@ -43,7 +43,7 @@ const imgDelete = require("../images/icon_delete.png");
 const pixelRatio = global.pixelRatio;
 
 const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
-  50 * pixelRatio * PixelRatio.getFontScale();
+  50 * pixelRatio;
 
 var preLanguage = null;
 

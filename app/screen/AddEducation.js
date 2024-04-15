@@ -47,7 +47,7 @@ const pixelRatio = global.pixelRatio;
 var text5;
 
 const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
-  50 * pixelRatio * PixelRatio.getFontScale();
+  50 * pixelRatio;
 
 const number = 100;
 

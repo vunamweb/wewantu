@@ -23,7 +23,7 @@ import styles from "../../app/style/style";
 import "../config/config";
 
 const pixelRatio = global.pixelRatio;
-const HEIGHT_TEXTINPUT = 200 * pixelRatio * PixelRatio.getFontScale();
+const HEIGHT_TEXTINPUT = 200 * pixelRatio;
 
 class Hobiess extends Component {
   constructor(props) {

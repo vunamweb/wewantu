@@ -27,7 +27,7 @@ const newJob = require("../images/notification.png");
 
 const pixelRatio = global.pixelRatio;
 
-const TOP = 15 * pixelRatio * PixelRatio.getFontScale();
+const TOP = 15 * pixelRatio;
 
 const windowWidth = Dimensions.get("window").width;
 

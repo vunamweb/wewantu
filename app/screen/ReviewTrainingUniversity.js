@@ -36,8 +36,8 @@ const iconPlus = require("../images/plus.png");
 const pixelRatio = global.pixelRatio;
 
 const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
-  50 * pixelRatio * PixelRatio.getFontScale();
-const MARGIN_TOP_PLUSBUTTON = -30 * pixelRatio * PixelRatio.getFontScale();
+  50 * pixelRatio;
+const MARGIN_TOP_PLUSBUTTON = -30 * pixelRatio;
 
 var preLanguage = null;
 var deleteItem = null,

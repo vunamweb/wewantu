@@ -27,7 +27,7 @@ const LEFT_SEARCH = windowWidth / 2;
 const pixelRatio = global.pixelRatio;
 
 const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
-  50 * pixelRatio * PixelRatio.getFontScale();
+  50 * pixelRatio;
 
 const minimumValue1 = 1;
 const minimumValue2 = 10;

@@ -36,7 +36,7 @@ import functions from "../function/function";
 import "../config/config";
 
 const pixelRatio = global.pixelRatio;
-const HEIGHT_TEXTINPUT = 200 * pixelRatio * PixelRatio.getFontScale();
+const HEIGHT_TEXTINPUT = 200 * pixelRatio;
 
 const rectangle = require("../images/rectangle.png");
 const camera = require("../images/camera.png");

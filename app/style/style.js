@@ -6,46 +6,46 @@ const pixelRatio = global.pixelRatio;
 //const windowHeight = Dimensions.get("window").height;
 
 // SET FONT SIZE
-const FONT_BOLD_SPECIAL = (77 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_SPECIAL_OF_SPECIAL =  (55 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_LARGE = (45 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_LARGE_MEDIUM = (18 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_LARGE_NORMAL = (24 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_NORMAL = (16 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_SMALL = (14 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_BOLD_SMALL_SMALL = (12 * pixelRatio) * PixelRatio.getFontScale();
+const FONT_BOLD_SPECIAL = (77 * pixelRatio);
+const FONT_BOLD_SPECIAL_OF_SPECIAL =  (55 * pixelRatio);
+const FONT_BOLD_LARGE = (45 * pixelRatio);
+const FONT_BOLD_LARGE_MEDIUM = (18 * pixelRatio);
+const FONT_BOLD_LARGE_NORMAL = (24 * pixelRatio);
+const FONT_BOLD_NORMAL = (16 * pixelRatio);
+const FONT_BOLD_SMALL = (14 * pixelRatio);
+const FONT_BOLD_SMALL_SMALL = (12 * pixelRatio);
 
-const FONT_NORMAL = (16 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_NORMAL_SMALL = (14 * pixelRatio) * PixelRatio.getFontScale();
+const FONT_NORMAL = (16 * pixelRatio);
+const FONT_NORMAL_SMALL = (14 * pixelRatio);
 
-const FONT_SEMIAL_BOLD_NORMAL = (12 * pixelRatio) * PixelRatio.getFontScale();
-const FONT_SEMIAL_BOLD_SMALL = (10 * pixelRatio) * PixelRatio.getFontScale();
+const FONT_SEMIAL_BOLD_NORMAL = (12 * pixelRatio);
+const FONT_SEMIAL_BOLD_SMALL = (10 * pixelRatio);
 
-const FONT_GENRAL = (14 * pixelRatio) * PixelRatio.getFontScale();
+const FONT_GENRAL = (14 * pixelRatio);
 
-const FONT_HEADLINE = (16 * pixelRatio) * PixelRatio.getFontScale();
+const FONT_HEADLINE = (16 * pixelRatio);
 
 // SET MARGIN FOR TEXT_HEADER_2
-const MARGIN_TOP_TEXT_HEADER_2 = (-15 * pixelRatio) * PixelRatio.getFontScale();
-const MARGIN_BOTTOM_TEXT_HEADER_2 = (10 * pixelRatio) * PixelRatio.getFontScale();
+const MARGIN_TOP_TEXT_HEADER_2 = (-15 * pixelRatio);
+const MARGIN_BOTTOM_TEXT_HEADER_2 = (10 * pixelRatio);
 
 // SET MARGIN FOR TEXT_HEADER_3
-const MARGIN_TOP_TEXT_HEADER_3 = (-25 * pixelRatio) * PixelRatio.getFontScale();
+const MARGIN_TOP_TEXT_HEADER_3 = (-25 * pixelRatio);
 const MARGIN_BOTTOM_TEXT_HEADER_3 = MARGIN_BOTTOM_TEXT_HEADER_2;
 
 // SET TOP, RIGHT FOR DRAWER
-const TOP_DRAWER = (-20 * pixelRatio) * PixelRatio.getFontScale();
-const RIGHT_DRAWER = (-20 * pixelRatio) * PixelRatio.getFontScale();
+const TOP_DRAWER = (-20 * pixelRatio);
+const RIGHT_DRAWER = (-20 * pixelRatio);
 
 // SET TOP, RIGHT FOR MENU
-const TOP_MENU = (80 * pixelRatio) * PixelRatio.getFontScale();
-const RIGHT_MENU = (30 * pixelRatio) * PixelRatio.getFontScale();
-const TOP_CLOSE_MENU = (50 * pixelRatio) * PixelRatio.getFontScale();
-const RIGHT_CLOSE_MENU = (50 * pixelRatio) * PixelRatio.getFontScale();
+const TOP_MENU = (80 * pixelRatio);
+const RIGHT_MENU = (30 * pixelRatio);
+const TOP_CLOSE_MENU = (50 * pixelRatio);
+const RIGHT_CLOSE_MENU = (50 * pixelRatio);
 
 // SET TOP FOR LOGO
-const TOP_LOGO_0 = (50 * pixelRatio) * PixelRatio.getFontScale();
-const TOP_LOGO_1 = (50 * pixelRatio) * PixelRatio.getFontScale();
+const TOP_LOGO_0 = (50 * pixelRatio);
+const TOP_LOGO_1 = (50 * pixelRatio);
 
 module.exports = StyleSheet.create({
   /* GENERAL COLOR AND PADDING */

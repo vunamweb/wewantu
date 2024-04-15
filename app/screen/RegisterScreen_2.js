@@ -27,9 +27,9 @@ const pixelRatio = global.pixelRatio;
 
 var pin, data;
 
-const MARGIN_BOTTOM_TEXT_TOP = 100 * pixelRatio * PixelRatio.getFontScale();
-const MARGIN_TOP_TEXT_BOTTOM = 60 * pixelRatio * PixelRatio.getFontScale();
-const MARGIN_TOP_BUTTON_BOTTOM = 40 * pixelRatio * PixelRatio.getFontScale();
+const MARGIN_BOTTOM_TEXT_TOP = 100 * pixelRatio;
+const MARGIN_TOP_TEXT_BOTTOM = 60 * pixelRatio;
+const MARGIN_TOP_BUTTON_BOTTOM = 40 * pixelRatio;
 
 class RegisterScreen_2 extends Component {
   constructor(props) {
