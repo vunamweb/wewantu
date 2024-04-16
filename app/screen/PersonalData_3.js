@@ -282,7 +282,7 @@ class PersonalData_3 extends Component {
         </Portal>
         <View style={styles.flexFull}>
           <Header component={this} Notification={false} />
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
               <TextHeader text1={text9} text2={text10} />
               <HeadLine text={text1} />
@@ -363,6 +363,7 @@ class PersonalData_3 extends Component {
                 </View>
               </View>
               <TextInput
+                 hideKeyboard={true}
                 ref_={this.input1}
                 placeholder={text8}
                 //onChangeText={(value) => this.setState({ year: value })}

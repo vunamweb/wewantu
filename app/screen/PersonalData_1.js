@@ -222,7 +222,7 @@ class PersonalData_1 extends Component {
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={{ flexGrow: 1 }}>
           <Background>
             <TextHeader text1={text1} text2={text2} />
             <Image style={style.img} source={imgProfile} />

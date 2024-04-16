@@ -310,6 +310,7 @@ class PersonalData_2 extends Component {
               <Text style={styles.error}>{this.state.errorMessage}</Text>
               <View style={[styles.flexRow, style.viewRoot]}>
                 <TextInput
+                hideKeyboard={true}
                   callBack={() => this.setState({ visible: true })}
                   value={this.state.cellNumber}
                   styleParent={[
