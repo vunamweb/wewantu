@@ -8,7 +8,7 @@ const pixelRatio = global.pixelRatio;
 // SET FONT SIZE
 const FONT_BOLD_SPECIAL = (77 * pixelRatio);
 const FONT_BOLD_SPECIAL_OF_SPECIAL =  (55 * pixelRatio);
-const FONT_BOLD_LARGE = (45 * pixelRatio);
+const FONT_BOLD_LARGE = (30 * pixelRatio);
 const FONT_BOLD_LARGE_MEDIUM = (18 * pixelRatio);
 const FONT_BOLD_LARGE_NORMAL = (24 * pixelRatio);
 const FONT_BOLD_NORMAL = (16 * pixelRatio);
@@ -26,11 +26,11 @@ const FONT_GENRAL = (14 * pixelRatio);
 const FONT_HEADLINE = (16 * pixelRatio);
 
 // SET MARGIN FOR TEXT_HEADER_2
-const MARGIN_TOP_TEXT_HEADER_2 = (-15 * pixelRatio);
+const MARGIN_TOP_TEXT_HEADER_2 = (-8 * pixelRatio);
 const MARGIN_BOTTOM_TEXT_HEADER_2 = (10 * pixelRatio);
 
 // SET MARGIN FOR TEXT_HEADER_3
-const MARGIN_TOP_TEXT_HEADER_3 = (-25 * pixelRatio);
+const MARGIN_TOP_TEXT_HEADER_3 = (-8 * pixelRatio);
 const MARGIN_BOTTOM_TEXT_HEADER_3 = MARGIN_BOTTOM_TEXT_HEADER_2;
 
 // SET TOP, RIGHT FOR DRAWER
@@ -439,20 +439,24 @@ module.exports = StyleSheet.create({
   textHeader_1: {
     color: "#fff",
     textTransform: "uppercase",
+    //marginBottom: 5
   },
 
   textHeader_2: {
     color: "#898166",
-    marginBottom: MARGIN_BOTTOM_TEXT_HEADER_2,
-    marginTop: MARGIN_TOP_TEXT_HEADER_2,
+    //marginBottom: MARGIN_BOTTOM_TEXT_HEADER_2,
+    //marginTop: MARGIN_TOP_TEXT_HEADER_2,
     textTransform: "uppercase",
+    textAlign: 'center',
+    lineHeight: 30
   },
 
   textHeader_3: {
     color: "#898166",
-    marginBottom: MARGIN_BOTTOM_TEXT_HEADER_3,
-    marginTop: MARGIN_TOP_TEXT_HEADER_3,
+    //marginBottom: MARGIN_BOTTOM_TEXT_HEADER_3,
+    //marginTop: MARGIN_TOP_TEXT_HEADER_3,
     textTransform: "uppercase",
+    lineHeight: 30
   },
   textHeadLine: {
     color: "#fff",

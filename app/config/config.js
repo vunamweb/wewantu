@@ -1,4 +1,20 @@
-global.pixelRatio = 1;
+import { Dimensions } from "react-native";
+
+var widthSmall = 256; // small device as iphone 5s
+var widthNormal = 390; // normal device as iphone 12, 14
+var widthLarge = 530; // large device as tablet, ipad
+
+const windowWidth = Dimensions.get("window").width;
+
+if (windowWidth <= widthSmall)
+  // if is small device
+  global.pixelRatio = 0.8;
+else if (windowWidth >= widthNormal && windowWidth <= widthLarge)
+  // if is normal device
+  global.pixelRatio = 1;
+// if is large device
+else global.pixelRatio = 1;
+
 global.trainning = "trainning";
 
 // API
