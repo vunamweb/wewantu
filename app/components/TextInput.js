@@ -106,6 +106,7 @@ export default function MyTextInput({
         onFocus={() => handleFocus()}
         onBlur={() => handleBlur()}
         onPress={() => handlePress()}
+        allowFontScaling={false}
         style={[
           bgColor,
           styles.textInput,
