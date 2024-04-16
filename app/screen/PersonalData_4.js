@@ -343,10 +343,10 @@ class PersonalData_4 extends Component {
             </ScrollView>
           </Modal>
           <Modal visible={this.state.visible1}>
-            <View style={style.modalDeleteRoot}>
+            <View style={styles.modal1}>
               <Text style={style.textHeaderModal}>{text3}</Text>
               <View style={style.modalDelete}>
-                <Href onPress={() => this.delete()} style={style.buttonModal}>
+                <Href onPress={() => this.delete()} style={styles.confirmYesNo}>
                   <Text style={styles.textCapitalize}>{text4}</Text>
                 </Href>
                 <Href
@@ -355,7 +355,7 @@ class PersonalData_4 extends Component {
                       visible1: false,
                     })
                   }
-                  style={style.buttonModal}
+                  style={styles.confirmYesNo}
                 >
                   <Text style={styles.textCapitalize}>{text5}</Text>
                 </Href>

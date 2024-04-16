@@ -226,10 +226,10 @@ class ReviewTrainingUniversity extends Component {
       <Provider>
         <Portal>
           <Modal visible={this.state.visible1}>
-            <View style={style.modalDeleteRoot}>
+            <View style={styles.modal1}>
               <Text style={style.textHeaderModal}>{text5}</Text>
               <View style={style.modalDelete}>
-                <Href onPress={() => this.delete()} style={style.buttonModal}>
+                <Href onPress={() => this.delete()} style={styles.confirmYesNo}>
                   <Text style={styles.textCapitalize}>{text6}</Text>
                 </Href>
                 <Href
@@ -238,7 +238,7 @@ class ReviewTrainingUniversity extends Component {
                       visible1: false,
                     })
                   }
-                  style={style.buttonModal}
+                  style={styles.confirmYesNo}
                 >
                   <Text style={styles.textCapitalize}>{text7}</Text>
                 </Href>
