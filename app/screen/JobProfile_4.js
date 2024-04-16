@@ -15,11 +15,13 @@ import IconBottom from "../components/IconBottom";
 import BackNext from "../components/BackNext";
 import CheckBox from "../components/Checkbox";
 import Header from "../components/Header";
+import Text from "../components/Paragraph";
 
 import styles from "../../app/style/style";
 import functions from "../function/function";
 
 const data = global.data1;
+var text5;
 
 class JobProfile_4 extends Component {
   constructor(props) {
@@ -28,7 +30,10 @@ class JobProfile_4 extends Component {
     this.data = null;
     this.ref_ = null;
 
-    this.state = {};
+    this.state = {
+      errorMessage: "",
+      marginTop: 0,
+    };
   }
 
   componentDidMount = () => {
@@ -50,6 +55,22 @@ class JobProfile_4 extends Component {
     this.data = JSON.stringify(this.data);
 
     this.ref_(this.data);
+
+    this.check = false;
+  };
+
+  gotoNextStep = () => {
+    var component = this;
+
+    if (!this.check) {
+      component.setState({
+        marginTop: 20,
+        errorMessage: text5,
+      });
+      return false;
+    }
+
+    return true;
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -57,6 +78,8 @@ class JobProfile_4 extends Component {
   });
 
   callBack = (position) => {
+    this.check = true;
+
     this.data = JSON.parse(this.data);
 
     var index = functions.getIndex(this.data);
@@ -83,6 +106,7 @@ class JobProfile_4 extends Component {
       var text2 = commonData.my;
       var text3 = commonData.status;
       var text4 = commonData.WORKING_ON_THE_WEEKEND;
+      text5 = commonData.please_select_item;
     } catch (error) {
       console.log(error);
     }
@@ -119,6 +143,9 @@ class JobProfile_4 extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Background>
             <TextHeader text1={text1} text2={text2} text3={text3} />
+            <Text style={[styles.error, { marginTop: this.state.marginTop }]}>
+              {this.state.errorMessage}
+            </Text>
             <HeadLine style={style.headLine} text={text4} />
             <View style={[styles.fullWith, style.root]}>
               <CheckBox
@@ -144,9 +171,9 @@ class JobProfile_4 extends Component {
     </View>*/}
             </View>
             <BackNext
+            callBack={this.gotoNextStep}
               nextScreen="JobProfile_5"
               position="absolute"
-              callBack={() => true}
               data={[]}
               ref_={this}
               navigation={this.props.navigation}

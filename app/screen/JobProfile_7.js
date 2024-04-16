@@ -16,12 +16,15 @@ import BackNext from "../components/BackNext";
 import CheckBox from "../components/Checkbox";
 import Image from "../components/Image";
 import Header from "../components/Header";
+import Text from "../components/Paragraph";
 
 import styles from "../../app/style/style";
 import functions from "../function/function";
 
 const data = global.data1;
 const icon = require("../images/thang.png");
+
+var text5;
 
 class JobProfile_7 extends Component {
   constructor(props) {
@@ -30,7 +33,10 @@ class JobProfile_7 extends Component {
     this.data = null;
     this.ref_ = null;
 
-    this.state = {};
+    this.state = {
+      errorMessage: "",
+      marginTop: 0,
+    };
   }
 
   componentDidMount = () => {
@@ -52,6 +58,8 @@ class JobProfile_7 extends Component {
     this.data = JSON.stringify(this.data);
 
     this.ref_(this.data);
+
+    this.check = false;
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -59,6 +67,8 @@ class JobProfile_7 extends Component {
   });
 
   callBack = (position) => {
+    this.check = true;
+
     this.data = JSON.parse(this.data);
 
     var index = functions.getIndex(this.data);
@@ -77,12 +87,30 @@ class JobProfile_7 extends Component {
     );
   };
 
+  gotoNextStep = () => {
+    var component = this;
+
+    if (!this.check) {
+      component.setState({
+        marginTop: 20,
+        errorMessage: text5,
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   render() {
+    var commonData = global.commonData.languages;
+
     var edit = 0;
     var editUser = null;
     var setIndex = -1;
 
     try {
+      text5 = commonData.please_select_item;
+
       var data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
 
@@ -106,6 +134,9 @@ class JobProfile_7 extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Background>
             <TextHeader text1="my" text2="job" text3="goals" />
+            <Text style={[styles.error, { marginTop: this.state.marginTop }]}>
+              {this.state.errorMessage}
+            </Text>
             <HeadLine
               style={style.headLine}
               text="MEINE BERUFLICHEN AMBITIONEN"
@@ -142,7 +173,7 @@ class JobProfile_7 extends Component {
               position="absolute"
               data={[]}
               ref_={this}
-              callBack={() => true}
+              callBack={this.gotoNextStep}
               navigation={this.props.navigation}
               nextEnable={true}
             />
