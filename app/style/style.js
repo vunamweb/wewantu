@@ -587,5 +587,37 @@ module.exports = StyleSheet.create({
     alignItems: "flex-end",
   },
 
+  modal1: {
+    width: "100%",
+    //marginLeft: "5%",
+    //marginRight: "5%",
+    //paddingLeft: 30,
+    //paddingRight: 30,
+    //paddingTop: 50,
+    height: "100%",
+    backgroundColor: "#363636",
+    opacity: 0.8,
+    //backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+    //zIndex: -1
+  },
+
+  parentConfirm: {
+    marginTop: 30,
+  },
+
+  confirmYesNo: {
+    borderColor: "#898166",
+    borderWidth: 2,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 50,
+    paddingRight: 50,
+    marginRight: 20,
+    backgroundColor: "#363636",
+    //zIndex: 9999999
+  },
+
   /* END OTHER */
 });

@@ -509,13 +509,13 @@ class NewJob extends Component {
             </View>
           </Modal>
           <Modal visible={this.state.visible1}>
-            <View style={style.modal1}>
+            <View style={styles.modal1}>
               <Text style={[styles.fontBoldLargeNormal]}>{text2}</Text>
               <Text style={[styles.fontBoldLargeNormal]}>{text3}</Text>
-              <View style={[styles.flexRow, style.parentConfirm]}>
+              <View style={[styles.flexRow, styles.parentConfirm]}>
                 <Href
                   onPress={() => this.gotoConfirm(this.state.position)}
-                  style={style.confirmYesNo}
+                  style={styles.confirmYesNo}
                 >
                   <Text style={[styles.textCapitalize, styles.fontBoldSmall]}>
                     {text4}
@@ -523,7 +523,7 @@ class NewJob extends Component {
                 </Href>
                 <Href
                   onPress={() => this.setState({ visible1: false })}
-                  style={style.confirmYesNo}
+                  style={styles.confirmYesNo}
                 >
                   <Text style={[styles.textCapitalize, styles.fontBoldSmall]}>
                     {text5}
@@ -575,22 +575,6 @@ class NewJob extends Component {
 }
 
 const style = StyleSheet.create({
-  parentConfirm: {
-    marginTop: 30,
-  },
-
-  confirmYesNo: {
-    borderColor: "#898166",
-    borderWidth: 2,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 50,
-    paddingRight: 50,
-    marginRight: 20,
-    backgroundColor: "#363636",
-    //zIndex: 9999999
-  },
-
   cobration: {
     //backgroundColor: 'green',
     marginTop: 40,
@@ -723,22 +707,6 @@ const style = StyleSheet.create({
     marginLeft: "10%",
     marginRight: "10%",*/
     marginLeft: -20
-  },
-
-  modal1: {
-    width: "100%",
-    //marginLeft: "5%",
-    //marginRight: "5%",
-    //paddingLeft: 30,
-    //paddingRight: 30,
-    //paddingTop: 50,
-    height: "100%",
-    backgroundColor: "#363636",
-    opacity: 0.8,
-    //backgroundColor: "red",
-    alignItems: "center",
-    justifyContent: "center",
-    //zIndex: -1
   },
 
   descriptionTitleJob: {
