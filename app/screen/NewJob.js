@@ -593,6 +593,7 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
     padding: 20,
+    paddingTop: 0
   },
 
   styleSpecialIcon: {
@@ -638,7 +639,7 @@ const style = StyleSheet.create({
   },
 
   parentTabview: {
-    marginTop: 20,
+    marginTop: 0,
     flex: 1,
     width: "100%",
     height: "100%",
