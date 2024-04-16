@@ -17,7 +17,7 @@ import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import Text from "../components/Paragraph";
 import Background from "../components/Background";
 import TextInput from "../components/TextInput";
-import TextHeader from "../components/TextHeader1";
+import TextHeader from "../components/TextHeader";
 import HeadLine from "../components/HeadLine";
 import IconBottom from "../components/IconBottom";
 import BackNext from "../components/BackNext";
@@ -367,7 +367,7 @@ class PersonalData_4 extends Component {
           <Header component={this} Notification={false} />
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Background>
-              <TextHeader text={text1} />
+              <TextHeader text1={text1} />
               <ActivityIndicator
                 size="small"
                 animating={this.state.ActivityIndicator}
