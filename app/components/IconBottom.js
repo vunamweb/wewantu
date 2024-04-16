@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import Text from './Paragraph';
+import Text from "./Paragraph";
 
 import {
   SvgUri,
@@ -128,7 +128,7 @@ const svgCode5 = `
 class IconBottom extends Component {
   render() {
     global.notification =
-    global.notification != undefined ? global.notification : [];
+      global.notification != undefined ? global.notification : [];
 
     var commonData = global.commonData.languages;
 
@@ -162,7 +162,10 @@ class IconBottom extends Component {
         title: text4,
         src: svgCode4,
         link: "Message",
-        text: functions.getCountNotification() > 0 ? functions.getCountNotification() : null,
+        text:
+          functions.getCountNotification() > 0
+            ? functions.getCountNotification()
+            : null,
       },
       {
         title: text5,
@@ -171,25 +174,53 @@ class IconBottom extends Component {
       },
     ];
 
-    const renderItem = ({ item, index }) => (
-      <TouchableOpacity
-        style={styles.touchableOpacityBottom}
-        onPress={() =>
-          functions.gotoScreen(this.props.component.props.navigation, item.link)
-        }
-      >
-        {item.text != undefined ? (
-          <View style={style.textNumber}>
-            <Text style={style.text1}>{item.text}</Text>
-          </View>
-        ) : null}
-        <SvgWithCss xml={item.src} width="25" height="25" />
-        {/*<Image style={[styles.img]} source={item.src} />*/}
-        <Text style={[style.TextNavigation, styles.fontSemilBoldSmall]}>
-          {item.title}
-        </Text>
-      </TouchableOpacity>
-    );
+    const renderItem = ({ item, index }) => {
+      var bg;
+
+      switch (index) {
+        case 1:
+          bg = "red";
+          break;
+
+        case 2:
+          bg = "blue";
+          break;
+
+        case 3:
+          bg = "blue";
+          break;
+
+        case 4:
+          bg = "green";
+          break;
+
+        default:
+          bg = "black";
+          break;
+      }
+      return (
+        <TouchableOpacity
+          style={[styles.touchableOpacityBottom, { backgroundColor: null }]}
+          onPress={() =>
+            functions.gotoScreen(
+              this.props.component.props.navigation,
+              item.link
+            )
+          }
+        >
+          {item.text != undefined ? (
+            <View style={style.textNumber}>
+              <Text style={style.text1}>{item.text}</Text>
+            </View>
+          ) : null}
+          <SvgWithCss xml={item.src} width="25" height="25" />
+          {/*<Image style={[styles.img]} source={item.src} />*/}
+          <Text style={[style.TextNavigation, styles.fontSemilBoldSmall]}>
+            {item.title}
+          </Text>
+        </TouchableOpacity>
+      );
+    };
 
     return (
       <View style={styles.iconBottom}>
@@ -233,7 +264,7 @@ const style = StyleSheet.create({
 
   text1: {
     color: "white",
-    fontSize: 13
+    fontSize: 13,
   },
 });
 

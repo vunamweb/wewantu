@@ -528,7 +528,11 @@ module.exports = StyleSheet.create({
 
   touchableOpacityBottom: {
     alignItems: "center",
-    padding: 10,
+    alignSelf: 'center',
+    justifyContent: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
+    width: 100
   },
 
   collapse: {
