@@ -24,33 +24,6 @@ const imgClose = require("../images/close.png");
 var component;
 var text6, text7;
 
-const cellNumbers = [
-  {
-    title: "+49 Deutschland",
-  },
-  {
-    title: "+43 Österreich",
-  },
-  {
-    title: "+41 Schweiz",
-  },
-  {
-    title: "+48 Polen",
-  },
-  {
-    title: "+39 Italien",
-  },
-  {
-    title: "+351 Portugal",
-  },
-  {
-    title: "+40 Rumänien",
-  },
-  {
-    title: "+381 Serbien",
-  },
-];
-
 class PersonalData_2 extends Component {
   constructor(props) {
     super(props);
@@ -202,6 +175,42 @@ class PersonalData_2 extends Component {
       text6 = commonData.please_enter_mobile;
       text7 = commonData.please_enter_email;
       var text8 = commonData.cell_number;
+
+      var text8 = commonData.germany;
+      var text9 = commonData.austria;
+      var text10 = commonData.Schweiz;
+      var text11 = commonData.Polen;
+      var text12 = commonData.Italien;
+      var text13 = commonData.Portugal;
+      var text14 = commonData.romania;
+      var text15 = commonData.serbia;
+
+      var cellNumbers = [
+        {
+          title: "+49 " + text8 + "",
+        },
+        {
+          title: "+43 " + text9 + "",
+        },
+        {
+          title: "+41 " + text10 + "",
+        },
+        {
+          title: "+48 " + text11 + "",
+        },
+        {
+          title: "+39 " + text12 + "",
+        },
+        {
+          title: "+351 " + text13 + "",
+        },
+        {
+          title: "+40 " + text14 + "",
+        },
+        {
+          title: "+381 " + text15 + "",
+        },
+      ];
     } catch (error) {
       console.log(error);
     }
@@ -237,7 +246,8 @@ class PersonalData_2 extends Component {
         cellNumber = cellNumbers[0].title;
     }
 
-    this.state.cellNumber = (this.state.cellNumber != null) ? this.state.cellNumber : cellNumber;
+    this.state.cellNumber =
+      this.state.cellNumber != null ? this.state.cellNumber : cellNumber;
 
     try {
       param = JSON.parse(this.props.navigation.state.params.data);
@@ -265,9 +275,9 @@ class PersonalData_2 extends Component {
           <Modal visible={this.state.visible}>
             <ScrollView>
               <View style={style.modal}>
-                <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
+                {/*<Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
                   {text8}
-                </Text>
+    </Text>*/}
                 <View style={style.close}>
                   <Href
                     onPress={() =>
@@ -281,7 +291,7 @@ class PersonalData_2 extends Component {
                 </View>
                 {cellNumbers.map(({ title }, index) => {
                   return (
-                    <View style={styles.fullWith}>
+                    <View style={[styles.fullWith, { marginTop: 10 }]}>
                       <View style={style.line} />
                       <Href onPress={() => this.setCell(title)}>
                         <View
@@ -310,7 +320,7 @@ class PersonalData_2 extends Component {
               <Text style={styles.error}>{this.state.errorMessage}</Text>
               <View style={[styles.flexRow, style.viewRoot]}>
                 <TextInput
-                hideKeyboard={true}
+                  hideKeyboard={true}
                   callBack={() => this.setState({ visible: true })}
                   value={this.state.cellNumber}
                   styleParent={[
@@ -426,8 +436,8 @@ const style = StyleSheet.create({
 
   close: {
     position: "absolute",
-    right: 20,
-    top: 10,
+    right: 10,
+    top: 5,
   },
 });
 
