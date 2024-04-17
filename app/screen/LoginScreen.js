@@ -35,6 +35,7 @@ class LoginScreen extends Component {
   state = {
     userName: "",
     passWord: "",
+    visible: false,
     colorBorderUserName: borderColor,
     colorBorderPassWord: borderColor,
     errorMessage: "",
@@ -46,6 +47,8 @@ class LoginScreen extends Component {
 
   componentDidMount = () => {
     functions.getText(this);
+
+    this.automaticLogin();
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -54,6 +57,25 @@ class LoginScreen extends Component {
 
   onClickEye = () => {
     this.setState({ secureTextEntry: !this.state.secureTextEntry });
+  };
+
+  automaticLogin = () => {
+    try {
+      if (global.commonData.switch) {
+        let userName = global.commonData.loginUser;
+        let passWord = global.commonData.loginPassword;
+
+        this.setState({
+          userName: userName,
+          passWord: passWord,
+          visible: true,
+        });
+
+        functions.login(userName, passWord, this);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
@@ -73,7 +95,10 @@ class LoginScreen extends Component {
     }
     return (
       <View style={styles.flexFull}>
-        <ScrollView keyboardShouldPersistTaps={'always'} contentContainerStyle={{ flex: 1 }}>
+        <ScrollView
+          keyboardShouldPersistTaps={"always"}
+          contentContainerStyle={{ flex: 1 }}
+        >
           <Background center="true">
             <Logo navigation={this.props.navigation} type={0} />
             <Image source={require("../images/profile.png")} />
@@ -143,6 +168,7 @@ class LoginScreen extends Component {
                 size={35}
                 component={this}
                 index={0}
+                visible={this.state.visible}
               />
             </View>
             <View style={[styles.row]}>

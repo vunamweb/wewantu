@@ -106,12 +106,20 @@ class Functions {
     return await AsyncStorage.setItem(str, value);
   };
 
-  saveDataUser = async (responseData, component) => {
+  saveDataUser = async (
+    responseData,
+    component,
+    userName = null,
+    passWord = null
+  ) => {
     try {
       global.commonData.user = responseData;
 
-      if (component.switch != undefined)
+      if (component.switch != undefined) {
         global.commonData.switch = component.switch[0];
+        global.commonData.loginUser = userName;
+        global.commonData.loginPassword = passWord;
+      }
 
       await AsyncStorage.setItem("data", JSON.stringify(global.commonData));
     } catch (error) {
@@ -296,7 +304,7 @@ class Functions {
             component.setState({ ActivityIndicator: false });
         }
       } else {
-        functions.saveDataUser(responseData, component);
+        functions.saveDataUser(responseData, component, userName, passWord);
 
         component.setState({ ActivityIndicator: false });
         functions.gotoScreen(component.props.navigation, "HomeScreen");
