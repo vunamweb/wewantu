@@ -1294,6 +1294,16 @@ class Functions {
           datauser.user.another.mail = component.state.email;
           datauser.user.another.mobile_phone_number = component.state.mobile;
           datauser.user.another.cell_number = dataAnother.cell_number;
+        } else if (step == 4) {
+          datauser.user.another.moment = dataAnother.moment_id;
+        } else if (step == 5) {
+          datauser.user.another.job_id_1 = dataAnother.job_id;
+          datauser.user.another.work_experience_id =
+            dataAnother.work_experience_id;
+        } else if (step == 6) {
+          datauser.user.another.drive_license = dataAnother.drive_license;
+          datauser.user.another.passenger_transport =
+            dataAnother.passenger_transport;
         } else {
           // update address for user
           datauser.user.another.address_id = dataAnother.address_id;
@@ -1596,6 +1606,72 @@ class Functions {
       });
 
       component.setState({ data1: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListMoment = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlMoment;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.label = item.text;
+        obj.id = item.moment_id;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ moment: data, ActivityIndicator: false });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
+  getListWorkExpericence = async (component) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) {}
+
+    let url = global.urlRootWewantu + global.urlWorkExpericence;
+
+    var callback = async (responseData) => {
+      var data = [];
+
+      responseData.map((item, index) => {
+        obj = {};
+
+        obj.label = item.value;
+        obj.id = item.work_experience_id;
+        obj.require = false;
+
+        data.push(obj);
+      });
+
+      component.setState({ workExperience: data, ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });

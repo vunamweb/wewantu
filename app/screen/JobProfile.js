@@ -362,6 +362,7 @@ class JobProfile extends Component {
       var text1 = commonData.job;
       var text2 = commonData.profile;
       var text3 = commonData.what_i_want_to_do;
+      var text4 = commonData.profession;
 
       global.data1 = this.state.data1;
       global.data2 = this.state.data2;
@@ -379,7 +380,7 @@ class JobProfile extends Component {
           <Modal visible={visible}>
             <View style={style.modalHeader}>
               <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                Beruf
+                {text4}
               </Text>
               <TextInput
                 onChangeText={(value) => this.setState({ search: value })}

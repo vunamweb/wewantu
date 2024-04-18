@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -23,163 +28,10 @@ import Image from "../components/Image";
 import styles from "../../app/style/style";
 import functions from "../function/function";
 
-const jobs = [
-  {
-    id: 1,
-    name: "Dachdecker",
-  },
-  {
-    id: 2,
-    name: "Bäckereifachverkäufer",
-  },
-  {
-    id: 3,
-    name: "Bekleidungsnäherin",
-  },
-  {
-    id: 4,
-    name: "Justizvollzugsbeamte",
-  },
-  {
-    id: 5,
-    name: "Einzelhandelskaufmann",
-  },
-  {
-    id: 6,
-    name: "Berufskraftfahrer",
-  },
-  {
-    id: 7,
-    name: "Mediengestalter",
-  },
-  {
-    id: 8,
-    name: "Drucker",
-  },
-  {
-    id: 9,
-    name: "Tanzlehrer",
-  },
-  {
-    id: 10,
-    name: "Kabelsortierer",
-  },
-  {
-    id: 11,
-    name: "Koch",
-  },
-  {
-    id: 12,
-    name: "Küchenhilfe",
-  },
-  {
-    id: 13,
-    name: "Dachdecker",
-  },
-  {
-    id: 14,
-    name: "Küchenhilfe",
-  },
-  {
-    id: 15,
-    name: "Kabelsortierer",
-  },
-  {
-    id: 12,
-    name: "Dachdecker",
-  },
-  {
-    id: 16,
-    name: "Kroatisch",
-  },
-  {
-    id: 17,
-    name: "Norwegisch",
-  },
-  {
-    id: 18,
-    name: "Rumänisch",
-  },
-  {
-    id: 1,
-    name: "Dachdecker",
-  },
-  {
-    id: 2,
-    name: "Bäckereifachverkäufer",
-  },
-  {
-    id: 3,
-    name: "Bekleidungsnäherin",
-  },
-  {
-    id: 4,
-    name: "Justizvollzugsbeamte",
-  },
-  {
-    id: 5,
-    name: "Einzelhandelskaufmann",
-  },
-  {
-    id: 6,
-    name: "Berufskraftfahrer",
-  },
-  {
-    id: 7,
-    name: "Mediengestalter",
-  },
-  {
-    id: 8,
-    name: "Drucker",
-  },
-  {
-    id: 9,
-    name: "Tanzlehrer",
-  },
-  {
-    id: 10,
-    name: "Kabelsortierer",
-  },
-  {
-    id: 11,
-    name: "Koch",
-  },
-  {
-    id: 12,
-    name: "Küchenhilfe",
-  },
-  {
-    id: 13,
-    name: "Dachdecker",
-  },
-  {
-    id: 14,
-    name: "Küchenhilfe",
-  },
-  {
-    id: 15,
-    name: "Kabelsortierer",
-  },
-  {
-    id: 12,
-    name: "Dachdecker",
-  },
-  {
-    id: 16,
-    name: "Kroatisch",
-  },
-  {
-    id: 17,
-    name: "Norwegisch",
-  },
-  {
-    id: 18,
-    name: "Rumänisch",
-  },
-];
-
 const imgClose = require("../images/close.png");
-var howLong = -1;
+var howLong = -1, jobId;
+
+const number = 100;
 
 class HowLong extends Component {
   constructor(props) {
@@ -189,10 +41,17 @@ class HowLong extends Component {
       visible: false,
       search: "",
       nextEnable: false,
+      jobs: [],
+      ActivityIndicator: false,
+      position: 1,
+      workExperience: [],
     };
   }
 
   componentDidMount = () => {
+    functions.getJobs(this);
+
+    functions.getListWorkExpericence(this);
     /*this.didFocusSubscription = this.props.navigation.addListener(
       'didFocus',
       payload => {
@@ -215,8 +74,10 @@ class HowLong extends Component {
     //functions.gotoScreen(this.props.navigation, "Driver");
   };
 
-  setJob = (name) => {
+  setJob = (name, id) => {
     var nextEnable = howLong != -1 ? true : false;
+
+    jobId = id;
 
     this.setState({ job: name, visible: false, nextEnable: nextEnable });
   };
@@ -224,6 +85,35 @@ class HowLong extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
+
+  handleScroll = (event) => {
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
+    const contentHeight = event.nativeEvent.contentSize.height;
+
+    const atBottom = scrollPosition >= contentHeight - scrollViewHeight - 100;
+
+    if (atBottom) this.setState({ position: this.state.position + 1 });
+  };
+
+  gotoNextStep = () => {
+    try {
+      var obj = {};
+
+      obj.job_id = jobId;
+      obj.work_experience_id = howLong;
+      obj.user_id = global.commonData.user.user_id;
+
+      global.commonData.user.another.job_id_1 = jobId;
+      global.commonData.user.another.work_experience_id = howLong;
+
+      functions.updateUser(this, obj, 5);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return true;
+  };
 
   render() {
     var commonData = global.commonData.languages;
@@ -234,28 +124,6 @@ class HowLong extends Component {
       var text3 = commonData.i_do;
       var text4 = commonData.currently_i_am_working_as;
       var text5 = commonData.profession;
-
-      var data = [
-        {
-          label: commonData.to_2_years,
-          require: false,
-        },
-
-        {
-          label: commonData.from_2_to_5_years,
-          require: false,
-        },
-
-        {
-          label: commonData.from_5_to_10_years,
-          require: false,
-        },
-
-        {
-          label: commonData.more_than_10_years,
-          require: false,
-        },
-      ];
     } catch (error) {
       console.log(error);
     }
@@ -264,65 +132,70 @@ class HowLong extends Component {
       <Provider>
         <Portal>
           <Modal visible={this.state.visible}>
-            <ScrollView>
-              <View style={style.modal}>
-                <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                  {text5}
-                </Text>
-                <TextInput
-                  onChangeText={(value) => this.setState({ search: value })}
-                  value={this.state.search}
-                  returnKeyType="next"
-                  component={this}
-                  styleParent={[
-                    {
-                      borderColor: "#414141",
-                    },
-                    styles.textInput,
-                    style.textInput1,
-                  ]}
-                  styleTextInput={style.styleTextInput}
-                  leftIcon="search"
-                  colorIcon="#414141"
-                  size={20}
-                  fontAwesome="true"
-                  onLeftClick={() => null}
-                  leftStyle={style.leftStyle}
-                  bgFocus="#898166"
-                  bgBlur="white"
-                />
-                <View style={style.close}>
-                  <Href
-                    onPress={() =>
-                      this.setState({
-                        visible: false,
-                      })
-                    }
-                  >
-                    <Image source={imgClose} />
-                  </Href>
-                </View>
-                {jobs.map(({ name, id }, index) => {
-                  if (name.includes(this.state.search))
-                    return (
-                      <View style={styles.fullWith}>
-                        <View style={style.line} />
-                        <Href onPress={() => this.setJob(name)}>
-                          <View
-                            style={[
-                              styles.fullWith,
-                              styles.fontBoldSmall,
-                              style.language,
-                            ]}
-                          >
-                            <Text style={style.textModal}>{name}</Text>
-                          </View>
-                        </Href>
-                      </View>
-                    );
-                })}
+            <View style={style.modal}>
+              <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
+                {text5}
+              </Text>
+              <TextInput
+                onChangeText={(value) => this.setState({ search: value })}
+                value={this.state.search}
+                returnKeyType="next"
+                component={this}
+                styleParent={[
+                  {
+                    borderColor: "#414141",
+                  },
+                  styles.textInput,
+                  style.textInput1,
+                ]}
+                styleTextInput={style.styleTextInput}
+                leftIcon="search"
+                colorIcon="#414141"
+                size={20}
+                fontAwesome="true"
+                onLeftClick={() => null}
+                leftStyle={style.leftStyle}
+                bgFocus="#898166"
+                bgBlur="white"
+              />
+              <View style={style.close}>
+                <Href
+                  onPress={() =>
+                    this.setState({
+                      visible: false,
+                    })
+                  }
+                >
+                  <Image source={imgClose} />
+                </Href>
               </View>
-            </ScrollView>
+              <ScrollView onScroll={this.handleScroll}>
+                <View>
+                  {this.state.jobs.map(({ name, id }, index) => {
+                    if (
+                      name.includes(this.state.search) &&
+                      index < number * this.state.position
+                    )
+                      return (
+                        <View style={styles.fullWith}>
+                          <View style={style.line} />
+                          <Href onPress={() => this.setJob(name, id)}>
+                            <View
+                              style={[
+                                styles.fullWith,
+                                styles.fontBoldSmall,
+                                style.language,
+                              ]}
+                            >
+                              <Text style={style.textModal}>{name}</Text>
+                            </View>
+                          </Href>
+                        </View>
+                      );
+                  })}
+                </View>
+              </ScrollView>
+            </View>
           </Modal>
         </Portal>
         <View style={styles.flexFull}>
@@ -330,6 +203,10 @@ class HowLong extends Component {
             <Background>
               <Header component={this} Notification={false} />
               <TextHeader text1={text1} text2={text2} text3={text3} />
+              <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
               <HeadLine style={style.headLine} text={text4} />
               <TextInput
                 onChangeText={(value) => this.setState({ job: value })}
@@ -353,7 +230,8 @@ class HowLong extends Component {
                 <CheckBox
                   style={style.checkbox}
                   styleRowCheckbox={styles.rowCheckbox}
-                  data={data}
+                  data={this.state.workExperience}
+                  setIndex={global.commonData.user.another.work_experience_id}
                   callBack={this.callBack_1}
                 />
 
@@ -377,7 +255,7 @@ class HowLong extends Component {
               <BackNext
                 nextScreen="Driver"
                 position="absolute"
-                callBack={() => true}
+                callBack={() => this.gotoNextStep()}
                 navigation={this.props.navigation}
                 nextEnable={this.state.nextEnable}
               />

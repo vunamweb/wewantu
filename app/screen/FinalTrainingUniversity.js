@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
 
@@ -15,21 +20,34 @@ import IconBottom from "../components/IconBottom";
 import BackNext from "../components/BackNext";
 import CheckBox from "../components/Checkbox";
 import Header from "../components/Header";
+import Text from "../components/Paragraph";
 
 import styles from "../../app/style/style";
 import functions from "../function/function";
+
+var text5, component;
 
 class FinalTrainingUniversity extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      positionNext: false
+      positionNext: false,
+      moment: [],
+      ActivityIndicator: false,
+      errorMessage: "",
+      marginTop: 0,
     };
   }
 
   componentDidMount = () => {
+    component = this;
+
     hideNavigationBar();
+
+    functions.getListMoment(this);
+
+    this.callBack.bind(this);
 
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
@@ -40,14 +58,35 @@ class FinalTrainingUniversity extends Component {
     );
   };
 
+  gotoNextStep = () => {
+    return true;
+  };
+
   static navigationOptions = ({ navigation }) => ({
     title: "",
   });
 
   callBack = (position) => {
+    var obj = {};
+
+    try {
+      let moment_id = position;
+
+      obj.moment_id = moment_id;
+      obj.user_id = global.commonData.user.user_id;
+
+      global.commonData.user.another.moment = moment_id;
+
+      functions.updateUser(this, obj, 4);
+    } catch (error) {
+      console.log(error);
+    }
     global.positionNext = position;
 
-    if (position == 0 || position == 1)
+    if (
+      component.state.moment[0].id == position ||
+      component.state.moment[1].id == position
+    )
       functions.gotoScreen(this.props.navigation, "HowLong");
     else functions.gotoScreen(this.props.navigation, "Driver");
   };
@@ -60,44 +99,22 @@ class FinalTrainingUniversity extends Component {
       var text2 = commonData.what;
       var text3 = commonData.i_do;
       var text4 = commonData.at_the_moment_i_am;
-
-      var data = [
-        {
-          label: commonData.In_permanent_employment,
-          require: false,
-        },
-
-        {
-          label: commonData.freelancer,
-          require: false,
-        },
-
-        {
-          label: commonData.in_futher_trainning,
-          require: false,
-        },
-
-        {
-          label: commonData.in_education,
-          require: false,
-        },
-
-        {
-          label: commonData.in_studies,
-          require: false,
-        },
-
-        {
-          label: commonData.job_seeking,
-          require: false,
-        },
-      ];
     } catch (error) {
       console.log(error);
     }
 
-    let nextBack =
-      global.positionNext == 0 || global.positionNext == 1 ? "HowLong" : "Driver";
+    let nextBack;
+
+    try {
+      nextBack =
+        global.positionNext == this.state.moment[0].id || global.commonData.user.another.moment == this.state.moment[0].id ||
+        global.positionNext == this.state.moment[1].id ||  global.commonData.user.another.moment == this.state.moment[1].id
+          ? "HowLong"
+          : "Driver";
+    } catch (error) {
+      nextBack = "HowLong";
+      console.log(error);
+    }
 
     return (
       <View style={styles.flexFull}>
@@ -105,12 +122,17 @@ class FinalTrainingUniversity extends Component {
           <Background>
             <Header component={this} Notification={false} />
             <TextHeader text1={text1} text2={text2} text3={text3} />
+            <ActivityIndicator
+              size="small"
+              animating={this.state.ActivityIndicator}
+            />
             <HeadLine style={style.headLine} text={text4} />
             <View style={[styles.fullWith, style.root]}>
               <CheckBox
                 style={style.checkbox}
                 styleRowCheckbox={styles.rowCheckbox}
-                data={data}
+                data={this.state.moment}
+                setIndex={global.commonData.user.another.moment}
                 callBack={this.callBack}
               />
 
@@ -134,7 +156,7 @@ class FinalTrainingUniversity extends Component {
             <BackNext
               nextScreen={nextBack}
               position="absolute"
-              callBack={() => true}
+              callBack={() => this.gotoNextStep()}
               navigation={this.props.navigation}
               nextEnable={true}
             />

@@ -30,6 +30,7 @@ import styles from "../../app/style/style";
 import functions from "../function/function";
 
 const imgClose = require("../images/close.png");
+var driveLicense, passengerTransport;
 
 class Driver extends Component {
   constructor(props) {
@@ -55,8 +56,12 @@ class Driver extends Component {
     title: "",
   });
 
-  callBack = (check, index) => {
-    return;
+  callBack = (index) => {
+    driveLicense = index;
+  };
+
+  callBack1 = (index) => {
+    passengerTransport = index;
   };
 
   setSwitch = (index) => {
@@ -73,6 +78,25 @@ class Driver extends Component {
     });
 
     functions.updateUserDriveLicense(this, driveLicence);
+  };
+
+  gotoNextStep = () => {
+    try {
+      var obj = {};
+
+      obj.drive_license = driveLicense;
+      obj.passenger_transport = passengerTransport;
+      obj.user_id = global.commonData.user.user_id;
+
+      global.commonData.user.another.drive_license = driveLicense;
+      global.commonData.user.another.passenger_transport = passengerTransport;
+
+      functions.updateUser(this, obj, 6);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return true;
   };
 
   render() {
@@ -182,6 +206,7 @@ class Driver extends Component {
                 <CheckBox
                   data={data1}
                   callBack={this.callBack}
+                  setIndex={global.commonData.user.another.drive_license}
                   style={style.checkbox}
                 />
                 {/*<View style={style.checkbox}>
@@ -208,8 +233,9 @@ class Driver extends Component {
               <View style={[styles.fullWith, style.root]}>
                 <CheckBox
                   data={data2}
-                  callBack={this.callBack}
+                  callBack={this.callBack1}
                   style={style.checkbox}
+                  setIndex={global.commonData.user.another.passenger_transport}
                 />
                 {/*<View style={style.checkbox}>
                   <CheckBox
@@ -228,7 +254,7 @@ class Driver extends Component {
               <BackNext
                 nextScreen="Hobiess"
                 position="absolute"
-                callBack={() => true}
+                callBack={() => this.gotoNextStep()}
                 navigation={this.props.navigation}
               />
             </Background>
