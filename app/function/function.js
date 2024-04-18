@@ -1304,6 +1304,8 @@ class Functions {
           datauser.user.another.drive_license = dataAnother.drive_license;
           datauser.user.another.passenger_transport =
             dataAnother.passenger_transport;
+        } else if (step == 7) {
+          datauser.user.another.hobbies = dataAnother.hobbies;
         } else {
           // update address for user
           datauser.user.another.address_id = dataAnother.address_id;
@@ -1932,7 +1934,8 @@ class Functions {
         dataUser.user.another.city = responseData[0].city;
         dataUser.user.another.year_birthday = responseData[0].year_birthday;
         dataUser.user.another.address_id = responseData[0].address_id;
-
+        dataUser.user.another.hobbies = responseData[0].hobbies;
+        
         global.commonData.user.another = dataUser.user.another;
 
         await AsyncStorage.setItem("data", JSON.stringify(dataUser));

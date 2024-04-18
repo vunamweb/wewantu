@@ -33,13 +33,38 @@ class TextInputHobbies extends Component {
     };
   }
 
-  add = (word) => {
-    if(word != '') {
-        var listWord = this.state.listWord;
+  componentDidMount = () => {
+    var hobbies;
 
-        listWord.push(word);
-    
-        this.setState({ listWord: listWord, description: null });
+    try {
+      hobbies = JSON.parse(global.commonData.user.another.hobbies);
+
+      this.setState({ listWord: hobbies });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  add = (word) => {
+    if (word != "") {
+      var listWord = this.state.listWord;
+
+      listWord.push(word);
+
+      var obj = {};
+
+      try {
+        obj.hobbies = JSON.stringify(listWord);
+        obj.user_id = global.commonData.user.user_id;
+
+        global.commonData.user.another.hobbies = JSON.stringify(listWord);
+      } catch (error) {
+        console.log(error);
+      }
+
+      functions.updateUser(this, obj, 7);
+
+      this.setState({ listWord: listWord, description: null });
     }
   };
 
@@ -47,6 +72,19 @@ class TextInputHobbies extends Component {
     var listWord = this.state.listWord;
 
     listWord.splice(index, 1);
+
+    var obj = {};
+
+    try {
+      obj.hobbies = JSON.stringify(listWord);
+      obj.user_id = global.commonData.user.user_id;
+
+      global.commonData.user.another.hobbies = JSON.stringify(listWord);
+    } catch (error) {
+      console.log(error);
+    }
+
+    functions.updateUser(this, obj, 7);
 
     this.setState({ listWord: listWord });
   };
@@ -58,7 +96,7 @@ class TextInputHobbies extends Component {
   );
 
   render() {
-    var display = (this.state.description != null) ? 'flex' : 'none';
+    var display = this.state.description != null ? "flex" : "none";
 
     return (
       <View style={[styles.fullWith]}>
@@ -67,7 +105,10 @@ class TextInputHobbies extends Component {
           onChangeText={(value) => this.setState({ description: value })}
           value={this.state.description}
         />
-        <Href style={[style.viewAddWord, { display: display }]} onPress={() => this.add(this.state.description)}>
+        <Href
+          style={[style.viewAddWord, { display: display }]}
+          onPress={() => this.add(this.state.description)}
+        >
           <Text>{this.state.description}</Text>
           <Icon style={style.send} name="send" size={24} color="#898166" />
         </Href>
@@ -75,7 +116,9 @@ class TextInputHobbies extends Component {
           {this.state.listWord.map((item, index) => {
             return (
               <View style={[styles.flexRow, style.textList]}>
-                <Href onPress={() => this.delete(index)} style={style.delete}>{imgDelete}</Href>
+                <Href onPress={() => this.delete(index)} style={style.delete}>
+                  {imgDelete}
+                </Href>
                 <Text>{item}</Text>
               </View>
             );
@@ -95,13 +138,13 @@ class TextInputHobbies extends Component {
 const style = StyleSheet.create({
   viewTextList: {
     marginBottom: 60,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
 
   textList: {
     marginTop: 10,
     marginRight: 20,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     borderWidth: 1,
     paddingLeft: 15,
@@ -112,12 +155,12 @@ const style = StyleSheet.create({
 
   delete: {
     marginTop: 5,
-    marginRight: 5
+    marginRight: 5,
   },
 
   viewAddWord: {
-    width: '100%',
-    borderColor: '#ccc',
+    width: "100%",
+    borderColor: "#ccc",
     borderRadius: 5,
     height: 50,
     paddingTop: 10,
@@ -126,9 +169,10 @@ const style = StyleSheet.create({
   },
 
   send: {
-    position: 'absolute', right: 10, top: 10
-  }
-
+    position: "absolute",
+    right: 10,
+    top: 10,
+  },
 });
 
 export default TextInputHobbies;
