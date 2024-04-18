@@ -149,9 +149,11 @@ const style = StyleSheet.create({
     paddingLeft: LEFT_RIGHT * -1,
     //paddingRight: PADDING_LARGE,
     left: LEFT_RIGHT,*/
-    marginRight: -13,
+    marginRight: -31,
     //backgroundColor: 'red',
     padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30
     //height: 30
   },
 
@@ -163,8 +165,10 @@ const style = StyleSheet.create({
     paddingLeft: PADDING_LEFT_NEXT_BUTTON,
     right: LEFT_RIGHT,
     flexDirection: 'row'*/
-    marginLeft: -13,
+    marginLeft: -30,
     padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
     //backgroundColor: 'red'
   },
 
