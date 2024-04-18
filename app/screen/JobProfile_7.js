@@ -110,6 +110,7 @@ class JobProfile_7 extends Component {
 
     try {
       text5 = commonData.please_select_item;
+      var text6 = commonData.MY_CAREER_AMBITIONS;
 
       var data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
@@ -137,12 +138,9 @@ class JobProfile_7 extends Component {
             <Text style={[styles.error, { marginTop: this.state.marginTop }]}>
               {this.state.errorMessage}
             </Text>
-            <HeadLine
-              style={style.headLine}
-              text="MEINE BERUFLICHEN AMBITIONEN"
-            />
+            <HeadLine style={style.headLine} text={text6} />
             <View style={[styles.fullWith, style.root]}>
-              <Image source={icon} />
+              <Image style={{ marginRight: 10 }} source={icon} />
               <CheckBox
                 data={global.data4}
                 setIndex={setIndex}
@@ -204,8 +202,10 @@ const style = StyleSheet.create({
 
   root: {
     flexDirection: "row",
+    //justifyContent: 'space-evenly',
     paddingLeft: 40,
     marginTop: 20,
+    //backgroundColor: 'red'
   },
 });
 

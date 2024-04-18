@@ -99,7 +99,8 @@ class JobProfile_6 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].distance = minimumValue1;
+    data[index].distance = (data[index].distance == undefined) ? minimumValue1 : data[index].distance;
+
     data[index].distance1 =
       this.state.value1 +
       this.state.value2 +
@@ -124,7 +125,10 @@ class JobProfile_6 extends Component {
     switch (position) {
       case 2:
         value = value.replace(match, "");
-        this.setState({ value2: value });
+
+        this.state.value2 = value;
+
+        //this.setState({ value2: value });
 
         if (value != "") this.input3.current.focus();
 
@@ -132,7 +136,10 @@ class JobProfile_6 extends Component {
 
       case 3:
         value = value.replace(match, "");
-        this.setState({ value3: value });
+
+        this.state.value3 = value;
+
+        //this.setState({ value3: value });
 
         if (value != "") this.input4.current.focus();
 
@@ -140,7 +147,10 @@ class JobProfile_6 extends Component {
 
       case 4:
         value = value.replace(match, "");
-        this.setState({ value4: value });
+
+        this.state.value4 = value;
+
+        //this.setState({ value4: value });
 
         if (value != "") this.input5.current.focus();
 
@@ -148,7 +158,10 @@ class JobProfile_6 extends Component {
 
       case 5:
         value = value.replace(match, "");
-        this.setState({ value5: value });
+
+        this.state.value5 = value;
+
+        //this.setState({ value5: value });
 
         this.input5.current.blur();
 
@@ -156,10 +169,15 @@ class JobProfile_6 extends Component {
 
       default:
         value = value.replace(match, "");
-        this.setState({ value1: value });
+
+        this.state.value1 = value;
+
+        //this.setState({ value1: value });
 
         if (value != "") this.input2.current.focus();
     }
+
+    this.initData();
   };
 
   callBack1 = (value) => {
@@ -201,6 +219,8 @@ class JobProfile_6 extends Component {
 
       this.setState({ zip: zip, disableSlide: false });
     }
+
+    this.initData();
   };
 
   setZip = () => {
@@ -285,7 +305,7 @@ class JobProfile_6 extends Component {
                 ref_={this.input1}
                 onChangeText={(value) => this.onChangeValue(1, value)}
                 value={this.state.value1}
-                callBack={() => this.callBack2(1)}
+                //callBack={() => this.callBack2(1)}
                 styleParent={[
                   {
                     borderColor: this.state.colorBorder1,
@@ -302,7 +322,7 @@ class JobProfile_6 extends Component {
                 ref_={this.input2}
                 onChangeText={(value) => this.onChangeValue(2, value)}
                 value={this.state.value2}
-                callBack={() => this.callBack2(2)}
+                //callBack={() => this.callBack2(2)}
                 styleParent={[
                   {
                     borderColor: this.state.colorBorder2,
@@ -377,7 +397,7 @@ class JobProfile_6 extends Component {
               <Slider
                 unit="km"
                 minimumValue={minimumValue1}
-                maximumValue={40}
+                maximumValue={1000}
                 callBack={this.callBack1}
                 disabled={this.state.disableSlide}
               />

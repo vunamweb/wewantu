@@ -827,7 +827,7 @@ class Functions {
     data.append("desired_work_at_home_id", dataJob.work_home);
     data.append("desired_work_at_weekend_id", dataJob.work_weekend);
     data.append("desired_work_at_night_id", dataJob.work_night);
-    data.append("postalcode", 246467);
+    data.append("postalcode", dataJob.distance1);
     data.append("nationwide", 24);
     data.append("max_distance", dataJob.distance);
     data.append("ambitions_id", dataJob.intres);

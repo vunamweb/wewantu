@@ -64,39 +64,78 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 var indexDeleteJob, jobProfile_Id;
 
 const svgCode1 = `
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20.09" height="20.09" viewBox="0 0 20.09 20.09">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24.7 23.3">
   <defs>
-	<clipPath id="clip-path">
-	  <rect id="Rechteck_156" data-name="Rechteck 156" width="20.09" height="20.09" fill="none"/>
-	</clipPath>
+    <style>
+      .cls-1 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        fill: #898166;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-2" y="0" width="24.7" height="23.3"/>
+    </clipPath>
   </defs>
-  <g id="Gruppe_561" data-name="Gruppe 561" transform="translate(0 0)">
-	<g id="Gruppe_288" data-name="Gruppe 288" transform="translate(0 0)" clip-path="url(#clip-path)">
-	  <path id="Pfad_141" data-name="Pfad 141" d="M0,10.046A10.045,10.045,0,1,1,10.046,20.091,10.046,10.046,0,0,1,0,10.046" transform="translate(0 0)" fill="#898166"/>
-	  <path id="Pfad_142" data-name="Pfad 142" d="M16.335,9.85l-2.82-2.82L6.706,13.838c.239.08.488.165.738.244a.14.14,0,0,1,.11.123c.08.416.166.829.245,1.245a.114.114,0,0,0,.108.106c.415.079.829.166,1.244.245a.138.138,0,0,1,.122.111c.071.226.148.45.223.675a.763.763,0,0,0,.031.071L16.335,9.85m-1.654-4L17.5,8.679c.278-.273.578-.541.846-.837a1.111,1.111,0,0,0-.025-1.521q-.633-.658-1.291-1.29a1.107,1.107,0,0,0-1.506-.038c-.3.272-.572.577-.849.859M5.627,16.206c-.014.036-.026.065-.036.095-.195.552-.388,1.1-.585,1.656a.292.292,0,0,0,.394.394q.827-.294,1.655-.586l.092-.037L5.627,16.206" transform="translate(-1.586 -1.503)" fill="#fff"/>
-	  <path id="Pfad_143" data-name="Pfad 143" d="M17.144,10.932l-6.808,6.808c-.01-.022-.022-.046-.031-.071-.075-.225-.152-.449-.222-.675a.14.14,0,0,0-.122-.112c-.416-.079-.829-.166-1.245-.245a.114.114,0,0,1-.108-.106c-.079-.416-.166-.829-.245-1.245a.14.14,0,0,0-.11-.123c-.25-.079-.5-.163-.738-.243l6.81-6.809,2.82,2.82" transform="translate(-2.395 -2.586)" fill="#fff"/>
-	  <path id="Pfad_144" data-name="Pfad 144" d="M19.222,5.851c.277-.282.548-.587.849-.859a1.107,1.107,0,0,1,1.506.038q.658.632,1.291,1.29a1.112,1.112,0,0,1,.025,1.521c-.268.3-.568.563-.846.837L19.222,5.851" transform="translate(-6.127 -1.503)" fill="#fff"/>
-	  <path id="Pfad_145" data-name="Pfad 145" d="M5.627,21.583l1.521,1.523-.092.037q-.828.292-1.655.586a.292.292,0,0,1-.394-.394c.2-.551.39-1.1.585-1.656.01-.03.022-.059.036-.095" transform="translate(-1.586 -6.88)" fill="#fff"/>
-	</g>
+  <g class="cls-1">
+    <path id="Pfad_146" data-name="Pfad 146" class="cls-3" d="M0,11.7C0,5.2,5.5,0,12.4,0s12.4,5.2,12.4,11.7-5.5,11.7-12.4,11.7S0,18.1,0,11.7"/>
+    <path id="Pfad_142" data-name="Pfad 142" class="cls-4" d="M16.5,10.1l-2.6-2.6-6.3,6.3c.2,0,.4.2.7.2,0,0,0,0,.1.1,0,.4.2.8.2,1.1,0,0,0,0,0,0,.4,0,.8.2,1.1.2,0,0,.1,0,.1.1,0,.2.1.4.2.6,0,0,0,0,0,0l6.3-6.3M15,6.4l2.6,2.6c.3-.3.5-.5.8-.8.4-.4.4-1,0-1.4-.4-.4-.8-.8-1.2-1.2-.4-.4-1-.4-1.4,0-.3.3-.5.5-.8.8M6.7,15.9s0,0,0,0c-.2.5-.4,1-.5,1.5,0,.1,0,.3.1.4,0,0,.2,0,.3,0,.5-.2,1-.4,1.5-.5,0,0,0,0,0,0l-1.4-1.4"/>
   </g>
 </svg>
 `;
 
 const svgCode2 = `
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19.607" height="19.607" viewBox="0 0 19.607 19.607">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24.7 23.3">
   <defs>
-	<clipPath id="clip-path">
-	  <rect id="Rechteck_159" data-name="Rechteck 159" width="19.607" height="19.607" fill="none"/>
-	</clipPath>
+    <style>
+      .cls-1 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        fill: #898166;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-2" width="24.7" height="23.3"/>
+    </clipPath>
   </defs>
-  <g id="Gruppe_560" data-name="Gruppe 560" transform="translate(-135.165 -3.154)">
-	<g id="Gruppe_290" data-name="Gruppe 290" transform="translate(135.165 3.154)" clip-path="url(#clip-path)">
-	  <path id="Pfad_146" data-name="Pfad 146" d="M0,9.8a9.8,9.8,0,1,1,9.8,9.8A9.8,9.8,0,0,1,0,9.8" transform="translate(0 0)" fill="#898166"/>
-	  <path id="Pfad_147" data-name="Pfad 147" d="M14.249,16.384h-7.2a.893.893,0,0,1-.731-1.044V7.322H5.564c0-.039-.007-.063-.007-.088,0-.449,0-.9,0-1.347a.927.927,0,0,1,.021-.2.866.866,0,0,1,.892-.682c.516,0,1.032,0,1.548,0H8.16c0-.358,0-.7,0-1.037s.147-.479.473-.478l4.078,0a.4.4,0,0,1,.431.429c0,.315,0,.63,0,.944v.139h.17c.508,0,1.015,0,1.523,0a.85.85,0,0,1,.9.777c.019.5.006,1.007,0,1.51,0,.007-.008.013-.022.034h-.728V7.5q0,3.934,0,7.869c0,.067,0,.135,0,.2a.83.83,0,0,1-.485.725,1.985,1.985,0,0,1-.248.087M7.118,7.329v.136q0,3.978,0,7.956c0,.124.03.165.161.165q3.372-.006,6.745,0c.13,0,.161-.04.161-.165q0-3.978,0-7.956c0-.044,0-.088-.007-.136Zm7.817-.806V6c0-.191,0-.191-.2-.191H6.559a.38.38,0,0,0-.112,0c-.03.009-.076.039-.076.061-.006.216,0,.432,0,.652ZM12.33,4.3H8.967V5H12.33Z" transform="translate(-0.749 -0.133)" fill="#fff"/>
-	  <rect id="Rechteck_157" data-name="Rechteck 157" width="0.764" height="6.395" transform="translate(7.714 7.929)" fill="#fff"/>
-	  <path id="Pfad_148" data-name="Pfad 148" d="M14.945,18.314h-.772v-.138q0-3.059,0-6.116c0-.126.034-.16.156-.154.2.01.406,0,.619,0Z" transform="translate(-4.664 -3.99)" fill="#fff"/>
-	  <rect id="Rechteck_158" data-name="Rechteck 158" width="0.764" height="6.398" transform="translate(11.323 7.926)" fill="#fff"/>
-	</g>
+  <g class="cls-1">
+    <path id="Pfad_146" data-name="Pfad 146" class="cls-3" d="M0,11.7C0,5.2,5.5,0,12.4,0s12.4,5.2,12.4,11.7-5.5,11.7-12.4,11.7S0,18.1,0,11.7"/>
+    <g>
+      <path id="Pfad_147" data-name="Pfad 147" class="cls-4" d="M16.4,18.2h-7.7c-.6-.2-.8-.4-.8-1.1v-8.1h-.8s0,0,0,0v-1.4c0,0,0-.1,0-.2.1-.4.5-.7,1-.7h1.8v-1.1c0-.3.2-.5.5-.5h4.4c.2,0,.4.1.5.4,0,0,0,0,0,0v1h0c0,.1.2.1.2.1h1.6c.5,0,.9.3,1,.8,0,.5,0,1,0,1.5,0,0,0,0,0,0h-.8v8.3c0,.3-.2.6-.5.7,0,0-.2,0-.3,0M8.7,9h0v8.2c0,.1,0,.2.2.2,2.4,0,4.8,0,7.2,0,.1,0,.2,0,.2-.2,0-2.7,0-5.4,0-8.1,0,0,0,0,0-.1h-7.6ZM17.1,8.2v-.5q0-.2-.2-.2h-8.8s0,0-.1,0c0,0,0,0,0,0,0,.2,0,.4,0,.7h9.2ZM14.3,5.9h-3.6v.7h3.6v-.7Z"/>
+      <rect id="Rechteck_157" data-name="Rechteck 157" class="cls-4" x="10.1" y="9.8" width=".8" height="6.5"/>
+      <path id="Pfad_148" data-name="Pfad 148" class="cls-4" d="M12.9,16.2h-.8v-6.3c0-.1,0-.2.2-.2.2,0,.4,0,.7,0v6.5Z"/>
+      <rect id="Rechteck_158" data-name="Rechteck 158" class="cls-4" x="14" y="9.8" width=".8" height="6.5"/>
+    </g>
   </g>
 </svg>
 `;
@@ -209,10 +248,10 @@ class JobProfile extends Component {
                 this.deleteJobProfile(job, index, item.job_search_profile_id)
               }
             >
-              <SvgWithCss xml={svgCode2} width="23" height="23" />
+              <SvgWithCss xml={svgCode2} width="24.7" height="23.3" />
             </Href>
             <Href onPress={() => this.edit(item.job_search_profile_id, index)}>
-            <SvgWithCss xml={svgCode1} width="23" height="23" />
+            <SvgWithCss xml={svgCode1} width="24.7" height="23.3" />
             </Href>
           </View>
           {/*borderBottom*/}
@@ -676,7 +715,7 @@ const style = StyleSheet.create({
   },
 
   imgDelete: {
-    marginRight: 10,
+    marginRight: 20,
   },
 
   text1: {
