@@ -203,7 +203,7 @@ class Chat extends Component {
     return (
       <View style={styles.flexFull}>
         <Header component={this} />
-        <ScrollView contentContainerStyle={styles.scroll}>
+        <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={styles.scroll}>
           <Background>
             <View>
               <Image source={require("../images/user_chat_1.png")} />
@@ -233,6 +233,7 @@ class Chat extends Component {
             </View>
           </Background>
         </ScrollView>
+        <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={styles.scroll}>
         <View style={style.containerSendMessage}>
           <TextInput
             onChangeText={(value) => this.setState({ message: value })}
@@ -256,6 +257,7 @@ class Chat extends Component {
             onPress={() => null}
           />
         </View>
+        </ScrollView>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
           {/* Bottom */}
           <IconBottom component={this} type="1" />

@@ -52,6 +52,18 @@ class UtilityFirebase {
     });
   };
 
+  onBackgroundMessage = (callback) => {
+    firebase.messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+      callback(remoteMessage);
+    });
+  };
+
+  onClickNotification = (callback) => {
+    firebase.messaging().onNotificationOpenedApp((remoteMessage) => {
+      callback(remoteMessage);
+    });
+  };
+
   displayNotification = (notification) => {
     firebase.notifications().displayNotification(notification);
   };

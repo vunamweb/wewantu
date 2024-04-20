@@ -1108,7 +1108,13 @@ class Functions {
     }
   };
 
-  insertChat = async (component, user_id_from, user_id_to, message) => {
+  insertChat = async (
+    component,
+    user_id_from,
+    user_id_to,
+    message,
+    notification = false
+  ) => {
     var datauser = await this.getDataUser();
     let token = null;
 
@@ -1137,7 +1143,9 @@ class Functions {
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
-      return;
+      if (notification) {
+        await AsyncStorage.setItem("notification", user_id_from);
+      }
     };
 
     network.fetchPOST_HEADER(url, data, token, callback);
@@ -1935,7 +1943,7 @@ class Functions {
         dataUser.user.another.year_birthday = responseData[0].year_birthday;
         dataUser.user.another.address_id = responseData[0].address_id;
         dataUser.user.another.hobbies = responseData[0].hobbies;
-        
+
         global.commonData.user.another = dataUser.user.another;
 
         await AsyncStorage.setItem("data", JSON.stringify(dataUser));

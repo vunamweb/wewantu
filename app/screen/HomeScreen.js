@@ -94,6 +94,24 @@ class HomeScreen extends Component {
     );
   };
 
+  notification = async () => {
+    var notification = await AsyncStorage.getItem("notification");
+
+    if (notification != undefined && notification != null && notification != '0') {
+      var a = await AsyncStorage.setItem("notification", '0');
+
+      let key = {};
+      key.fromUser = global.commonData.user.user_id; //userId;
+      key.toUser = notification;
+
+      functions.gotoScreenWithParam(
+        JSON.stringify(key),
+        this.props.navigation,
+        "Chat"
+      );
+    }
+  };
+
   componentDidMount = async () => {
     hideNavigationBar();
 
@@ -101,7 +119,7 @@ class HomeScreen extends Component {
 
     try {
       fcmToken = await messaging().getToken();
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
 
@@ -136,6 +154,8 @@ class HomeScreen extends Component {
 
     if (!this.existPersonalData(datauser)) functions.getUser(this, datauser);
 
+    //this.notification();
+
     global.notification =
       datauser.notification != undefined ? datauser.notification : [];
 
@@ -148,6 +168,8 @@ class HomeScreen extends Component {
         console.log("Screen focused again:", payload);
 
         global.screen = this;
+
+        //this.notification();
       }
     );
   };
@@ -175,6 +197,8 @@ class HomeScreen extends Component {
   });
 
   render() {
+    //this.notification();
+
     global.notification =
       global.notification != undefined ? global.notification : [];
 

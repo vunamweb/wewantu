@@ -59,7 +59,38 @@ export default class App extends Component {
         }
        }
     };
+
+    var callbackBackground = (message) => {
+      //global.notification = message.data.id;
+
+      functions.insertChat(
+        this,
+        message.data.id,
+        global.commonData.user.user_id,
+        message.data.message,
+        true
+      );
+
+      console.log('dd');
+    }
+
+    var callbackNotification = (message) => {
+      console.log('bg');
+
+      let key = {};
+      key.fromUser = global.commonData.user.user_id; //userId;
+      key.toUser = message.data.id;
+
+      functions.gotoScreenWithParam(
+        JSON.stringify(key),
+        global.screen.props.navigation,
+        "Chat"
+      );
+    }
+
     new UtilityFirebase(this).onReceiveMessage(callbackNotificationListeners);
+    new UtilityFirebase(this).onBackgroundMessage(callbackBackground);
+    new UtilityFirebase(this).onClickNotification(callbackNotification);
 
     return <AppContainer />;
   }
