@@ -203,7 +203,7 @@ class Chat extends Component {
     return (
       <View style={styles.flexFull}>
         <Header component={this} />
-        <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
           <Background>
             <View>
               <Image source={require("../images/user_chat_1.png")} />
@@ -231,10 +231,7 @@ class Chat extends Component {
                 </View>
               ) : null}
             </View>
-          </Background>
-        </ScrollView>
-        <View style={style.containerSendMessage}>
-          <TextInput
+            <TextInput
             onChangeText={(value) => this.setState({ message: value })}
             value={this.state.message}
             component={this}
@@ -249,6 +246,9 @@ class Chat extends Component {
             bgFocus="white"
             bgBlur="#3f3f3f"
           />
+          </Background>
+        </ScrollView>
+        <View style={style.containerSendMessage}>
           <Button
             color="white"
             text="UNTERNEHMENS-PROFIL"
