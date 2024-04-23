@@ -609,6 +609,12 @@ class Functions {
       } else if (type == "img") {
         media.file_img = nameFile_1;
 
+        try {
+          global.home.state.media.file_img = nameFile_1;
+        } catch (error) {
+          console.log(error);
+        }
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
@@ -618,6 +624,12 @@ class Functions {
       } else if (type == "doc") {
         media.file_doc = nameFile_1;
 
+        try {
+          global.home.state.media.file_doc = nameFile_1;
+        } catch (error) {
+          console.log(error);
+        }
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
@@ -626,6 +638,12 @@ class Functions {
         });
       } else {
         media.file_video = nameFile_1;
+
+        try {
+          global.home.state.media.file_video = nameFile_1;
+        } catch (error) {
+          console.log(error);
+        }
 
         component.setState({
           ActivityIndicator: false,
@@ -679,6 +697,12 @@ class Functions {
       if (type == 0) {
         media.file_img = null;
 
+        try {
+          global.home.state.media.file_img = null;
+        } catch (error) {
+          console.log(error);
+        }
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
@@ -688,6 +712,12 @@ class Functions {
       } else if (type == 1) {
         media.file_doc = null;
 
+        try {
+          global.home.state.media.file_doc = null;
+        } catch (error) {
+          console.log(error);
+        }
+
         component.setState({
           ActivityIndicator: false,
           statusUpload: responseData,
@@ -696,6 +726,12 @@ class Functions {
         });
       } else {
         media.file_video = null;
+
+        try {
+          global.home.state.media.file_video = null;
+        } catch (error) {
+          console.log(error);
+        }
 
         component.setState({
           ActivityIndicator: false,

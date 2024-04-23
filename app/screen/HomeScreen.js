@@ -40,6 +40,8 @@ class HomeScreen extends Component {
     this.state = {
       notification: [],
       ActivityIndicator: false,
+      media: {},
+      reload: false,
     };
   }
 
@@ -97,8 +99,12 @@ class HomeScreen extends Component {
   notification = async () => {
     var notification = await AsyncStorage.getItem("notification");
 
-    if (notification != undefined && notification != null && notification != '0') {
-      var a = await AsyncStorage.setItem("notification", '0');
+    if (
+      notification != undefined &&
+      notification != null &&
+      notification != "0"
+    ) {
+      var a = await AsyncStorage.setItem("notification", "0");
 
       let key = {};
       key.fromUser = global.commonData.user.user_id; //userId;
@@ -117,6 +123,8 @@ class HomeScreen extends Component {
 
     let fcmToken;
 
+    functions.getListMedia(this);
+
     try {
       fcmToken = await messaging().getToken();
     } catch (error) {
@@ -124,6 +132,7 @@ class HomeScreen extends Component {
     }
 
     global.screen = this;
+    global.home = this;
 
     let datauser = await functions.getDataUser();
 
@@ -169,9 +178,28 @@ class HomeScreen extends Component {
 
         global.screen = this;
 
+        this.setState({ reload: !this.state.reload });
+
         //this.notification();
       }
     );
+  };
+
+  getPercentUser = () => {
+    let count = 0;
+
+    try {
+      if (this.state.media.file_img != null) count++;
+
+      if (this.state.media.file_doc != null) count++;
+
+      if (this.state.media.file_video != null) count++;
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (count == 0) return 0;
+    else return parseInt((100 / 3) * count);
   };
 
   existPersonalData = (datauser) => {
@@ -214,6 +242,8 @@ class HomeScreen extends Component {
       var text6 = commonData.my_message;
       var text7 = commonData.my_notepad;
       var text8 = commonData.jobs;
+
+      var text9 = commonData.t_my_profile;
 
       var data1 = [
         {
@@ -260,7 +290,15 @@ class HomeScreen extends Component {
               navigation={this.props.navigation}
             />
             <View style={[styles.flexRow, styles.fullWith, style.bottom]}>
-              <Image source={imgFillProlie} />
+              <View style={{ alignItems: "center" }}>
+                <Text style={[styles.fontBoldSmall, style.textProfile]}>
+                  {text9}
+                </Text>
+                <Image source={imgFillProlie} />
+                <Text style={[style.textPercent, styles.fontBoldLargeNormal]}>
+                  {this.getPercentUser()}%
+                </Text>
+              </View>
               <View style={style.bottomNotification}>
                 <Href
                   onPress={() =>
@@ -324,6 +362,18 @@ const style = StyleSheet.create({
   text1: {
     color: "white",
     fontSize: 13,
+  },
+
+  textPercent: {
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    marginLeft: -20,
+    marginTop: -10,
+  },
+
+  textProfile: {
+    marginBottom: 5,
   },
 });
 
