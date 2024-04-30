@@ -212,10 +212,22 @@ class JobProfileFinal extends Component {
     );
   };
 
+  getNameJobFromId = (id) => {
+    let jobList = global.data;
+    let name = null;
+    
+    jobList.map((item, index) => {
+       if(item.id == id)
+         name = item.name;
+    })
+
+    return name;
+  }
+
   _renderItem = ({ item, index }) => {
     try {
       var job = item.job;
-      job = global.data[job].name;
+      job = this.getNameJobFromId(job);
 
       var workHome = item.work_home;
       workHome = functions.getLabelWorkat(global.data1, workHome); //global.data1[workHome].label;

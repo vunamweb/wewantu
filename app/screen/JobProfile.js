@@ -188,10 +188,22 @@ class JobProfile extends Component {
     this.setState({ visible: true, edit: edit, positionEdit: position });
   };
 
+  getNameJobFromId = (id) => {
+    let jobList = global.data;
+    let name = null;
+    
+    jobList.map((item, index) => {
+       if(item.id == id)
+         name = item.name;
+    })
+
+    return name;
+  }
+
   _renderItem = ({ item, index }) => {
     try {
       var job = item.job;
-      job = global.data[job].name;
+      job = this.getNameJobFromId(job);
 
       var workHome = item.work_home;
       workHome = functions.getLabelWorkat(global.data1, workHome); //global.data1[workHome].label;
@@ -316,7 +328,7 @@ class JobProfile extends Component {
     return check;
   };
 
-  gotoScreenWithParam = (job) => {
+  gotoScreenWithParam = (job, jobID) => {
     var data = {};
     data.edit = this.state.edit;
     data.position = this.state.positionEdit;
@@ -328,7 +340,7 @@ class JobProfile extends Component {
     if (data.data == undefined) data.data = [];
 
     data.data[index] = {};
-    data.data[index].job = job;
+    data.data[index].job = jobID;
 
     functions.gotoScreenWithParam(
       JSON.stringify(data),
@@ -465,7 +477,7 @@ class JobProfile extends Component {
                     return (
                       <View style={styles.fullWith}>
                         <View style={style.line} />
-                        <Href onPress={() => this.gotoScreenWithParam(index)}>
+                        <Href onPress={() => this.gotoScreenWithParam(index, id)}>
                           <View
                             style={[
                               styles.fullWith,
