@@ -107,9 +107,10 @@ class PersonalData_3 extends Component {
     // if user change any information of address, then insert or update to server
     if (this.isInsertAndUpdate()) {
       let zip = global.commonData.user.another.postal_code;
+      let address_id = global.commonData.user.another.address_id;
 
       // if user has no address, then insert to database
-      if (zip == null || zip == undefined) functions.insertAdress(this.state);
+      if (address_id == null || address_id == undefined) functions.insertAdress(this.state);
       // update user on server
       else functions.updateAdress(this.state);
     }
