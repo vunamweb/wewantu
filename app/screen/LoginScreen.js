@@ -9,6 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 
+import { WebView } from "react-native-webview";
+
 import Text from "../components/Paragraph";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -18,6 +20,7 @@ import TextInput from "../components/TextInput";
 import Switch from "../components/Switch";
 import Button from "../components/Button";
 import IconBottom from "../components/IconBottom";
+import Href from "../components/Href";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
@@ -93,6 +96,9 @@ class LoginScreen extends Component {
     } catch (error) {
       console.log(error);
     }
+
+    let urlForgotPassword = global.urlForgetPassword;
+
     return (
       <View style={styles.flexFull}>
         <ScrollView
@@ -187,9 +193,11 @@ class LoginScreen extends Component {
               </TouchableOpacity>
             </View>
             <Text style={[styles.colorTextCommon, style.text2]}>{text7}</Text>
-            <Text style={[styles.link, style.absolute, styles.fontNormalSmall]}>
+            <Href style={style.absolute} onPress={() => functions.gotoScreenWithParam(urlForgotPassword, this.props.navigation, 'Content')}>
+            <Text style={[styles.link, styles.fontNormalSmall]}>
               {text8}
             </Text>
+            </Href>
           </Background>
         </ScrollView>
       </View>

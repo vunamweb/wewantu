@@ -29,6 +29,7 @@ global.jobs = "checkAPI.php?e=jobs&l=de";
 global.contact = "https://platform.wewantu.com/CMS/de/kontakt/";
 global.impresumm = "https://platform.wewantu.com/CMS/de/impressum/";
 global.agb = "https://platform.wewantu.com/CMS/de/agb/";
+global.urlForgetPassword = "https://wewantu.frankfurterfreiheit.de/forget-password";
 
 // SMS
 global.urlSendSMS = "https://rest.clicksend.com/v3/sms/send";
@@ -93,3 +94,4 @@ global.passwordWeantu = "wewantu";
 
 // URL Image
 global.urlImage = "https://api.topazvn.vn/uploads/";
+
