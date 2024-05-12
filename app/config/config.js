@@ -1,6 +1,6 @@
 import { Dimensions } from "react-native";
 
-var widthSmall = 256; // small device as iphone 5s
+var widthSmall = 350; // small device as iphone 5s
 var widthNormal = 390; // normal device as iphone 12, 14
 var widthLarge = 530; // large device as tablet, ipad
 
