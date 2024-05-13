@@ -89,8 +89,23 @@ class AddEducation extends Component {
     };
   }
 
-  componentDidMount = () => {
-    functions.getJobs(this);
+  componentDidMount = async () => {
+    var datauser = await functions.getDataUser();
+    var jobs = [];
+
+    try {
+      datauser = JSON.parse(datauser);
+      jobs = datauser.jobs;
+    } catch (error) {
+      console.log(error);
+    }
+
+    if ((Array.isArray(jobs) && jobs.length == 0) || jobs == undefined)
+      functions.getJobs(this);
+    else
+      this.setState({
+        jobs: jobs
+      });
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -136,7 +151,7 @@ class AddEducation extends Component {
           //delete data.id;
 
           functions.updateUserEducation(this, education_id, data, position);
-        } catch (error) {}
+        } catch (error) { }
       }
     }
   };
@@ -529,7 +544,7 @@ class AddEducation extends Component {
               <CheckBox
                 data={data_}
                 //callBack={() => this.setState({ display: "flex" })}
-                callBack={this.gotoReview}
+                callBack={(index) => null}
                 style={[
                   styles.fullWith,
                   style.root,
