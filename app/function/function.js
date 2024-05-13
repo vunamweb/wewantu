@@ -390,7 +390,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let body = null;
 
@@ -1256,7 +1256,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlInsertEducational;
 
@@ -1314,7 +1314,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlUpdateUser;
 
@@ -1322,7 +1322,7 @@ class Functions {
 
     try {
       data = JSON.stringify(dataAnother);
-    } catch (error) {}
+    } catch (error) { }
 
     var callback = async (responseData) => {
       try {
@@ -1378,7 +1378,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlUpdateUser;
 
@@ -1386,7 +1386,7 @@ class Functions {
 
     try {
       data = JSON.stringify(dataAnother);
-    } catch (error) {}
+    } catch (error) { }
 
     var callback = async (responseData) => {
       console.log("callback");
@@ -1408,7 +1408,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlUpdateaddress;
 
@@ -1593,7 +1593,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlMedia;
 
@@ -1634,7 +1634,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlWorkathome;
 
@@ -1667,7 +1667,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlMoment;
 
@@ -1700,7 +1700,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlWorkExpericence;
 
@@ -1733,7 +1733,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlEducationalStageTypes;
 
@@ -1768,7 +1768,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlWorkatnight;
 
@@ -1801,7 +1801,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlWorkatweekend;
 
@@ -1834,7 +1834,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlAmbition;
 
@@ -1870,7 +1870,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlDriveLicense;
 
@@ -1920,7 +1920,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlUserLanguages;
     url = url.replace("{user_id}", user_id);
@@ -1954,7 +1954,7 @@ class Functions {
 
       token = dataUser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlGetUser;
     url = url.replace("{user_id}", user_id);
@@ -2022,7 +2022,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlGetJobProfile;
     url = url.replace("{user_id}", user_id);
@@ -2081,7 +2081,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlGetUserEducatation;
     url = url.replace("{user_id}", user_id);
@@ -2134,7 +2134,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlDeleteUserEducatation;
     url = url.replace("{education_id}", education_id);
@@ -2169,7 +2169,7 @@ class Functions {
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
-    } catch (error) {}
+    } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlLanguage;
 
@@ -2351,10 +2351,16 @@ class Functions {
     var callback = async (responseData) => {
       var faqs = [];
 
+      try {
+        faqs = JSON.parse(responseData);
+      } catch (error) {
+
+      }
+
       /*responseData.map((item, index) = {
         item.hj 
       })*/
-      component.setState({ faqs: responseData, ActivityIndicator: false });
+      component.setState({ faqs: faqs, ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });

@@ -52,30 +52,34 @@ class Faq extends Component {
 
     var bgColor =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? bgFocus
         : bgDefault;
 
     var heightContainer =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? "auto"
         : "auto";
 
     var display =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? "flex"
         : "none";
 
     var img =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? imgArrowUp
         : imgArrowDown;
 
-    item.name = item.name.replace("<sub>", "");
-    item.name = item.name.replace("</sub>", "");
+    try {
+      item.name = item.name.replace("<sub>", "");
+      item.name = item.name.replace("</sub>", "");
+    } catch (error) {
+      console.log(error);
+    }
 
     return (
       <TouchableOpacity
