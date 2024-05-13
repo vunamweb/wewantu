@@ -12,10 +12,16 @@ const arrowDown = require("../images/arrow.png");
 
 const pixelRatio = global.pixelRatio;
 
+var widthSmall = 350; // small device as iphone 5s
+var widthNormal = 390; // normal device as iphone 12, 14
+var widthLarge = 530; // large device as tablet, ipad
+
+
+
 // SET TOP, RIGHT FOR DRAWER
 const LINE_HEIGHT = 77 * pixelRatio;
 
-const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get("window").width;
 
 export default function TextHeader2({
   text1,
@@ -71,8 +77,8 @@ export default function TextHeader2({
     callBack3();
   };
 
-  
-  
+
+
   var view1 = (
     <Href onPress={() => goToWork()} style={[style.rotatedText, { backgroundColor: bg1 }]}>
       <Text style={[styles.fontBoldSpecialOfSpecial, style.text1, { color: color1 }]}>work</Text>
@@ -95,41 +101,24 @@ export default function TextHeader2({
       </Text>
     </Href>
   );
-  return (
-    <View style={[style.view]}>
-      <View style={{ marginTop: -30, paddingLeft: 50 }}>{view1}</View>
-      <View style={{ marginLeft: -73, zIndex: 999999 }}>{view2}</View>
-      <View style={{ marginLeft: -110, marginTop: -68 }}>{view3}</View>
 
-      {/*<Href style={[styles.fontBoldSpecialOfSpecial, style.rotatedText, style.text3]}>
-      <Text>dddf</Text>
-  </Href>*/}
-      {/*<Href
-      onPress={() => callBack1()}
-      >
-      <Text style={[styles.fontBoldSpecialOfSpecial, style.rotatedText, style.text1]}>
-        {text1}
-        {"\n"}
-       <Href 
-       onPress={() => callBack2()}
-       style={{ margin: 0 }}
-       >
-        <Text style={[styles.fontBoldSpecialOfSpecial, style.text2]}>
-        {text2}
-        </Text>
-        </Href>
-        {"\n"}
-        <Href
-        onPress={() => callBack3()}
-        >
-        <Text style={[styles.fontBoldSpecialOfSpecial, style.text3]}>
-        {text3}
-          </Text>
-          </Href>
-      </Text>
-  </Href>*/}
-    </View>
-  );
+  if (windowWidth <= widthSmall)
+    return (
+      <View style={[style.view]}>
+        <View style={{ marginTop: -22, paddingLeft: 50 }}>{view1}</View>
+        <View style={{ marginLeft: -63, zIndex: 999999 }}>{view2}</View>
+        <View style={{ marginLeft: -95, marginTop: -55 }}>{view3}</View>
+      </View>
+    );
+  else
+    return (
+      <View style={[style.view]}>
+        <View style={{ marginTop: -30, paddingLeft: 50 }}>{view1}</View>
+        <View style={{ marginLeft: -73, zIndex: 999999 }}>{view2}</View>
+        <View style={{ marginLeft: -110, marginTop: -68 }}>{view3}</View>
+      </View>
+    );
+
 }
 
 const style = StyleSheet.create({
