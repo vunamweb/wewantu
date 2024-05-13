@@ -2383,6 +2383,7 @@ class Functions {
     var token = datauser.token;*/
 
     var callback = async (responseData) => {
+      global.data = JSON.parse(responseData);
       global.commonData.jobs = JSON.parse(responseData);
 
       await functions.setDataAsyncStorage(

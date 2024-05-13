@@ -22,6 +22,7 @@ import functions from "../function/function";
 
 const data = global.data1;
 var text5;
+var check;
 
 class JobProfile_3 extends Component {
   constructor(props) {
@@ -34,6 +35,10 @@ class JobProfile_3 extends Component {
       errorMessage: "",
       marginTop: 0,
     };
+
+    this.gotoNextStep.bind(this);
+
+    this.check = false;
   }
 
   componentDidMount = () => {
@@ -64,8 +69,6 @@ class JobProfile_3 extends Component {
   });
 
   callBack = (position) => {
-    this.check = true;
-
     this.data = JSON.parse(this.data);
 
     var index = functions.getIndex(this.data);
@@ -87,7 +90,7 @@ class JobProfile_3 extends Component {
   gotoNextStep = () => {
     var component = this;
 
-    if (!this.check) {
+    if (!check) {
       component.setState({
         marginTop: 20,
         errorMessage: text5,
@@ -133,6 +136,8 @@ class JobProfile_3 extends Component {
     } catch (error) {
       console.log(error);
     }
+
+    check = (setIndex == -1) ? false : true;
 
     return (
       <View style={styles.flexFull}>

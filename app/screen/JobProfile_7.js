@@ -25,6 +25,7 @@ const data = global.data1;
 const icon = require("../images/thang.png");
 
 var text5;
+var check;
 
 class JobProfile_7 extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class JobProfile_7 extends Component {
   gotoNextStep = () => {
     var component = this;
 
-    if (!this.check) {
+    if (!check) {
       component.setState({
         marginTop: 20,
         errorMessage: text5,
@@ -129,6 +130,9 @@ class JobProfile_7 extends Component {
     } catch (error) {
       console.log(error);
     }
+
+    check = (setIndex == -1) ? false : true;
+    
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />

@@ -169,10 +169,29 @@ class JobProfile extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     global.jobprofile = this;
 
-    functions.getJobs(this);
+    var datauser = await functions.getDataUser();
+
+    var jobs = [];
+
+    try {
+      datauser = JSON.parse(datauser);
+      jobs = datauser.jobs;
+    } catch (error) {
+      console.log(error);
+    }
+
+    if ((Array.isArray(jobs) && jobs.length == 0) || jobs == undefined)
+      functions.getJobs(this);
+    else {
+      global.data = jobs;
+
+      this.setState({
+        jobs: jobs
+      });
+    }
 
     functions.getListWAH(this);
     functions.getListWAN(this);
@@ -184,17 +203,17 @@ class JobProfile extends Component {
 
   edit = (edit, position) => {
     global.typeEdit = 1;
-    
+
     this.setState({ visible: true, edit: edit, positionEdit: position });
   };
 
   getNameJobFromId = (id) => {
     let jobList = global.data;
     let name = null;
-    
+
     jobList.map((item, index) => {
-       if(item.id == id)
-         name = item.name;
+      if (item.id == id)
+        name = item.name;
     })
 
     return name;
@@ -222,18 +241,18 @@ class JobProfile extends Component {
       <View style={[styles.fullWith, style.view3]}>
         <View style={styles.flexFull}>
           <View style={style.parentSwitch}>
-          <Switch
-            activeTrackColor={"#898166"}
-            inactiveTrackColor={"#898166"}
-            activeThumbColor={"#fff"}
-            inactiveThumbColor={"#3e3e3e"}
-            size={30}
-            component={this}
-            index={0}
-            visible={false}
-            container={style.container}
-            additionalThumb={style.additionalThumb}
-          />
+            <Switch
+              activeTrackColor={"#898166"}
+              inactiveTrackColor={"#898166"}
+              activeThumbColor={"#fff"}
+              inactiveThumbColor={"#3e3e3e"}
+              size={30}
+              component={this}
+              index={0}
+              visible={false}
+              container={style.container}
+              additionalThumb={style.additionalThumb}
+            />
           </View>
           {/*borderTop*/}
           <View style={style.view2}>
@@ -263,7 +282,7 @@ class JobProfile extends Component {
               <SvgWithCss xml={svgCode2} width="24.7" height="23.3" />
             </Href>
             <Href onPress={() => this.edit(item.job_search_profile_id, index)}>
-            <SvgWithCss xml={svgCode1} width="24.7" height="23.3" />
+              <SvgWithCss xml={svgCode1} width="24.7" height="23.3" />
             </Href>
           </View>
           {/*borderBottom*/}
@@ -425,13 +444,27 @@ class JobProfile extends Component {
 
     var dataJob = this.state.userJobprofile;
 
+    var editUser = null;
+    var actualJob = null;
+
+    try {
+      editUser = functions.getJobProfileEdit(
+        global.jobprofile.state.userJobprofile,
+        this.state.edit
+      );
+
+      actualJob = (editUser != null && editUser != undefined) ? this.getNameJobFromId(editUser.job) : actualJob;
+    } catch (error) {
+
+    }
+
     return (
       <Provider>
         <Portal>
           <Modal visible={visible}>
             <View style={style.modalHeader}>
               <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                {text4}
+                {text4}{'\n'}{actualJob}
               </Text>
               <TextInput
                 onChangeText={(value) => this.setState({ search: value })}
