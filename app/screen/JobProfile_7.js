@@ -116,6 +116,7 @@ class JobProfile_7 extends Component {
       var text7 = commonData.Learning_New_Skills;
       var text8 = commonData.Job_Satisfaction;
       var text9 = commonData.Making_a_Difference;
+      var text10 = commonData.FERTIG;
 
       data4 = [
         {
@@ -192,7 +193,7 @@ class JobProfile_7 extends Component {
             </View>
             <BackNext
               nextScreen="JobProfileFinal"
-              text="FERTIG"
+              text={text10}
               position="absolute"
               data={[]}
               ref_={this}

@@ -69,9 +69,6 @@ export default function BackNext({
   var next =
     nextEnable || nextEnable == undefined ? (
       <TouchableOpacity onPress={() => goTonextScreen()} style={style.next}>
-        {text != undefined ? (
-          <Text style={[styles.fontBoldSmall, style.text]}>{text}</Text>
-        ) : null}
         {imgNext}
       </TouchableOpacity>
     ) : (
@@ -104,6 +101,9 @@ export default function BackNext({
         { position: position },
       ]}
     >
+      {text != undefined ? (
+          <Text style={[styles.fontBoldSmall, style.text]}>{text}</Text>
+        ) : null}
       {back}
       <View style={style.viewMiddle} />
       {next}
@@ -174,8 +174,9 @@ const style = StyleSheet.create({
 
   text: {
     position: "absolute",
-    top: 12,
-    left: PADDING_LEFT_NEXT_BUTTON - 60,
+    top: 5,
+    //left: PADDING_LEFT_NEXT_BUTTON - 60,
+    right: 5
   },
 
   text1: {
