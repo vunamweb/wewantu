@@ -196,7 +196,7 @@ class JobProfile extends Component {
     functions.getListWAH(this);
     functions.getListWAN(this);
     functions.getListWWK(this);
-    functions.getListAmbitiion(this);
+    //functions.getListAmbitiion(this);
 
     functions.getListUserJobprofiles(this);
   };
@@ -437,7 +437,7 @@ class JobProfile extends Component {
       global.data1 = this.state.data1;
       global.data2 = this.state.data2;
       global.data3 = this.state.data3;
-      global.data4 = this.state.data4;
+      //global.data4 = this.state.data4;
     } catch (error) {
       console.log(error);
     }

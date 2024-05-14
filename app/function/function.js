@@ -840,6 +840,7 @@ class Functions {
 
     var datauser = await this.getDataUser();
     let token = null;
+    let user_id;
 
     try {
       datauser = JSON.parse(datauser);
@@ -2051,7 +2052,7 @@ class Functions {
             item.desired_work_at_night.desired_work_at_night_id;
           userJobprofile[index].distance = item.max_distance;
           userJobprofile[index].distance1 = 0;
-          userJobprofile[index].intres = item.ambitions.ambitions_id;
+          userJobprofile[index].intres = item.ambitions_id;
         } catch (error) {
           console.log(error);
         }

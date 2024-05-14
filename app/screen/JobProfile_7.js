@@ -108,11 +108,32 @@ class JobProfile_7 extends Component {
     var edit = 0;
     var editUser = null;
     var setIndex = -1;
+    var data4 = [];
 
     try {
       text5 = commonData.please_select_item;
       var text6 = commonData.MY_CAREER_AMBITIONS;
+      var text7 = commonData.Learning_New_Skills;
+      var text8 = commonData.Job_Satisfaction;
+      var text9 = commonData.Making_a_Difference;
 
+      data4 = [
+        {
+          id: 0,
+          label: text7
+        },
+
+        {
+          id: 1,
+          label: text8
+        },
+
+        {
+          id: 2,
+          label: text9
+        },
+      ]
+      
       var data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
 
@@ -146,7 +167,7 @@ class JobProfile_7 extends Component {
             <View style={[styles.fullWith, style.root]}>
               <Image style={{ marginRight: 10 }} source={icon} />
               <CheckBox
-                data={global.data4}
+                data={data4}
                 setIndex={setIndex}
                 callBack={this.callBack}
                 style={style.checkbox}

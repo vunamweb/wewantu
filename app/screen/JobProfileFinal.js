@@ -332,8 +332,8 @@ class JobProfileFinal extends Component {
     if(data.work_weekend == 0)
     data.work_weekend = global.data2[0].id;
 
-    if(data.intres == 0)
-    data.intres = global.data4[0].id;
+    /*if(data.intres == 0)
+    data.intres = global.data4[0].id;*/
 
     return data;
   }
