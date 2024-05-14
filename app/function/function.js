@@ -883,6 +883,17 @@ class Functions {
         userJobprofile[position].job_search_profile_id = jobprofile_id;
       }
 
+      try {
+        datauser.listJobProfile = userJobprofile;
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(datauser)
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
       component.setState({
         userJobprofile: userJobprofile,
         ActivityIndicator: false,
@@ -928,7 +939,7 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
-  deleteUserJobProfile = async (component, jobProfile_id) => {
+  deleteUserJobProfile = async (component, jobProfile_id, positionDelete) => {
     let url = global.urlRootWewantu + global.urlUserDeleteJobprofile;
 
     var datauser = await this.getDataUser();
@@ -950,6 +961,17 @@ class Functions {
     data.append("jobprofile_id", jobProfile_id);
 
     var callback = async (responseData) => {
+      try {
+        let listJobProfile = datauser.listJobProfile;
+        listJobProfile.splice(positionDelete, 1);
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(datauser)
+        );
+      } catch (error) {
+
+      }
       component.setState({
         ActivityIndicator: false,
       });
@@ -1652,6 +1674,13 @@ class Functions {
         data.push(obj);
       });
 
+      global.commonData.listWAH = data;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
+
       component.setState({ data1: data, ActivityIndicator: false });
     };
 
@@ -1786,6 +1815,13 @@ class Functions {
         data.push(obj);
       });
 
+      global.commonData.listWAN = data;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
+
       component.setState({ data2: data, ActivityIndicator: false });
     };
 
@@ -1818,6 +1854,13 @@ class Functions {
 
         data.push(obj);
       });
+
+      global.commonData.listWWK = data;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
 
       component.setState({ data3: data, ActivityIndicator: false });
     };
@@ -2059,6 +2102,13 @@ class Functions {
       });
 
       global.userJobprofile = userJobprofile;
+
+      global.commonData.listJobProfile = userJobprofile;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
 
       component.setState({
         ActivityIndicator: false,

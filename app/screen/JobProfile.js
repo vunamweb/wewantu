@@ -174,15 +174,21 @@ class JobProfile extends Component {
 
     var datauser = await functions.getDataUser();
 
-    var jobs = [];
+    var jobs = [], listJobProfile = [], listWAH = [], listWAN = [], listWWK = [];
 
     try {
       datauser = JSON.parse(datauser);
+
       jobs = datauser.jobs;
+      listJobProfile = datauser.listJobProfile;
+      listWAH = datauser.listWAH;
+      listWAN = datauser.listWAN;
+      listWWK = datauser.listWWK;
     } catch (error) {
       console.log(error);
     }
 
+    // check list of job has saved on local, if not call api to get data
     if ((Array.isArray(jobs) && jobs.length == 0) || jobs == undefined)
       functions.getJobs(this);
     else {
@@ -192,13 +198,51 @@ class JobProfile extends Component {
         jobs: jobs
       });
     }
+    // END
 
-    functions.getListWAH(this);
-    functions.getListWAN(this);
-    functions.getListWWK(this);
+    // check list of WAH has saved on local, if not call api to get data
+    if ((Array.isArray(listWAH) && listWAH.length == 0) || listWAH == undefined)
+      functions.getListWAH(this);
+    else {
+      this.setState({
+        data1: listWAH
+      });
+    }
+    // END
+
+    // check list of WAN has saved on local, if not call api to get data
+    if ((Array.isArray(listWAN) && listWAN.length == 0) || listWAN == undefined)
+      functions.getListWAN(this);
+    else {
+      this.setState({
+        data2: listWAN
+      });
+    }
+    // END
+
+    // check list of WAN has saved on local, if not call api to get data
+    if ((Array.isArray(listWWK) && listWWK.length == 0) || listWWK == undefined)
+      functions.getListWWK(this);
+    else {
+      this.setState({
+        data3: listWWK
+      });
+    }
+    // END
+
     //functions.getListAmbitiion(this);
 
-    functions.getListUserJobprofiles(this);
+    // check list of jobprofile has saved on local, if not call api to get data
+    if ((Array.isArray(listJobProfile) && listJobProfile.length == 0) || listJobProfile == undefined)
+      functions.getListUserJobprofiles(this);
+    else {
+      global.userJobprofile = listJobProfile;
+      
+      this.setState({
+        userJobprofile: listJobProfile
+      });
+    }
+    // END
   };
 
   edit = (edit, position) => {
@@ -397,7 +441,7 @@ class JobProfile extends Component {
 
     this.setState({ visible2: false, userJobprofile: data });
 
-    functions.deleteUserJobProfile(this, jobProfile_Id);
+    functions.deleteUserJobProfile(this, jobProfile_Id, indexDeleteJob);
   };
 
   handleScroll = (event) => {
