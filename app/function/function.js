@@ -1779,6 +1779,13 @@ class Functions {
         data.push(obj);
       });
 
+      global.commonData.listEducationStage = data;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
+
       component.setState({
         EducationalStageTypes: data,
         ActivityIndicator: false,

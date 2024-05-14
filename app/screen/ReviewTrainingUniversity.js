@@ -98,7 +98,27 @@ class ReviewTrainingUniversity extends Component {
       this.setState({ trainning: trainning });
     }
 
-    functions.getListEducationalStageTypes(this); // get list of education stage type
+    var datauser = await functions.getDataUser();
+
+    var listEducationStage = [];
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      listEducationStage = datauser.listEducationStage;
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of education stage has saved on local, if not call api to get data
+    if ((Array.isArray(listEducationStage) && listEducationStage.length == 0) || listEducationStage == undefined)
+      functions.getListEducationalStageTypes(this); // get list of education stage type
+    else {
+      this.setState({
+        EducationalStageTypes: listEducationStage
+      });
+    }
+    // END
   };
 
   static navigationOptions = ({ navigation }) => ({
