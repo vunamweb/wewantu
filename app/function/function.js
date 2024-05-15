@@ -1921,6 +1921,13 @@ class Functions {
         data.push(obj);
       });
 
+      global.commonData.listAmbtition = data;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
+
       component.setState({ data4: data, ActivityIndicator: false });
     };
 
@@ -2128,7 +2135,7 @@ class Functions {
             item.desired_work_at_night.desired_work_at_night_id;
           userJobprofile[index].distance = item.max_distance;
           userJobprofile[index].distance1 = 0;
-          userJobprofile[index].intres = item.ambitions_id;
+          userJobprofile[index].intres = item.ambitions.ambitions_id;
         } catch (error) {
           console.log(error);
         }

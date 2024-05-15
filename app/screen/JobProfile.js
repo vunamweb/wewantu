@@ -174,7 +174,7 @@ class JobProfile extends Component {
 
     var datauser = await functions.getDataUser();
 
-    var jobs = [], listJobProfile = [], listWAH = [], listWAN = [], listWWK = [];
+    var jobs = [], listJobProfile = [], listWAH = [], listWAN = [], listWWK = [], listAmbtition = [];
 
     try {
       datauser = JSON.parse(datauser);
@@ -184,6 +184,7 @@ class JobProfile extends Component {
       listWAH = datauser.listWAH;
       listWAN = datauser.listWAN;
       listWWK = datauser.listWWK;
+      listAmbtition = datauser.listAmbtition;
     } catch (error) {
       console.log(error);
     }
@@ -230,7 +231,15 @@ class JobProfile extends Component {
     }
     // END
 
-    //functions.getListAmbitiion(this);
+    // check list of Ambition has saved on local, if not call api to get data
+    if ((Array.isArray(listAmbtition) && listAmbtition.length == 0) || listAmbtition == undefined)
+      functions.getListAmbitiion(this);
+    else {
+      this.setState({
+        data4: listAmbtition
+      });
+    }
+    // END
 
     // check list of jobprofile has saved on local, if not call api to get data
     if ((Array.isArray(listJobProfile) && listJobProfile.length == 0) || listJobProfile == undefined)
@@ -481,7 +490,7 @@ class JobProfile extends Component {
       global.data1 = this.state.data1;
       global.data2 = this.state.data2;
       global.data3 = this.state.data3;
-      //global.data4 = this.state.data4;
+      global.data4 = this.state.data4;
     } catch (error) {
       console.log(error);
     }

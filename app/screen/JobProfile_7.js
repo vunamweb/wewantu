@@ -113,12 +113,12 @@ class JobProfile_7 extends Component {
     try {
       text5 = commonData.please_select_item;
       var text6 = commonData.MY_CAREER_AMBITIONS;
-      var text7 = commonData.Learning_New_Skills;
+      /*var text7 = commonData.Learning_New_Skills;
       var text8 = commonData.Job_Satisfaction;
-      var text9 = commonData.Making_a_Difference;
+      var text9 = commonData.Making_a_Difference;*/
       var text10 = commonData.FERTIG;
 
-      data4 = [
+      /*data4 = [
         {
           id: 0,
           label: text7
@@ -133,7 +133,7 @@ class JobProfile_7 extends Component {
           id: 2,
           label: text9
         },
-      ]
+      ]*/
       
       var data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
@@ -168,7 +168,7 @@ class JobProfile_7 extends Component {
             <View style={[styles.fullWith, style.root]}>
               <Image style={{ marginRight: 10 }} source={icon} />
               <CheckBox
-                data={data4}
+                data={global.data4}
                 setIndex={setIndex}
                 callBack={this.callBack}
                 style={style.checkbox}
