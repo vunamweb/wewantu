@@ -242,6 +242,7 @@ class JobProfile extends Component {
     // END
 
     // check list of jobprofile has saved on local, if not call api to get data
+    //if(true)
     if ((Array.isArray(listJobProfile) && listJobProfile.length == 0) || listJobProfile == undefined)
       functions.getListUserJobprofiles(this);
     else {

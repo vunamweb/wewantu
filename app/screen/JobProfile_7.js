@@ -102,13 +102,34 @@ class JobProfile_7 extends Component {
     return true;
   };
 
+  filterByLanguage = (data) => {
+    let response = [];
+    let language = (global.selectLanguage == undefined) ? 'en' : global.selectLanguage;
+
+    try {
+      global.data4.map((item, index) => {
+        let label = JSON.parse(item.label.trim());
+
+        item.label = label[language];
+
+        response.push(item);
+
+      })
+    } catch (error) {
+      console.log(error);
+      response = data;
+    }
+
+    return response;
+  }
+
   render() {
     var commonData = global.commonData.languages;
 
     var edit = 0;
     var editUser = null;
     var setIndex = -1;
-    var data4 = [];
+    var data4 = this.filterByLanguage(global.data4);
 
     try {
       text5 = commonData.please_select_item;
@@ -134,7 +155,7 @@ class JobProfile_7 extends Component {
           label: text9
         },
       ]*/
-      
+
       var data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
 
@@ -154,7 +175,7 @@ class JobProfile_7 extends Component {
     }
 
     check = (setIndex == -1) ? false : true;
-    
+
     return (
       <View style={styles.flexFull}>
         <Header component={this} Notification={false} />
@@ -168,7 +189,7 @@ class JobProfile_7 extends Component {
             <View style={[styles.fullWith, style.root]}>
               <Image style={{ marginRight: 10 }} source={icon} />
               <CheckBox
-                data={global.data4}
+                data={data4}
                 setIndex={setIndex}
                 callBack={this.callBack}
                 style={style.checkbox}

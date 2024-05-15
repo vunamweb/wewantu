@@ -49,6 +49,8 @@ class Language extends Component {
   });
 
   callBack = (position) => {
+    global.selectLanguage = (position == 0) ? 'en' : 'de';
+    
     functions.getTextLanguage(this, position);
   };
 
