@@ -77,7 +77,27 @@ class Message extends Component {
     this.setState({ dataUser: dataUser });
     //hideNavigationBar();
 
-    functions.getListUser(this);
+    var userList = [], chatList = [];
+
+    try {
+      dataUser = JSON.parse(dataUser);
+
+      userList = dataUser.userList;
+      chatList = dataUser.chatList;
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of chat has saved on local, if not call api to get data
+    if ((Array.isArray(chatList) && chatList.length == 0) || chatList == undefined)
+      functions.getListUser(this);
+    else {
+      this.setState({
+        userList: userList,
+        chatList: chatList,
+      });
+    }
+    // END
 
     global.screen = this;
   };

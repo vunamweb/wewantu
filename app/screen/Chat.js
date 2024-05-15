@@ -78,7 +78,7 @@ class Chat extends Component {
       //if(childExist)
       let valueToUser = (data._snapshot.value.fromUser != global.commonData.user.user_id) ? global.commonData.user.user_id : toUser;
 
-      if(!this.checkExist(dataref, data._snapshot.value)) {
+      if (!this.checkExist(dataref, data._snapshot.value)) {
         dataref.push(data._snapshot.value);
 
         functions.insertChat(
@@ -111,8 +111,28 @@ class Chat extends Component {
     // listen GCM
     new UtilityFirebase(this).onReceiveMessage(callbackNotificationListeners);
 
-    // get message list
-    functions.getListMessage(this, fromUser, toUser);
+    let dataUser = await functions.getDataUser();
+    var dataMessage = [];
+    let pathMessage = 'message_' + fromUser + '_' + toUser;
+
+    try {
+      dataUser = JSON.parse(dataUser);
+
+      dataMessage = dataUser[pathMessage];
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of chat has saved on local, if not call api to get data
+    if ((Array.isArray(dataMessage) && dataMessage.length == 0) || dataMessage == undefined)
+      // get message list
+      functions.getListMessage(this, fromUser, toUser);
+    else {
+      this.setState({
+        data: dataMessage
+      });
+    }
+    // END
 
     global.screen = this;
   };
@@ -121,7 +141,7 @@ class Chat extends Component {
     let check = false;
 
     parent.map((item, index) => {
-       if(item.dateTime == child.dateTime)
+      if (item.dateTime == child.dateTime)
         check = true;
     })
 
@@ -232,20 +252,20 @@ class Chat extends Component {
               ) : null}
             </View>
             <TextInput
-            onChangeText={(value) => this.setState({ message: value })}
-            value={this.state.message}
-            component={this}
-            styleParent={[styles.textInput]}
-            fontAwesome="true"
-            colorIcon="white"
-            leftIcon={this.state.message == "" ? "edit" : ""}
-            //onLeftClick={() => this.onClickEye(false)}
-            leftStyle={style.leftStyle}
-            rightIcon={this.state.message == "" ? "" : "send"}
-            onRightClick={() => this.pushMessage()}
-            bgFocus="white"
-            bgBlur="#3f3f3f"
-          />
+              onChangeText={(value) => this.setState({ message: value })}
+              value={this.state.message}
+              component={this}
+              styleParent={[styles.textInput]}
+              fontAwesome="true"
+              colorIcon="white"
+              leftIcon={this.state.message == "" ? "edit" : ""}
+              //onLeftClick={() => this.onClickEye(false)}
+              leftStyle={style.leftStyle}
+              rightIcon={this.state.message == "" ? "" : "send"}
+              onRightClick={() => this.pushMessage()}
+              bgFocus="white"
+              bgBlur="#3f3f3f"
+            />
           </Background>
         </ScrollView>
         <View style={style.containerSendMessage}>

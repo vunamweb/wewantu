@@ -1550,6 +1550,14 @@ class Functions {
 
     var callback = async (responseData) => {
       var callback1 = async (responseData1) => {
+        global.commonData.userList = responseData;
+        global.commonData.chatList = responseData1;
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(global.commonData)
+        );
+
         component.setState({
           userList: responseData,
           chatList: responseData1,
@@ -1599,6 +1607,17 @@ class Functions {
           mesages.push(obj);
         }
       });
+
+      let pathMessage = 'message_' + from_user_id + '_' + to_user_id;
+
+      let commonData = global.commonData;
+
+      commonData[pathMessage] = mesages;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
 
       component.setState({ data: mesages, ActivityIndicator: false });
     };
