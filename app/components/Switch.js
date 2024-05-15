@@ -13,6 +13,12 @@ export default function MySwitch({ mode, style, ...props }) {
 
   props.component.switch[props.index] = isEnabled;
 
+  const changeValue = (value) => {
+    setIsEnabled(value);
+    if(props.callBack != undefined)
+      props.callBack(props.job_search_profile_id, value, props.index)
+  }
+
   return (
     <View>
       {
@@ -28,7 +34,7 @@ export default function MySwitch({ mode, style, ...props }) {
         }*/
       {...props}
       value={isEnabled}
-      onChange={(value) => setIsEnabled(value)}
+      onChange={(value) => changeValue(value)}
     />
     </View>
   );

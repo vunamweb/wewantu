@@ -1418,6 +1418,36 @@ class Functions {
     network.fetchPUT_HEADER(url, data, token, callback);
   };
 
+  updateJobProfile = async (component, dataAnother) => {
+    var datauser = await this.getDataUser();
+
+    let token = null,
+      user_id;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      user_id = datauser.user.user_id;
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) { }
+
+    let url = global.urlRootWewantu + global.urlUpdateJobProfile;
+
+    var data;
+
+    try {
+      data = JSON.stringify(dataAnother);
+    } catch (error) { }
+
+    var callback = async (responseData) => {
+      console.log("callback");
+    };
+
+    network.fetchPUT_HEADER(url, data, token, callback);
+  };
+
   updateAdress = async (dataAddress) => {
     var datauser = await this.getDataUser();
 
