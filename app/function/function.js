@@ -1987,6 +1987,13 @@ class Functions {
         userLanguages[index].level = item.level;
       });
 
+      global.commonData.listUserLanguages = userLanguages;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
+
       component.setState({
         ActivityIndicator: false,
         userLanguages: userLanguages,
@@ -2240,6 +2247,13 @@ class Functions {
         listLanguages[index].id = item.language_id;
         listLanguages[index].name = item.language;
       });
+
+      global.commonData.listLanguages = listLanguages;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
 
       component.setState({
         languageServer: listLanguages,

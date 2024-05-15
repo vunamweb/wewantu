@@ -58,17 +58,42 @@ class PersonalData_Language extends Component {
     this.setState({ languages: languages, visible: false });
   };
 
-  callBack = (position) => {
+  callBack = async (position) => {
     try {
-      var language = this.props.navigation.state.params.data;
+      let name = this.props.navigation.state.params.data;
+
+      //var language = this.props.navigation.state.params.data;
 
       let languageId = global.chooseLanguage;
 
-      var language = language + ";" + data[position].label + ';' + languageId;
+      var language1 = name + ";" + data[position].label + ';' + languageId;
 
       global.updateLanguage  = true;
 
-      functions.insertUserLanguage(this, languageId, position, language);
+      // update language on local
+      var datauser = await functions.getDataUser();
+
+      try {
+        datauser = JSON.parse(datauser);
+
+        let obj = {};
+
+        obj.id = languageId;
+        obj.level = position;
+        obj.name = name;
+
+        datauser.listUserLanguages.push(obj);
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(datauser)
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      // END
+
+      functions.insertUserLanguage(this, languageId, position, language1);
     } catch (error) {
       console.log(error);
     }

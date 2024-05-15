@@ -71,11 +71,41 @@ class PersonalData_4 extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     hideNavigationBar();
 
-    functions.getListLanguages(this);
-    functions.getListUserLanguages(this);
+    var datauser = await functions.getDataUser();
+
+    var listLanguages = [], listUserLanguages = [];
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      listUserLanguages = datauser.listUserLanguages;
+      listLanguages = datauser.listLanguages;
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of languages saved on local, if not call api to get data
+    if ((Array.isArray(listLanguages) && listLanguages.length == 0) || listLanguages == undefined)
+      functions.getListLanguages(this);
+    else {
+      this.setState({
+        languageServer: listLanguages
+      });
+    }
+    // END
+
+    // check list of user languages saved on local, if not call api to get data
+    if ((Array.isArray(listUserLanguages) && listUserLanguages.length == 0) || listUserLanguages == undefined)
+      functions.getListUserLanguages(this);
+    else {
+      this.setState({
+        userLanguages: listUserLanguages
+      });
+    }
+    // END
 
     global.updateLanguage = false;
   };
@@ -127,6 +157,7 @@ class PersonalData_4 extends Component {
       serverLanguages.push(nameLanguages);
     });
 
+    // if add new language
     if (this.props.navigation.state.params != undefined && global.updateLanguage) {
       serverLanguages.push(this.props.navigation.state.params.data);
 
@@ -230,9 +261,26 @@ class PersonalData_4 extends Component {
   delete = () => {
     var languages = this.state.userLanguages;
 
-    languages.map((item, index) => {
+    languages.map(async (item, index) => {
       if (deleteItem == index) {
         languages.splice(index, 1);
+
+        var datauser = await functions.getDataUser();
+
+        try {
+          datauser = JSON.parse(datauser);
+
+          let listUserLanguages = datauser.listUserLanguages;
+
+          listUserLanguages.splice(index, 1);
+
+          await functions.setDataAsyncStorage(
+            "data",
+            JSON.stringify(datauser)
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
 
@@ -264,7 +312,7 @@ class PersonalData_4 extends Component {
       var text4 = commonData.yes;
       var text5 = commonData.no;
       var text6 = commonData.languages;
-      
+
       text1_1 = commonData.mother_tongue;
       text1_2 = commonData.business_fluent_in_spoken_and_written;
       text1_3 = commonData.school_level;
