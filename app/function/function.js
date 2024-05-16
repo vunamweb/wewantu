@@ -874,6 +874,7 @@ class Functions {
       // if insert
       if (jobprofile_id == -1) {
         userJobprofile[0].job_search_profile_id = responseData.joprofile_id;
+        userJobprofile[0].is_activate = 1;
 
         global.userJobprofile = userJobprofile;
         global.jobprofile.state.userJobprofile = userJobprofile;

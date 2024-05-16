@@ -224,6 +224,43 @@ class JobProfileFinal extends Component {
     return name;
   }
 
+  callBack = (job_search_profile_id, is_activate, index) => {
+    is_activate = (is_activate) ? 1 : 0;
+
+    let obj = {};
+
+    obj.job_search_profile_id = job_search_profile_id;
+    obj.is_activate = is_activate;
+
+    functions.updateJobProfile(this, obj);
+
+    this.updateActivateJobProfileLocal(index, is_activate);
+  }
+
+  updateActivateJobProfileLocal = (position, is_activate) => {
+    is_activate = (is_activate) ? 1 : 0;
+
+    try {
+      this.state.userJobprofile.map(async (item, index) => {
+        if (position == index) {
+          this.state.userJobprofile[index].is_activate = is_activate;
+
+          var datauser = await functions.getDataUser();
+
+          datauser = JSON.parse(datauser);
+          datauser.listJobProfile[index].is_activate = is_activate;
+
+          await functions.setDataAsyncStorage(
+            "data",
+            JSON.stringify(datauser)
+          );
+        }
+      })
+    } catch (error) {
+
+    }
+  }
+
   _renderItem = ({ item, index }) => {
     try {
       var job = item.job;
@@ -242,6 +279,8 @@ class JobProfileFinal extends Component {
       console.log(error);
     }
 
+    let is_activate = (item.is_activate) ? true : false;
+
     return (
       <View style={[styles.fullWith, style.view3]}>
         <View style={styles.flexFull}>
@@ -253,8 +292,10 @@ class JobProfileFinal extends Component {
             inactiveThumbColor={"#3e3e3e"}
             size={30}
             component={this}
-            index={0}
-            visible={false}
+            index={index}
+            job_search_profile_id={item.job_search_profile_id}
+            callBack={this.callBack}
+            visible={is_activate}
             container={style.container}
             additionalThumb={style.additionalThumb}
           />
@@ -304,6 +345,8 @@ class JobProfileFinal extends Component {
     try {
       data = this.props.navigation.state.params.data;
       data = JSON.parse(data);
+
+      //data.is_activate = 1;
 
       let userProfileJob =
         data.position == -1
