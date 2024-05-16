@@ -158,6 +158,8 @@ class JobProfile extends Component {
       openModal: false,
       closeModal: false,
       isBack: false,
+      display: 'flex',
+      displayJob: 'none',
       ActivityIndicator: false,
       search: "",
       edit: -1,
@@ -260,7 +262,7 @@ class JobProfile extends Component {
   edit = (edit, position) => {
     global.typeEdit = 1;
 
-    this.setState({ visible: true, edit: edit, positionEdit: position });
+    this.setState({ visible: true, edit: edit, positionEdit: position, display: 'none', displayJob: 'flex' });
   };
 
   getNameJobFromId = (id) => {
@@ -507,6 +509,13 @@ class JobProfile extends Component {
     if (atBottom) this.setState({ position: this.state.position + 1 });
   };
 
+  showJob = () => {
+    if(this.state.display == 'none')
+    this.setState({ display: 'flex' });
+    else 
+    this.setState({ display: 'none' });
+  }
+
   render() {
     var visible;
 
@@ -530,7 +539,8 @@ class JobProfile extends Component {
       var text2 = commonData.profile;
       var text3 = commonData.what_i_want_to_do;
       var text4 = commonData.profession;
-
+      var text5 = commonData.select_new_job;
+      
       global.data1 = this.state.data1;
       global.data2 = this.state.data2;
       global.data3 = this.state.data3;
@@ -560,8 +570,21 @@ class JobProfile extends Component {
         <Portal>
           <Modal visible={visible}>
             <View style={style.modalHeader}>
-              <Text style={[style.modalHeadLine, styles.fontBoldNormal]}>
-                {text4}{'\n'}{actualJob}
+              <View style={{ display: this.state.displayJob, alignItems: 'center' }}>
+                <Text style={[style.modalHeadLineJob, styles.fontBoldNormal]}>
+                  {actualJob}
+                </Text>
+                <Button
+                  color="white"
+                  text={text5}
+                  style={[styles.button, style.buttonSelectNewJob]}
+                  onPress={() =>
+                    this.showJob()
+                  }
+                />
+              </View>
+              <Text style={[style.modalHeadLine, styles.fontBoldNormal, { display: this.state.display, marginTop: 10 }]}>
+                {text4}
               </Text>
               <TextInput
                 onChangeText={(value) => this.setState({ search: value })}
@@ -571,6 +594,7 @@ class JobProfile extends Component {
                 styleParent={[
                   {
                     borderColor: "#414141",
+                    display: this.state.display
                   },
                   styles.textInput,
                   style.textInput1,
@@ -598,7 +622,7 @@ class JobProfile extends Component {
               </View>
             </View>
             <ScrollView onScroll={this.handleScroll}>
-              <View style={style.modal}>
+              <View style={[style.modal, { display: this.state.display }]}>
                 {this.state.jobs.map(({ name, id }, index) => {
                   if (
                     name.includes(this.state.search) &&
@@ -674,6 +698,8 @@ class JobProfile extends Component {
                         openModal: true,
                         closeModal: false,
                         isBack: false,
+                        display: 'flex',
+                        displayJob: 'none'
                       })
                     }
                     icon={icon}
@@ -734,6 +760,12 @@ const style = StyleSheet.create({
   modalHeadLine: {
     marginTop: 30,
     marginBottom: 30,
+  },
+
+  modalHeadLineJob: {
+    marginTop: 30,
+    marginBottom: 10,
+    alignItems: 'center'
   },
 
   buttonCancel: {
@@ -884,7 +916,14 @@ const style = StyleSheet.create({
 
   parentSwitch: {
     position: 'absolute', right: 10, top: 10, zIndex: 9999999
-  }
+  },
+
+  buttonSelectNewJob: {
+    backgroundColor: "#898166",
+    marginTop: 0,
+    marginBottom: 10,
+    alignItems: 'center'
+  },
 });
 
 export default JobProfile;

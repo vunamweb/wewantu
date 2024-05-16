@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 
+import Svg, { Circle, G } from 'react-native-svg';
+
 import { ScrollView } from "react-native-gesture-handler";
 import { hideNavigationBar } from "react-native-navigation-bar-color";
 
@@ -21,6 +23,7 @@ import Image from "../components/Image";
 import Href from "../components/Href";
 import IconBottom from "../components/IconBottom";
 import Header from "../components/Header";
+import CircularProgress from "../components/CircularProgress";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
@@ -294,7 +297,13 @@ class HomeScreen extends Component {
                 <Text style={[styles.fontBoldSmall, style.textProfile]}>
                   {text9}
                 </Text>
-                <Image source={imgFillProlie} />
+                <CircularProgress
+        size={150}
+        strokeWidth={10}
+        progress={this.getPercentUser()} // percentage completed
+        color="#898166"
+        backgroundColor="#ccc"
+      />
                 <Text style={[style.textPercent, styles.fontBoldLargeNormal]}>
                   {this.getPercentUser()}%
                 </Text>
