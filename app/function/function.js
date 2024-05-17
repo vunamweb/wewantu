@@ -2150,6 +2150,30 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
+  getDetailUser = async (component, userId) => {
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+    } catch (error) { }
+
+    let url = global.urlRootWewantu + global.urlGetUser;
+    url = url.replace("{user_id}", userId);
+
+    var callback = async (responseData) => {
+      component.setState({
+        detailUser: responseData,
+      });
+    };
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchGET_HEADER(url, null, token, callback);
+  };
+
   getJobProfileEdit = (userJobProfile, jobprofile_id) => {
     var editUser = null;
 

@@ -24,19 +24,25 @@ import IconBottom from "../components/IconBottom";
 import FlatListViewNormal from "../components/ListView";
 import Header from "../components/Header";
 import Image from "../components/Image";
+import Href from "../components/Href";
 
 import styles from "../../app/style/style";
 import styleChat from "../../app/style/style_chat";
 
 import functions from "../../app/function/function";
 import UtilityFirebase from "../function/UtilityFirebase";
+import { Portal, Provider, Modal } from "react-native-paper";
 
 let key, fromUser, toUser;
 
 var text8, text9, text10;
 
 const imgMessage = require("../images/chat_message.png");
+const iconPhone = require("../images/icon_phone.png");
+const iconMail = require("../images/icon_mail.png");
+const iconClose = require("../images/close.png");
 const imgFlag = require("../images/Flag.png");
+
 
 let dataref = [];
 
@@ -53,6 +59,15 @@ class Chat extends Component {
     fcmToken: null,
     message: "",
     display: "none",
+    visible: false,
+    detailUser: {
+      street: null,
+      address_addition: null,
+      postal_code: null,
+      city: null,
+      mail: null,
+      mobile_phone_number: null
+}
   };
 
   componentDidMount = async () => {
@@ -183,6 +198,12 @@ class Chat extends Component {
     functions.pushMessage(fromUser, group, this.state.message, this);
   };
 
+  getDetailUser = () => {
+       this.setState({ visible: true });
+
+       functions.getDetailUser(this, toUser);
+  }
+
   renderItem = ({ item, index }) =>
     item.fromUser != global.commonData.user.user_id ? ( // if not owner
       <View style={styleChat.containerList}>
@@ -213,75 +234,123 @@ class Chat extends Component {
 
     var commonData = global.commonData.languages;
 
+    let text1;
+
     try {
       text8 = commonData.Please_enter_First_name;
       text9 = commonData.Please_enter_last_name;
       text10 = commonData.please_enter_email;
+
+      text1 = commonData.contact_detail;
     } catch (error) {
       console.log(error);
     }
+
+    let address = this.state.detailUser.street;
+    let addressAdtional = this.state.detailUser.address_addition;
+    let postcode = this.state.postal_code;
+    let city = this.state.city;
+    let email = this.state.mail;
+    let phone = this.state.mobile_phone_number;
+
     return (
-      <View style={styles.flexFull}>
-        <Header component={this} />
-        <ScrollView contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
-          <Background>
-            <View>
-              <Image source={require("../images/user_chat_1.png")} />
-              <Image
-                source={require("../images/Unknown.png")}
-                style={style.imageProfile}
-              />
+      <Provider>
+        <Portal>
+          <Modal visible={this.state.visible}>
+            <View style={style.modalDeleteRoot}>
+              <Href style={{ zIndex: 9999999 }} onPress={() => this.setState({ visible: false })}>
+                <Image
+                  source={iconClose}
+                  style={style.close}
+                />
+              </Href>
+              <Text style={[styles.fontBoldLargeMedium, style.textHeaderModal]}>
+                {text1}
+              </Text>
+              <Text style={[styles.fontNormalSmall, style.textInfor]}>{address}</Text>
+              <Text style={[styles.fontNormalSmall, style.textInfor]}>{addressAdtional}</Text>
+              <Text style={[styles.fontNormalSmall, style.textInfor]}>{postcode} {city}</Text>
+              <View style={[styles.flexRow, style.viewRow]}>
+                <Image
+                  source={iconPhone}
+                  style={style.viewIcon}
+                />
+                <Text style={[styles.fontNormalSmall]}>{phone}</Text>
+              </View>
+              <View style={[styles.flexRow, style.viewRow]}>
+                <Image
+                  source={iconMail}
+                  style={style.viewIcon}
+                />
+                <Text style={[styles.fontNormalSmall]}>{email}</Text>
+              </View>
             </View>
-            <ActivityIndicator
-              size="large"
-              animating={this.state.ActivityIndicator}
-            />
-            <View style={style.containerMessageChat}>
+          </Modal>
+        </Portal>
+        <View style={styles.flexFull}>
+          <Header component={this} />
+          <ScrollView contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
+            <Background>
               <View>
-                <FlatListViewNormal
-                  data={this.state.data}
-                  renderItem={this.renderItem}
-                  horizontal={false}
-                  col="1"
+                <Href onPress={() => this.getDetailUser()}>
+                  <Image source={require("../images/user_chat_1.png")} />
+                </Href>
+                <Image
+                  source={require("../images/Unknown.png")}
+                  style={style.imageProfile}
                 />
               </View>
-              {this.state.display != "none" ? (
-                <View style={[styleChat.typingUser]}>
-                  <Text style={{ paddingBottom: 10 }}>...</Text>
+              <ActivityIndicator
+                size="large"
+                animating={this.state.ActivityIndicator}
+              />
+              <View style={style.containerMessageChat}>
+                <View>
+                  <FlatListViewNormal
+                    data={this.state.data}
+                    renderItem={this.renderItem}
+                    horizontal={false}
+                    col="1"
+                  />
                 </View>
-              ) : null}
-            </View>
-            <TextInput
-              onChangeText={(value) => this.setState({ message: value })}
-              value={this.state.message}
-              component={this}
-              styleParent={[styles.textInput]}
-              fontAwesome="true"
-              colorIcon="white"
-              leftIcon={this.state.message == "" ? "edit" : ""}
-              //onLeftClick={() => this.onClickEye(false)}
-              leftStyle={style.leftStyle}
-              rightIcon={this.state.message == "" ? "" : "send"}
-              onRightClick={() => this.pushMessage()}
-              bgFocus="white"
-              bgBlur="#3f3f3f"
+                {this.state.display != "none" ? (
+                  <View style={[styleChat.typingUser]}>
+                    <Text style={{ paddingBottom: 10 }}>...</Text>
+                  </View>
+                ) : null}
+              </View>
+              <TextInput
+                onChangeText={(value) => this.setState({ message: value })}
+                value={this.state.message}
+                component={this}
+                styleParent={[styles.textInput]}
+                fontAwesome="true"
+                colorIcon="white"
+                leftIcon={this.state.message == "" ? "edit" : ""}
+                //onLeftClick={() => this.onClickEye(false)}
+                leftStyle={style.leftStyle}
+                rightIcon={this.state.message == "" ? "" : "send"}
+                onRightClick={() => this.pushMessage()}
+                bgFocus="white"
+                bgBlur="#3f3f3f"
+              />
+            </Background>
+          </ScrollView>
+          <View style={style.containerSendMessage}>
+            <Button
+              color="white"
+              text="UNTERNEHMENS-PROFIL"
+              style={[styles.button, style.button]}
+              onPress={() => this.getDetailUser()}
             />
-          </Background>
-        </ScrollView>
-        <View style={style.containerSendMessage}>
-          <Button
-            color="white"
-            text="UNTERNEHMENS-PROFIL"
-            style={[styles.button, style.button]}
-            onPress={() => null}
-          />
+          </View>
+          <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
+            {/* Bottom */}
+            <IconBottom component={this} type="1" />
+            {/* END */}
+          </View>
         </View>
-        <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
-          {/* Bottom */}
-          <IconBottom component={this} type="1" />
-          {/* END */}
-        </View>
-      </View>
+      </Provider>
     );
   }
 }
@@ -331,6 +400,53 @@ const style = StyleSheet.create({
     top: 0,
     right: -20,
   },
+
+  modalDeleteRoot: {
+    width: "80%",
+    marginLeft: "10%",
+    marginRight: "10%",
+    backgroundColor: "#363636",
+    borderBottomColor: '#898166',
+    borderLeftColor: '#898166',
+    borderRightColor: '#898166',
+    borderTopColor: '#898166',
+    borderWidth: 2,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: "80%",
+  },
+
+  textHeaderModal: {
+    color: "#000",
+    marginBottom: 20,
+    color: '#fff',
+    textDecorationLine: 'underline',
+  },
+
+  textJob: {
+    marginTop: 20,
+    marginBottom: 30,
+    color: "#000",
+  },
+
+  textInfor: {
+    paddingBottom: 5
+  },
+
+  viewRow: {
+    marginTop: 20
+  },
+
+  viewIcon: {
+    marginRight: 20
+  },
+  close: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 999999
+  }
 });
 
 export default Chat;
