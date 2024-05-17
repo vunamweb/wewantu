@@ -123,7 +123,7 @@ class NewJob extends Component {
     let id = 0;
 
     try {
-      id = this.state.jobsList[index].hashId;
+      id = this.state.jobsList[index].refnr;
     } catch (error) {
       console.log(error);
     }
