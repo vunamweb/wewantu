@@ -46,10 +46,32 @@ class Driver extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     hideNavigationBar();
 
-    functions.getListDriveLiense(this);
+    var listDiveLicense = [], userDriveLicense = [];
+
+    var datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      listDiveLicense = datauser.listDiveLicense;
+      userDriveLicense = datauser.userDriveLicense;
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of drive license has saved on local, if not call api to get data
+    if ((Array.isArray(listDiveLicense) && listDiveLicense.length == 0) || listDiveLicense == undefined)
+      functions.getListDriveLiense(this);
+    else {
+      this.setState({
+        listDiveLicense: listDiveLicense,
+        userDriveLicense: userDriveLicense,
+      });
+    }
+    // END
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -68,14 +90,37 @@ class Driver extends Component {
     this.switch[index]((isEnable) => !isEnable);
   };
 
-  close = () => {
+  close = async () => {
     this.setState({ visible: false });
 
-    let driveLicence = "";
+    let driveLicence = "", userDrive = [];
 
     this.state.listDiveLicense.map((item, index) => {
-      if (this.switch[index]) driveLicence = driveLicence + item.id + ";";
+      if (this.switch[index]) {
+        driveLicence = driveLicence + item.id + ";";
+        userDrive.push(item.id);
+      }
     });
+
+    //update userdrive for local
+    this.state.userDriveLicense = userDrive;
+
+    var datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      datauser.userDriveLicense = userDrive;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(datauser)
+      );
+
+    } catch (error) {
+      console.log(error);
+    }
+    // end
 
     functions.updateUserDriveLicense(this, driveLicence);
   };

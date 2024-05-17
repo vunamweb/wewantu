@@ -2002,6 +2002,14 @@ class Functions {
           userDriveLicense.push(item.driver_license_id);
         });
 
+        global.commonData.listDiveLicense = listDiveLicense;
+        global.commonData.userDriveLicense = userDriveLicense;
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(global.commonData)
+        );
+
         component.setState({
           listDiveLicense: listDiveLicense,
           userDriveLicense: userDriveLicense,
