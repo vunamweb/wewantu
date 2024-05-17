@@ -62,12 +62,32 @@ class UploadDocument extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     hideNavigationBar();
 
     global.uploadDocument = this;
 
-    functions.getListMedia(this);
+    var listMedia = [];
+
+    var datauser = await functions.getDataUser();
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      listMedia = datauser.listMedia;
+    } catch (error) {
+      console.log(error);
+    }
+
+    // check list of media has saved on local, if not call api to get data
+    if ((Array.isArray(listMedia) && listMedia.length == 0) || listMedia == undefined)
+      functions.getListMedia(this);
+    else {
+      this.setState({
+        media: listMedia
+      });
+    }
+    // END
   };
 
   openImagePicker = (type) => {

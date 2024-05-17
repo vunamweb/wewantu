@@ -653,6 +653,18 @@ class Functions {
         });
       }
 
+      try {
+        datauser.listMedia = media;
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(datauser)
+        );
+
+      } catch (error) {
+        console.log(error);
+      }
+
       return;
     };
 
@@ -739,6 +751,18 @@ class Functions {
           media: media,
           //callback: 2,
         });
+      }
+
+      try {
+        datauser.listMedia = media;
+
+        await functions.setDataAsyncStorage(
+          "data",
+          JSON.stringify(datauser)
+        );
+
+      } catch (error) {
+        console.log(error);
       }
 
       return;
@@ -1690,6 +1714,13 @@ class Functions {
         obj.file_doc = null;
         obj.file_video = null;
       }
+
+      global.commonData.listMedia = obj;
+
+      await functions.setDataAsyncStorage(
+        "data",
+        JSON.stringify(global.commonData)
+      );
 
       component.setState({ media: obj, ActivityIndicator: false });
     };
