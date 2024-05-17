@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
+  Keyboard
 } from "react-native";
 import { Input } from "react-native-elements";
 
@@ -49,6 +50,8 @@ let dataref = [];
 class Chat extends Component {
   constructor(props) {
     super(props);
+
+    this.scrollview = createRef();
   }
 
   state = {
@@ -62,17 +65,23 @@ class Chat extends Component {
     visible: false,
     detailUser: [
       {
-      street: null,
-      address_addition: null,
-      postal_code: null,
-      city: null,
-      mail: null,
-      mobile_phone_number: null
-}
-]
+        street: null,
+        address_addition: null,
+        postal_code: null,
+        city: null,
+        mail: null,
+        mobile_phone_number: null
+      }
+    ]
   };
 
   componentDidMount = async () => {
+    /*try {
+      this.scrollview.current.scrollToEnd({ animated: true });
+    } catch (error) {
+      console.log(error)
+    }*/
+
     try {
       key = this.props.navigation.state.params.data;
       key = JSON.parse(key);
@@ -193,6 +202,14 @@ class Chat extends Component {
   };
 
   pushMessage = () => {
+    Keyboard.dismiss();
+
+    try {
+      this.scrollview.current.scrollToEnd({ animated: true });
+    } catch (error) {
+      console.log(error)
+    }
+
     var childExist = true;
 
     let group = toUser + "_" + fromUser;
@@ -201,11 +218,11 @@ class Chat extends Component {
   };
 
   getDetailUser = async () => {
-       //this.setState({ visible: true });
+    //this.setState({ visible: true });
 
-       let datauser = await functions.getDataUser();
+    let datauser = await functions.getDataUser();
 
-       functions.getDetailUser(this, datauser, toUser);
+    functions.getDetailUser(this, datauser, toUser);
   }
 
   renderItem = ({ item, index }) =>
@@ -292,7 +309,7 @@ class Chat extends Component {
         </Portal>
         <View style={styles.flexFull}>
           <Header component={this} />
-          <ScrollView contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
+          <ScrollView ref={this.scrollview} contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
             <Background>
               <View>
                 <Href onPress={() => this.getDetailUser()}>
