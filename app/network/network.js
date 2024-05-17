@@ -18,6 +18,7 @@ class Network {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "Wewantu-Agent": "Web",
         Authorization: token,
       },
     })

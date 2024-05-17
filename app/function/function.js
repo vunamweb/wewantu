@@ -5,6 +5,7 @@ import network from "../network/network";
 import { decode as atob, encode as btoa } from "base-64";
 
 import firebase from "./UtilityFirebase";
+import { ActivityIndicator } from "react-native-paper";
 
 class Functions {
   getIndex = (data) => {
@@ -2150,23 +2151,26 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
-  getDetailUser = async (component, userId) => {
-    var datauser = await this.getDataUser();
-    let token = null;
+  getDetailUser = async (component, dataUser, toUser) => {
+    let token, user_id;
 
     try {
-      datauser = JSON.parse(datauser);
+      dataUser = JSON.parse(dataUser);
 
-      token = datauser.user.session_secret;
+      user_id = dataUser.user.user_id;
+
+      token = dataUser.user.session_secret;
       token = "Bearer " + token;
     } catch (error) { }
 
     let url = global.urlRootWewantu + global.urlGetUser;
-    url = url.replace("{user_id}", userId);
+    url = url.replace("{user_id}", toUser);
 
     var callback = async (responseData) => {
       component.setState({
         detailUser: responseData,
+        visible: true,
+        ActivityIndicator: false
       });
     };
 

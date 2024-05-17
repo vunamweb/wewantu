@@ -60,7 +60,8 @@ class Chat extends Component {
     message: "",
     display: "none",
     visible: false,
-    detailUser: {
+    detailUser: [
+      {
       street: null,
       address_addition: null,
       postal_code: null,
@@ -68,6 +69,7 @@ class Chat extends Component {
       mail: null,
       mobile_phone_number: null
 }
+]
   };
 
   componentDidMount = async () => {
@@ -198,10 +200,12 @@ class Chat extends Component {
     functions.pushMessage(fromUser, group, this.state.message, this);
   };
 
-  getDetailUser = () => {
-       this.setState({ visible: true });
+  getDetailUser = async () => {
+       //this.setState({ visible: true });
 
-       functions.getDetailUser(this, toUser);
+       let datauser = await functions.getDataUser();
+
+       functions.getDetailUser(this, datauser, toUser);
   }
 
   renderItem = ({ item, index }) =>
@@ -246,12 +250,12 @@ class Chat extends Component {
       console.log(error);
     }
 
-    let address = this.state.detailUser.street;
-    let addressAdtional = this.state.detailUser.address_addition;
-    let postcode = this.state.postal_code;
-    let city = this.state.city;
-    let email = this.state.mail;
-    let phone = this.state.mobile_phone_number;
+    let address = this.state.detailUser[0].street;
+    let addressAdtional = this.state.detailUser[0].address_addition;
+    let postcode = this.state.detailUser[0].postal_code;
+    let city = this.state.detailUser[0].city;
+    let email = this.state.detailUser[0].mail;
+    let phone = this.state.detailUser[0].mobile_phone_number;
 
     return (
       <Provider>
@@ -267,8 +271,7 @@ class Chat extends Component {
               <Text style={[styles.fontBoldLargeMedium, style.textHeaderModal]}>
                 {text1}
               </Text>
-              <Text style={[styles.fontNormalSmall, style.textInfor]}>{address}</Text>
-              <Text style={[styles.fontNormalSmall, style.textInfor]}>{addressAdtional}</Text>
+              <Text style={[styles.fontNormalSmall, style.textInfor]}>{address} {addressAdtional}</Text>
               <Text style={[styles.fontNormalSmall, style.textInfor]}>{postcode} {city}</Text>
               <View style={[styles.flexRow, style.viewRow]}>
                 <Image
