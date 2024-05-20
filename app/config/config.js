@@ -9,7 +9,7 @@ const windowWidth = Dimensions.get("window").width;
 if (windowWidth <= widthSmall)
   // if is small device
   global.pixelRatio = 0.8;
-else if (windowWidth >= widthNormal && windowWidth <= widthLarge)
+else if (windowWidth > widthSmall && windowWidth <= widthNormal)
   // if is normal device
   global.pixelRatio = 1;
 // if is large device
