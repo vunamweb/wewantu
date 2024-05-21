@@ -904,6 +904,7 @@ class Functions {
         // update
         userJobprofile[position] = dataJob;
         userJobprofile[position].job_search_profile_id = jobprofile_id;
+        userJobprofile[position].is_activate = 1;
       }
 
       // set value global and state for jobprofile

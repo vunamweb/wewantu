@@ -360,7 +360,7 @@ class JobProfile extends Component {
               component={this}
               index={index}
               job_search_profile_id={item.job_search_profile_id}
-              callBack={this.callBack}
+              callBack={() => this.callBack}
               visible={is_activate}
               container={style.container}
               additionalThumb={style.additionalThumb}
