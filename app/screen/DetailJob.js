@@ -5,6 +5,7 @@ import {
   AsyncStorage,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -44,6 +45,8 @@ class DetailJob extends Component {
       like: false,
       mark: false,
       listJoBlike: [],
+      detailJob: {},
+      ActivityIndicatorModal: false,
     };
   }
 
@@ -55,7 +58,22 @@ class DetailJob extends Component {
   };
 
   componentDidMount = async () => {
-    //hideNavigationBar();
+    hideNavigationBar();
+
+    var detailJob, id = 1;
+
+    try {
+      detailJob = this.props.navigation.state.params.data;
+      detailJob = JSON.parse(detailJob);
+
+      id = detailJob.refnr;
+
+      functions.getDetailJob(this, id);
+    } catch (error) {
+      detailJob = {};
+      detailJob.arbeitsort = {};
+    }
+
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -125,7 +143,7 @@ class DetailJob extends Component {
 
     var like =
       functions.checkJobIntoListLike(detailJob, global.commonData.listJoBlike) >
-      -1
+        -1
         ? imgLike
         : imgNoLike;
 
@@ -135,150 +153,62 @@ class DetailJob extends Component {
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader special={true} icon={imgNotification} text2="jobs" />
-            <View style={[style.data]}>
-              <View style={style.childRen}>
+            <ActivityIndicator
+              size="large"
+              animating={this.state.ActivityIndicatorModal}
+            />
+<View style={[style.modal, style.modal2, { display: this.state.display }]}>
+              <View style={[style.childRen_1, style.children_2]}>
                 <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Beruf:{" "}
+                  <Text style={[styles.fontNormalSmall]}>
+                    Betriebsgroesse:{" "}
                   </Text>
                   <Text
                     style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
+                      styles.fontNormalSmall
                     ]}
                   >
-                    {detailJob.beruf}
+                    {this.state.detailJob.betriebsgroesse}
                   </Text>
                 </View>
                 <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Titel:{" "}
+                  <Text style={[styles.fontNormalSmall]}>
+                    Allianzpartner:{" "}
                   </Text>
                   <Text
                     style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
+                      styles.fontNormalSmall
                     ]}
                   >
-                    {detailJob.titel}
+                    {this.state.detailJob.allianzpartner}
+                  </Text>
+                </View>
+                <View style={[styles.flexRow, style.containerJob, styles.marginBottom20]}>
+                  <Text style={[styles.fontNormalSmall]}>
+                    AllianzpartnerUrl:{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.fontNormalSmall
+                    ]}
+                  >
+                    {this.state.detailJob.allianzpartnerUrl}
                   </Text>
                 </View>
                 <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Arbeitgeber:{" "}
-                  </Text>
                   <Text
                     style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
+                      styles.fontNormalSmall
                     ]}
                   >
-                    {detailJob.arbeitgeber}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    AktuelleVeroeffentlichungsdatum:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.aktuelleVeroeffentlichungsdatum}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Eintrittsdatum:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.eintrittsdatum}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Plz:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.arbeitsort.plz}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Ort:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.arbeitsort.ort}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Strasse:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.arbeitsort.strasse}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Region:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.arbeitsort.region}
-                  </Text>
-                </View>
-                <View style={[styles.flexRow, style.containerJob]}>
-                  <Text style={[styles.fontNormal, styles.titleJob]}>
-                    Land:{" "}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.fontNormal,
-                      styles.descriptionJob,
-                      style.descriptionTitleJob,
-                    ]}
-                  >
-                    {detailJob.arbeitsort.land}
+                    {this.state.detailJob.stellenbeschreibung}
                   </Text>
                 </View>
               </View>
             </View>
+
+
+
             <View style={[style.bottom]}>
               {back}
               <Href onPress={() => this.updateLike(detailJob, this)}>

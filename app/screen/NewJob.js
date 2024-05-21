@@ -175,9 +175,9 @@ class NewJob extends Component {
     return (
       <View style={[style.data]}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={[styles.fullWith, style.childRen]}>
-            <View style={[style.childRen_1]}>
-              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
+          <View style={[styles.fullWith, styles.childRen]}>
+            <View style={[styles.childRen_1]}>
+              <View style={[styles.flexRow, styles.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Beruf:{" "}
                 </Text>
@@ -191,7 +191,7 @@ class NewJob extends Component {
                   {this.state.jobsList[status].beruf}
                 </Text>
               </View>
-              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
+              <View style={[styles.flexRow, styles.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Titel:{" "}
                 </Text>
@@ -205,7 +205,7 @@ class NewJob extends Component {
                   {this.state.jobsList[status].titel}
                 </Text>
               </View>
-              <View style={[styles.flexRow, style.containerJob1, { display: this.state.display1 }]}>
+              <View style={[styles.flexRow, styles.containerJob1, { display: this.state.display1 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Arbeitgeber:{" "}
                 </Text>
@@ -226,18 +226,18 @@ class NewJob extends Component {
                 <Image style={style.info} source={imgInfo} />
               </Href>
               {/*<ScrollView contentContainerStyle={{ height: '100%' }}>*/}
-              <View style={[style.modal, style.modal2, { display: this.state.display }]}>
-                <View style={[style.childRen_1, style.children_2]}>
+              <View style={[styles.modal, styles.modal2, { display: this.state.display }]}>
+                <View style={[styles.childRen_1, styles.children_2]}>
                   <ActivityIndicator
                     size="large"
                     animating={this.state.ActivityIndicatorModal}
                   />
-                  <View style={[style.containerJob, styles.marginBottom0]}>
+                  <View style={[styles.containerJob, styles.marginBottom0]}>
                     <Text style={[styles.fontBoldSmall]}>
                       {this.state.jobsList[status].beruf}
                     </Text>
                   </View>
-                  <View style={[style.containerJob, styles.marginBottom20]}>
+                  <View style={[styles.containerJob, styles.marginBottom20]}>
                     <Text
                       style={[
                         styles.fontBoldLargeNormal,
@@ -246,7 +246,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].titel}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontBoldSmall,
@@ -255,7 +255,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].arbeitgeber}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontBoldSmall,
@@ -264,7 +264,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].arbeitsort.plz} Remagen
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Eintrittsdatum:{" "}
                     </Text>
@@ -276,7 +276,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].eintrittsdatum}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Betriebsgroesse:{" "}
                     </Text>
@@ -288,7 +288,7 @@ class NewJob extends Component {
                       {this.state.detailJob.betriebsgroesse}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Allianzpartner:{" "}
                     </Text>
@@ -300,7 +300,7 @@ class NewJob extends Component {
                       {this.state.detailJob.allianzpartner}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob, styles.marginBottom20]}>
+                  <View style={[styles.flexRow, styles.containerJob, styles.marginBottom20]}>
                     <Text style={[styles.fontNormalSmall]}>
                       AllianzpartnerUrl:{" "}
                     </Text>
@@ -312,7 +312,7 @@ class NewJob extends Component {
                       {this.state.detailJob.allianzpartnerUrl}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontNormalSmall
@@ -404,12 +404,12 @@ class NewJob extends Component {
                     size="large"
                     animating={this.state.ActivityIndicatorModal}
                   />
-                  <View style={[style.containerJob, styles.marginBottom0]}>
+                  <View style={[styles.containerJob, styles.marginBottom0]}>
                     <Text style={[styles.fontBoldSmall]}>
                       {this.state.jobsList[status].beruf}
                     </Text>
                   </View>
-                  <View style={[style.containerJob, styles.marginBottom20]}>
+                  <View style={[styles.containerJob, styles.marginBottom20]}>
                     <Text
                       style={[
                         styles.fontBoldLargeNormal,
@@ -418,7 +418,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].titel}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontBoldSmall,
@@ -427,7 +427,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].arbeitgeber}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontBoldSmall,
@@ -436,7 +436,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].arbeitsort.plz} Remagen
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Eintrittsdatum:{" "}
                     </Text>
@@ -448,7 +448,7 @@ class NewJob extends Component {
                       {this.state.jobsList[status].eintrittsdatum}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Betriebsgroesse:{" "}
                     </Text>
@@ -460,7 +460,7 @@ class NewJob extends Component {
                       {this.state.detailJob.betriebsgroesse}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text style={[styles.fontNormalSmall]}>
                       Allianzpartner:{" "}
                     </Text>
@@ -472,7 +472,7 @@ class NewJob extends Component {
                       {this.state.detailJob.allianzpartner}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob, styles.marginBottom20]}>
+                  <View style={[styles.flexRow, styles.containerJob, styles.marginBottom20]}>
                     <Text style={[styles.fontNormalSmall]}>
                       AllianzpartnerUrl:{" "}
                     </Text>
@@ -484,7 +484,7 @@ class NewJob extends Component {
                       {this.state.detailJob.allianzpartnerUrl}
                     </Text>
                   </View>
-                  <View style={[styles.flexRow, style.containerJob]}>
+                  <View style={[styles.flexRow, styles.containerJob]}>
                     <Text
                       style={[
                         styles.fontNormalSmall
@@ -601,24 +601,6 @@ const style = StyleSheet.create({
     marginTop: -5,
   },
 
-  childRen: {
-    flex: 1,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: "#898166",
-    backgroundColor: "#363636",
-    height: "100%",
-  },
-
-  childRen_1: {
-    flex: 8,
-  },
-
-  children_2: {
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-
   bottom: {
     flex: 2,
     flexDirection: "row",
@@ -688,42 +670,8 @@ const style = StyleSheet.create({
     top: 15,
   },
 
-  modal: {
-    width: "100%",
-    //marginLeft: "5%",
-    //marginRight: "5%",
-    //marginTop: 70,
-    //paddingLeft: 30,
-    //paddingRight: 30,
-    //paddingTop: 50,
-    //height: "100%",
-    //backgroundColor: "#323232",
-    //alignItems: "center",
-    borderColor: "#898166",
-    borderWidth: 0,
-  },
-
-  modal2: {
-    /*width: "80%",
-    marginLeft: "10%",
-    marginRight: "10%",*/
-    marginLeft: -20
-  },
-
   descriptionTitleJob: {
     //marginLeft: 10,
-  },
-
-  containerJob: {
-    marginBottom: 3,
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 0,
-    paddingBottom: 0,
-    paddingTop: 0,
-    paddingRight: 10,
-    //alignItems: "center",
-    //backgroundColor: 'red',
-    //justifyContent: 'center'
   },
 
   containerJob1: {

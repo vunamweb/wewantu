@@ -619,5 +619,57 @@ module.exports = StyleSheet.create({
     //zIndex: 9999999
   },
 
+  modal: {
+    width: "100%",
+    //marginLeft: "5%",
+    //marginRight: "5%",
+    //marginTop: 70,
+    //paddingLeft: 30,
+    //paddingRight: 30,
+    //paddingTop: 50,
+    //height: "100%",
+    //backgroundColor: "#323232",
+    //alignItems: "center",
+    borderColor: "#898166",
+    borderWidth: 0,
+  },
+
+  modal2: {
+    /*width: "80%",
+    marginLeft: "10%",
+    marginRight: "10%",*/
+    marginLeft: -20
+  },
+
+  childRen_1: {
+    flex: 8,
+  },
+
+  children_2: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+
+  childRen: {
+    flex: 1,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: "#898166",
+    backgroundColor: "#363636",
+    height: "100%",
+  },
+
+  containerJob: {
+    marginBottom: 3,
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingRight: 10,
+    //alignItems: "center",
+    //backgroundColor: 'red',
+    //justifyContent: 'center'
+  },
+
   /* END OTHER */
 });
