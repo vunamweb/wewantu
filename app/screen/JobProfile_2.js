@@ -32,6 +32,8 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 const minimumValue1 = 1;
 const minimumValue2 = 5;
 
+let valueDayPerWeek, valueHolidayPerYear
+
 class JobProfile_2 extends Component {
   constructor(props) {
     super(props);
@@ -90,8 +92,8 @@ class JobProfile_2 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].day_per_year = minimumValue2;
-    data[index].day_per_week = minimumValue1;
+    data[index].day_per_year = valueHolidayPerYear;
+    data[index].day_per_week = valueDayPerWeek;
 
     this.data.data = data;
 
@@ -123,6 +125,31 @@ class JobProfile_2 extends Component {
       console.log(error);
     }
 
+    valueDayPerWeek = 1;
+    valueHolidayPerYear = 1;
+    var edit = 0;
+    var editUser = null;
+
+    try {
+      var data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
+      edit = data.edit;
+
+      editUser = functions.getJobProfileEdit(
+        global.jobprofile.state.userJobprofile,
+        edit
+      );
+
+      valueDayPerWeek = editUser.day_per_week;
+      valueHolidayPerYear = editUser.day_per_year;
+
+      //minimumValue1 = editUser != null ? editUser.gross_year : minimumValue1;
+      //minimumValue2 = editUser != null ? editUser.week_hour : minimumValue2;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       <Provider>
         <View style={styles.flexFull}>
@@ -135,6 +162,7 @@ class JobProfile_2 extends Component {
                 unit=""
                 minimumValue={minimumValue1}
                 maximumValue={7}
+                value={valueDayPerWeek}
                 callBack={this.callBack1}
               />
               <HeadLine text={text5} />
@@ -142,6 +170,7 @@ class JobProfile_2 extends Component {
                 unit=""
                 minimumValue={minimumValue2}
                 maximumValue={30}
+                value={valueHolidayPerYear}
                 callBack={this.callBack2}
               />
               <BackNext

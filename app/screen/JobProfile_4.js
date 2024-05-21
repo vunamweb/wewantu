@@ -23,6 +23,7 @@ import functions from "../function/function";
 const data = global.data1;
 var text5;
 var check;
+var setIndex;
 
 class JobProfile_4 extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class JobProfile_4 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].work_weekend = 0;
+    data[index].work_weekend = (setIndex == -1) ? 0 : setIndex;;
 
     this.data.data = data;
 
@@ -114,7 +115,7 @@ class JobProfile_4 extends Component {
 
     var edit = 0;
     var editUser = null;
-    var setIndex = -1;
+    setIndex = -1;
 
     try {
       var data = this.props.navigation.state.params.data;
@@ -127,9 +128,9 @@ class JobProfile_4 extends Component {
         edit
       );
 
-      if( global.typeEdit == 1)
+      /*if( global.typeEdit == 1)
       setIndex = editUser.work_night;
-      else 
+      else*/ 
       setIndex = editUser.work_weekend;
       
       //minimumValue1 = editUser != null ? editUser.gross_year : minimumValue1;

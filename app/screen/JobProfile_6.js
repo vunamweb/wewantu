@@ -37,6 +37,8 @@ const iconDistance = require("../images/distance.png");
 
 const minimumValue1 = 1;
 
+let distance;
+
 class JobProfile_6 extends Component {
   constructor(props) {
     super(props);
@@ -99,7 +101,7 @@ class JobProfile_6 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].distance = (data[index].distance == undefined) ? minimumValue1 : data[index].distance;
+    data[index].distance = distance; //(data[index].distance == undefined) ? minimumValue1 : data[index].distance;
 
     data[index].distance1 =
       this.state.value1 +
@@ -233,6 +235,39 @@ class JobProfile_6 extends Component {
       this.state.value4 = zip[3];
       this.state.value5 = zip[4];
     }
+
+    var edit = 0;
+    var editUser = null;
+    var saveZip = null;
+
+    try {
+      var data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
+      edit = data.edit;
+
+      editUser = functions.getJobProfileEdit(
+        global.jobprofile.state.userJobprofile,
+        edit
+      );
+
+      /*if( global.typeEdit == 1)
+      setIndex = editUser.work_weekend;
+      else */
+      saveZip = editUser.distance1;
+
+      if (saveZip != null && saveZip != undefined) {
+        this.state.value1 = saveZip[0];
+        this.state.value2 = saveZip[1];
+        this.state.value3 = saveZip[2];
+        this.state.value4 = saveZip[3];
+        this.state.value5 = saveZip[4];
+      }
+
+      distance = (editUser.distance != undefined) ? editUser.distance : 1;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   setInput = () => {
@@ -266,6 +301,8 @@ class JobProfile_6 extends Component {
   };
 
   render() {
+    distance = 1;
+
     this.setZip();
 
     this.setInput();
@@ -398,6 +435,7 @@ class JobProfile_6 extends Component {
                 unit="km"
                 minimumValue={minimumValue1}
                 maximumValue={1000}
+                value={distance}
                 callBack={this.callBack1}
                 disabled={this.state.disableSlide}
               />

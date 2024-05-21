@@ -27,7 +27,7 @@ class MySlider extends Component {
     super(props);
 
     this.state = {
-      value: this.props.minimumValue,
+      value: (this.props.value != undefined) ? this.props.value : 1,
     };
   }
 

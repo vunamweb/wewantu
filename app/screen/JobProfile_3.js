@@ -23,6 +23,7 @@ import functions from "../function/function";
 const data = global.data1;
 var text5;
 var check;
+var setIndex;
 
 class JobProfile_3 extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class JobProfile_3 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].work_home = 0;
+    data[index].work_home = (setIndex == -1) ? 0 : setIndex;
 
     this.data.data = data;
 
@@ -116,7 +117,7 @@ class JobProfile_3 extends Component {
 
     var edit = 0;
     var editUser = null;
-    var setIndex = -1;
+    setIndex = -1;
 
     try {
       var data = this.props.navigation.state.params.data;

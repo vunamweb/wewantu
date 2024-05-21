@@ -32,6 +32,8 @@ const MARGIN_TOP_TEXTLANGUAGE_PLUSBUTTON =
 const minimumValue1 = 1;
 const minimumValue2 = 10;
 
+let valueGrossSalary, valueWorkPerWeek;
+
 class JobProfile_1 extends Component {
   constructor(props) {
     super(props);
@@ -118,8 +120,8 @@ class JobProfile_1 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].week_hour = minimumValue2;
-    data[index].gross_year = minimumValue1;
+    data[index].week_hour = valueWorkPerWeek;
+    data[index].gross_year = valueGrossSalary;
 
     this.data.data = data;
 
@@ -141,6 +143,34 @@ class JobProfile_1 extends Component {
       console.log(error);
     }
 
+    valueGrossSalary = 1;
+    valueWorkPerWeek = 1;
+    var edit = 0;
+    var editUser = null;
+
+    try {
+      var data = this.props.navigation.state.params.data;
+      data = JSON.parse(data);
+
+      edit = data.edit;
+
+      editUser = functions.getJobProfileEdit(
+        global.jobprofile.state.userJobprofile,
+        edit
+      );
+
+      valueGrossSalary = editUser.gross_year;
+      //this.callBack1(valueGrossSalary);
+
+      valueWorkPerWeek = editUser.week_hour;
+      //this.callBack2(valueWorkPerWeek);
+
+      //minimumValue1 = editUser != null ? editUser.gross_year : minimumValue1;
+      //minimumValue2 = editUser != null ? editUser.week_hour : minimumValue2;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       <Provider>
         <View style={styles.flexFull}>
@@ -153,6 +183,7 @@ class JobProfile_1 extends Component {
                 unit="€"
                 minimumValue={minimumValue1}
                 maximumValue={200}
+                value={valueGrossSalary}
                 step={500}
                 callBack={this.callBack1}
               />
@@ -161,6 +192,7 @@ class JobProfile_1 extends Component {
                 unit=""
                 minimumValue={minimumValue2}
                 maximumValue={40}
+                value={valueWorkPerWeek}
                 callBack={this.callBack2}
               />
               <BackNext

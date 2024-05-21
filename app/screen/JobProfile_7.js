@@ -26,6 +26,7 @@ const icon = require("../images/thang.png");
 
 var text5;
 var check;
+var setIndex;
 
 class JobProfile_7 extends Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class JobProfile_7 extends Component {
     var index = functions.getIndex(this.data);
     var data = functions.getData(this.data);
 
-    data[index].intres = 0;
+    data[index].intres = (setIndex == -1) ? 0 : setIndex;
 
     this.data.data = data;
 
@@ -128,7 +129,7 @@ class JobProfile_7 extends Component {
 
     var edit = 0;
     var editUser = null;
-    var setIndex = -1;
+    setIndex = -1;
     var data4 = this.filterByLanguage(global.data4);
 
     try {
