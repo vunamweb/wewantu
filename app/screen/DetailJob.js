@@ -157,9 +157,9 @@ class DetailJob extends Component {
               size="large"
               animating={this.state.ActivityIndicatorModal}
             />
-<View style={[style.modal, style.modal2, { display: this.state.display }]}>
-              <View style={[style.childRen_1, style.children_2]}>
-                <View style={[styles.flexRow, style.containerJob]}>
+            <View style={[styles.childRen, { display: this.state.display, margin: 40 }]}>
+              <View style={[styles.childRen_1, styles.children_2]}>
+                <View style={[styles.flexRow, styles.containerJob]}>
                   <Text style={[styles.fontNormalSmall]}>
                     Betriebsgroesse:{" "}
                   </Text>
@@ -171,7 +171,7 @@ class DetailJob extends Component {
                     {this.state.detailJob.betriebsgroesse}
                   </Text>
                 </View>
-                <View style={[styles.flexRow, style.containerJob]}>
+                <View style={[styles.flexRow, styles.containerJob]}>
                   <Text style={[styles.fontNormalSmall]}>
                     Allianzpartner:{" "}
                   </Text>
@@ -183,7 +183,7 @@ class DetailJob extends Component {
                     {this.state.detailJob.allianzpartner}
                   </Text>
                 </View>
-                <View style={[styles.flexRow, style.containerJob, styles.marginBottom20]}>
+                <View style={[styles.flexRow, styles.containerJob, styles.marginBottom20]}>
                   <Text style={[styles.fontNormalSmall]}>
                     AllianzpartnerUrl:{" "}
                   </Text>
@@ -195,7 +195,7 @@ class DetailJob extends Component {
                     {this.state.detailJob.allianzpartnerUrl}
                   </Text>
                 </View>
-                <View style={[styles.flexRow, style.containerJob]}>
+                <View style={[styles.flexRow, styles.containerJob]}>
                   <Text
                     style={[
                       styles.fontNormalSmall
@@ -206,8 +206,6 @@ class DetailJob extends Component {
                 </View>
               </View>
             </View>
-
-
 
             <View style={[style.bottom]}>
               {back}

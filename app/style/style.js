@@ -671,5 +671,18 @@ module.exports = StyleSheet.create({
     //justifyContent: 'center'
   },
 
+  containerJob1: {
+    marginBottom: 10,
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    paddingTop: 0,
+    paddingRight: 100,
+    alignItems: "center",
+    flexWrap: 'nowrap',
+    //backgroundColor: 'red',
+    //justifyContent: 'center'
+  },
+
   /* END OTHER */
 });
