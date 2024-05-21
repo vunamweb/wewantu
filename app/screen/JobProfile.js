@@ -5,6 +5,7 @@ import {
   Dimensions,
   PixelRatio,
   ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 
 import { Provider, Portal, Modal } from "react-native-paper";
@@ -12,7 +13,7 @@ import { Provider, Portal, Modal } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { hideNavigationBar } from "react-native-navigation-bar-color";
 
-import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   SvgUri,
@@ -482,6 +483,29 @@ class JobProfile extends Component {
     );
   };
 
+  goTonextScreen = (position, jobID) => {
+    var data = {};
+    data.edit = this.state.edit;
+    data.position = this.state.positionEdit;
+
+    var index = data.index != undefined ? data.index : 0;
+
+    data.index = index;
+
+    if (data.data == undefined) data.data = [];
+
+    data.data[index] = {};
+    data.data[index].job = jobID;
+
+    this.setState({ visible: false });
+
+    functions.gotoScreenWithParam(
+      JSON.stringify(data),
+      this.props.navigation,
+      "JobProfile_1"
+    );
+  };
+
   openModal = (item) => {
     deleteItem = item;
     this.setState({ visible1: true });
@@ -525,10 +549,12 @@ class JobProfile extends Component {
   };
 
   showJob = () => {
-    if (this.state.display == 'none')
-      this.setState({ display: 'flex' });
-    else
+    if (this.state.display == 'none') {
+      this.setState({ display: 'flex', displayJob: 'none' });
+    }
+    else {
       this.setState({ display: 'none' });
+    }
   }
 
   render() {
@@ -567,7 +593,7 @@ class JobProfile extends Component {
     var dataJob = this.state.userJobprofile;
 
     var editUser = null;
-    var actualJob = null;
+    var actualJob = null, jobID = -1;
 
     try {
       editUser = functions.getJobProfileEdit(
@@ -576,15 +602,22 @@ class JobProfile extends Component {
       );
 
       actualJob = (editUser != null && editUser != undefined) ? this.getNameJobFromId(editUser.job) : actualJob;
+      jobID = (editUser != null && editUser != undefined) ? editUser.job : jobID;
     } catch (error) {
 
     }
+
+    let imgNext = <Icon name="long-arrow-right" size={40} color="#898166" />;
 
     return (
       <Provider>
         <Portal>
           <Modal visible={visible}>
             <View style={style.modalHeader}>
+              <TouchableOpacity onPress={() => this.goTonextScreen(null, jobID)} style={[style.next, { display: this.state.displayJob }]}>
+                {imgNext}
+              </TouchableOpacity>
+
               <View style={{ display: this.state.displayJob, alignItems: 'center' }}>
                 <Text style={[style.modalHeadLineJob, styles.fontBoldNormal]}>
                   {actualJob}
@@ -941,6 +974,13 @@ const style = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center'
   },
+
+  next: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    //backgroundColor: 'red'
+  }
 });
 
 export default JobProfile;
