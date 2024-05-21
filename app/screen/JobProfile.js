@@ -170,6 +170,7 @@ class JobProfile extends Component {
       data2: [],
       data3: [],
       data4: [],
+      reload: false,
     };
   }
 
@@ -256,6 +257,18 @@ class JobProfile extends Component {
         userJobprofile: listJobProfile
       });
     }
+    // 
+
+    // listen event callback
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      (payload) => {
+        // Logic to handle when the screen comes into focus (navigated back)
+        console.log("Screen focused again:", payload);
+
+        this.setState({ reload: !this.state.reload });
+      }
+    );
     // END
   };
 
@@ -460,6 +473,8 @@ class JobProfile extends Component {
     data.data[index] = {};
     data.data[index].job = jobID;
 
+    this.setState({ visible: false });
+
     functions.gotoScreenWithParam(
       JSON.stringify(data),
       this.props.navigation,
@@ -510,10 +525,10 @@ class JobProfile extends Component {
   };
 
   showJob = () => {
-    if(this.state.display == 'none')
-    this.setState({ display: 'flex' });
-    else 
-    this.setState({ display: 'none' });
+    if (this.state.display == 'none')
+      this.setState({ display: 'flex' });
+    else
+      this.setState({ display: 'none' });
   }
 
   render() {
@@ -540,7 +555,7 @@ class JobProfile extends Component {
       var text3 = commonData.what_i_want_to_do;
       var text4 = commonData.profession;
       var text5 = commonData.select_new_job;
-      
+
       global.data1 = this.state.data1;
       global.data2 = this.state.data2;
       global.data3 = this.state.data3;
@@ -695,6 +710,8 @@ class JobProfile extends Component {
                     onPress={() =>
                       this.setState({
                         visible: true,
+                        edit: -1,
+                        positionEdit: -1,
                         openModal: true,
                         closeModal: false,
                         isBack: false,

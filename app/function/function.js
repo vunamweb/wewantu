@@ -900,15 +900,18 @@ class Functions {
       if (jobprofile_id == -1) {
         userJobprofile[0].job_search_profile_id = responseData.joprofile_id;
         userJobprofile[0].is_activate = 1;
-
-        global.userJobprofile = userJobprofile;
-        global.jobprofile.state.userJobprofile = userJobprofile;
       } else {
         // update
         userJobprofile[position] = dataJob;
         userJobprofile[position].job_search_profile_id = jobprofile_id;
       }
 
+      // set value global and state for jobprofile
+      global.userJobprofile = userJobprofile;
+      global.jobprofile.state.userJobprofile = userJobprofile;
+      // END
+
+      // save local value for jobprofile
       try {
         datauser.listJobProfile = userJobprofile;
 
@@ -919,11 +922,19 @@ class Functions {
       } catch (error) {
         console.log(error);
       }
+      // END
 
-      component.setState({
+      /*component.setState({
         userJobprofile: userJobprofile,
         ActivityIndicator: false,
-      });
+      });*/
+
+      // Come back to jobprofile
+      functions.gotoScreen(
+        component.props.navigation,
+        "JobProfile"
+      );
+      // END
     };
 
     component.setState({ ActivityIndicator: true });
