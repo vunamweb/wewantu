@@ -38,14 +38,14 @@ global.passwordSMS = "069AB3DE-A786-BD50-8D28-42FC3001EBA1";
 global.fromSMS = "Wewantu";
 
 // Wewantu API
-global.urlRootWewantu = "https://api.topazvn.vn/";
+global.urlRootWewantu = "https://wewantu.frankfurterfreiheit.de/";
 global.urlLogin = "api/v1/login";
 global.urlLogout = "api/v1/logout";
 global.urlUser = "api/v1/user";
-global.language = "api/v1/morpheus?e=langTemplate&l=en&json=1";
-global.language_1 = "api/v1/morpheus?e=langTemplate&l=de&json=1";
-global.jobs = "api/v1/morpheus?e=jobs&l=en&json=1";
-global.faq = "api/v1/morpheus?e=FAQ&l=de&json=1";
+global.language = "cms/API/checkAPI.php?e=langTemplate&l=en&json=1";
+global.language_1 = "cms/API/checkAPI.php?e=langTemplate&l=de&json=1";
+global.jobs = "cms/API/checkAPI.php?e=jobs&l=en&json=1";
+global.faq = "cms/API/checkAPI.php?e=FAQ&l=de&json=1";
 global.urlRegister = "api/v1//user";
 global.urlInsertChat = "api/v1/chat/insert";
 global.urlChat = "api/v1/chat";

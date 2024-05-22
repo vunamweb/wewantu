@@ -1097,7 +1097,7 @@ class Functions {
     var callback = async (responseData) => {
       global.commonData = {};
 
-      global.commonData.languages = JSON.parse(responseData);
+      global.commonData.languages = responseData; //JSON.parse(responseData);
 
       await functions.setDataAsyncStorage(
         "data",
@@ -2591,8 +2591,8 @@ class Functions {
     var token = datauser.token;*/
 
     var callback = async (responseData) => {
-      global.data = JSON.parse(responseData);
-      global.commonData.jobs = JSON.parse(responseData);
+      global.data = responseData; //JSON.parse(responseData);
+      global.commonData.jobs = responseData; //JSON.parse(responseData);
 
       await functions.setDataAsyncStorage(
         "data",
@@ -2600,7 +2600,7 @@ class Functions {
       );
 
       component.setState({
-        jobs: JSON.parse(responseData),
+        jobs: responseData, //JSON.parse(responseData),
         ActivityIndicator: false,
       });
     };
