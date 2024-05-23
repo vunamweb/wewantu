@@ -908,9 +908,9 @@ const style = StyleSheet.create({
   },
 
   modalHeader: {
-    width: "80%",
-    marginLeft: "10%",
-    marginRight: "10%",
+    width: "98%",
+    marginLeft: "1%",
+    marginRight: "1%",
     marginTop: 50,
     paddingLeft: 30,
     paddingRight: 30,
@@ -972,13 +972,16 @@ const style = StyleSheet.create({
     backgroundColor: "#898166",
     marginTop: 0,
     marginBottom: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10
+    //maxWidth: 200
   },
 
   next: {
     position: 'absolute',
-    right: 20,
-    bottom: 20,
+    right: 5,
+    bottom: 15,
     //backgroundColor: 'red'
   }
 });
