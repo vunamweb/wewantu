@@ -252,10 +252,10 @@ const style = StyleSheet.create({
   },
 
   active: {
-    padding: 5,
+    padding: 0,
     borderRadius: 10,
-    borderColor: "#898166",
-    borderWidth: 1,
+    borderColor: "#fff",
+    borderWidth: 0.5,
   },
 });
 
