@@ -392,10 +392,10 @@ class JobProfile extends Component {
                 this.deleteJobProfile(job, index, item.job_search_profile_id)
               }
             >
-              <SvgWithCss xml={svgCode2} width="24.7" height="23.3" />
+              <SvgWithCss xml={svgCode2} width="30" height="29" />
             </Href>
             <Href onPress={() => this.edit(item.job_search_profile_id, index)}>
-              <SvgWithCss xml={svgCode1} width="24.7" height="23.3" />
+              <SvgWithCss xml={svgCode1} width="30" height="29" />
             </Href>
           </View>
           {/*borderBottom*/}
@@ -933,9 +933,9 @@ const style = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingLeft: 5,
-    paddingRight: 10,
-    paddingBottom: 5,
-    paddingTop: 0,
+    paddingRight: 15,
+    paddingBottom: 15,
+    paddingTop: 15,
   },
 
   imgDelete: {
