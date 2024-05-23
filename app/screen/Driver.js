@@ -112,6 +112,8 @@ class Driver extends Component {
 
       datauser.userDriveLicense = userDrive;
 
+      global.commonData.userDriveLicense = userDrive;
+
       await functions.setDataAsyncStorage(
         "data",
         JSON.stringify(datauser)

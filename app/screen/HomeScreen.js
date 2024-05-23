@@ -28,11 +28,18 @@ import CircularProgress from "../components/CircularProgress";
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
 
+import "../config/config";
+
 const bgDefault = "#2B2B2B";
 const bgFocus = "#2B2B2B";
 const imgFillProlie = require("../images/filled_profile.png");
 const alert = require("../images/chat_message.png");
 const newJob = require("../images/Neue_Jobs_Alert.png");
+
+let zip;
+//let trainning;
+
+const strAsyncStorage = global.trainning;
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -74,7 +81,7 @@ class HomeScreen extends Component {
 
     var bgColor =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? bgFocus
         : bgDefault;
 
@@ -139,6 +146,9 @@ class HomeScreen extends Component {
 
     let datauser = await functions.getDataUser();
 
+    zip = await AsyncStorage.getItem("zip");
+    //trainning = await functions.getDataAsyncStorage(strAsyncStorage);
+
     try {
       datauser = JSON.parse(datauser);
 
@@ -189,7 +199,10 @@ class HomeScreen extends Component {
   };
 
   getPercentUser = () => {
-    let count = 0;
+    let count = 4;
+    let total = 11;
+
+    let common = global.commonData;
 
     try {
       if (this.state.media.file_img != null) count++;
@@ -197,12 +210,24 @@ class HomeScreen extends Component {
       if (this.state.media.file_doc != null) count++;
 
       if (this.state.media.file_video != null) count++;
+
+      if (common.userDriveLicense != undefined && (Array.isArray(common.userDriveLicense) && common.userDriveLicense.length >0))
+        count++;
+
+      if (common.listUserLanguages != undefined && (Array.isArray(common.listUserLanguages) && common.listUserLanguages.length >0))
+        count++;
+
+      if (global.tranining != undefined && (Array.isArray(global.tranining) && global.tranining.length >0))
+        count++;
+
+      if (zip != undefined)
+        count++;
     } catch (error) {
       console.log(error);
     }
 
     if (count == 0) return 0;
-    else return parseInt((100 / 3) * count);
+    else return parseInt((100 * (count / total)));
   };
 
   existPersonalData = (datauser) => {
@@ -298,12 +323,12 @@ class HomeScreen extends Component {
                   {text9}
                 </Text>
                 <CircularProgress
-        size={150}
-        strokeWidth={10}
-        progress={this.getPercentUser()} // percentage completed
-        color="#898166"
-        backgroundColor="#ccc"
-      />
+                  size={150}
+                  strokeWidth={10}
+                  progress={this.getPercentUser()} // percentage completed
+                  color="#898166"
+                  backgroundColor="#ccc"
+                />
                 <Text style={[style.textPercent, styles.fontBoldLargeNormal]}>
                   {this.getPercentUser()}%
                 </Text>

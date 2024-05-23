@@ -2313,6 +2313,8 @@ class Functions {
         }
       });
 
+      global.tranining = userEducations;
+
       const strAsyncStorage = global.trainning;
 
       await this.setDataAsyncStorage(
@@ -2545,6 +2547,8 @@ class Functions {
       );
 
       component.setState({ text: responseData });
+
+      functions.gotoScreen(component.props.navigation, 'HomeScreen');
     };
 
     //component.setState({ ActivityIndicator: true });

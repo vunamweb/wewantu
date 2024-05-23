@@ -274,6 +274,8 @@ class PersonalData_4 extends Component {
 
           listUserLanguages.splice(index, 1);
 
+          global.commonData.listUserLanguages = listUserLanguages;
+
           await functions.setDataAsyncStorage(
             "data",
             JSON.stringify(datauser)

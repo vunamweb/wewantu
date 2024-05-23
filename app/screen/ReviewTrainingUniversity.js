@@ -95,6 +95,8 @@ class ReviewTrainingUniversity extends Component {
         trainning = [];
       }
 
+      global.tranining = trainning;
+
       this.setState({ trainning: trainning });
     }
 
@@ -141,6 +143,8 @@ class ReviewTrainingUniversity extends Component {
   delete = async () => {
     try {
       global.reviewTraining.state.trainning.splice(deleteItem, 1);
+
+      global.tranining = global.reviewTraining.state.trainning; 
 
       await functions.setDataAsyncStorage(
         strAsyncStorage,
