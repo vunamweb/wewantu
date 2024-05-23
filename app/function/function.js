@@ -2530,7 +2530,7 @@ class Functions {
     var body = null;
 
     var callback = async (responseData) => {
-      global.commonData.languages = JSON.parse(responseData);
+      global.commonData.languages = responseData; //JSON.parse(responseData);
 
       await functions.setDataAsyncStorage(
         "data",
