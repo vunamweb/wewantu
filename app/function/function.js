@@ -1759,13 +1759,15 @@ class Functions {
       var data = [];
 
       responseData.map((item, index) => {
-        obj = {};
+        if (item.show) {
+          obj = {};
 
-        obj.id = item.desired_work_at_home_id;
-        obj.label = item.value;
-        obj.require = false;
+          obj.id = item.desired_work_at_home_id;
+          obj.label = item.value;
+          obj.require = false;
 
-        data.push(obj);
+          data.push(obj);
+        }
       });
 
       global.commonData.listWAH = data;
@@ -1907,13 +1909,15 @@ class Functions {
       var data = [];
 
       responseData.map((item, index) => {
-        obj = {};
+        if (item.show) {
+          obj = {};
 
-        obj.id = item.desired_work_at_night_id;
-        obj.label = item.value;
-        obj.require = false;
+          obj.id = item.desired_work_at_night_id;
+          obj.label = item.value;
+          obj.require = false;
 
-        data.push(obj);
+          data.push(obj);
+        }
       });
 
       global.commonData.listWAN = data;
@@ -1947,13 +1951,15 @@ class Functions {
       var data = [];
 
       responseData.map((item, index) => {
-        obj = {};
+        if (item.show) {
+          obj = {};
 
-        obj.id = item.desired_work_at_weekend_id;
-        obj.label = item.value;
-        obj.require = false;
+          obj.id = item.desired_work_at_weekend_id;
+          obj.label = item.value;
+          obj.require = false;
 
-        data.push(obj);
+          data.push(obj);
+        }
       });
 
       global.commonData.listWWK = data;
@@ -2246,6 +2252,7 @@ class Functions {
           userJobprofile[index].distance = item.max_distance;
           userJobprofile[index].distance1 = 0;
           userJobprofile[index].intres = item.ambitions.ambitions_id;
+          userJobprofile[index].is_activate = item.is_activate;
         } catch (error) {
           console.log(error);
         }
