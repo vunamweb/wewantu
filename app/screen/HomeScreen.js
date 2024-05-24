@@ -36,8 +36,7 @@ const imgFillProlie = require("../images/filled_profile.png");
 const alert = require("../images/chat_message.png");
 const newJob = require("../images/Neue_Jobs_Alert.png");
 
-let zip;
-//let trainning;
+let zip, trainning;
 
 const strAsyncStorage = global.trainning;
 
@@ -133,7 +132,7 @@ class HomeScreen extends Component {
 
     let fcmToken;
 
-    functions.getListMedia(this);
+    var listMedia = [];
 
     try {
       fcmToken = await messaging().getToken();
@@ -146,13 +145,22 @@ class HomeScreen extends Component {
 
     let datauser = await functions.getDataUser();
 
-    zip = await AsyncStorage.getItem("zip");
-    //trainning = await functions.getDataAsyncStorage(strAsyncStorage);
-
     try {
       datauser = JSON.parse(datauser);
 
       let token = datauser.user.firebase_token;
+
+      listMedia = datauser.listMedia;
+
+      // check list of media has saved on local, if not call api to get data
+      if ((Array.isArray(listMedia) && listMedia.length == 0) || listMedia == undefined)
+        functions.getListMedia(this);
+      else {
+        this.setState({
+          media: listMedia
+        });
+      }
+      // END
 
       if (token != fcmToken) {
         datauser.user.firebase_token = fcmToken;
@@ -202,6 +210,8 @@ class HomeScreen extends Component {
     let count = 4;
     let total = 11;
 
+    zip = global.zip;
+
     let common = global.commonData;
 
     try {
@@ -211,13 +221,13 @@ class HomeScreen extends Component {
 
       if (this.state.media.file_video != null) count++;
 
-      if (common.userDriveLicense != undefined && (Array.isArray(common.userDriveLicense) && common.userDriveLicense.length >0))
+      if (common.userDriveLicense != undefined && (Array.isArray(common.userDriveLicense) && common.userDriveLicense.length > 0))
         count++;
 
-      if (common.listUserLanguages != undefined && (Array.isArray(common.listUserLanguages) && common.listUserLanguages.length >0))
+      if (common.listUserLanguages != undefined && (Array.isArray(common.listUserLanguages) && common.listUserLanguages.length > 0))
         count++;
 
-      if (global.tranining != undefined && (Array.isArray(global.tranining) && global.tranining.length >0))
+      if (global.tranining != undefined && (Array.isArray(global.tranining) && global.tranining.length > 0))
         count++;
 
       if (zip != undefined)

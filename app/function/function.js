@@ -1340,6 +1340,8 @@ class Functions {
         // update state
         global.reviewTraining.state.trainning.push(dataEducation);
 
+        global.tranining = global.reviewTraining.state.trainning;
+
         const strAsyncStorage = global.trainning;
 
         // update local

@@ -12,10 +12,12 @@ import functions from "../../app/function/function";
 
 import Video from "react-native-video";
 
+import "../config/config";
+
 let timeOut = 2000;
 let step1 = 1000;
 let step2 = 500;
-let value;
+let value, zip, trainning;
 
 class Splash1 extends Component {
   constructor(props) {
@@ -55,11 +57,15 @@ class Splash1 extends Component {
 
   endVideo = async () => {
     value = await AsyncStorage.getItem("data");
+    zip = await AsyncStorage.getItem("zip");
+    trainning = await AsyncStorage.getItem(global.trainning);
 
     try {
       value = JSON.parse(value);
+      trainning = JSON.parse(trainning);
     } catch (error) {
       value = {};
+      trainning = [];
     }
 
     value = value != null ? value : {};
@@ -80,6 +86,8 @@ class Splash1 extends Component {
       );
     else {
       global.commonData = this.state.data;
+      global.zip = zip;
+      global.tranining = trainning;
 
       if (this.state.data != null) {
         try {

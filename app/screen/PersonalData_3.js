@@ -47,7 +47,7 @@ class PersonalData_3 extends Component {
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => { };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -68,7 +68,7 @@ class PersonalData_3 extends Component {
 
     var component = this;
 
-    if(zip == "" || zip == null || zip == " ") {
+    if (zip == "" || zip == null || zip == " ") {
       component.setState({
         colorBorder1: "red",
         marginTop: marginTop,
@@ -364,7 +364,7 @@ class PersonalData_3 extends Component {
                 </View>
               </View>
               <TextInput
-                 hideKeyboard={true}
+                hideKeyboard={true}
                 ref_={this.input1}
                 placeholder={text8}
                 //onChangeText={(value) => this.setState({ year: value })}
