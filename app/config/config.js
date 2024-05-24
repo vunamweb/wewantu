@@ -46,7 +46,7 @@ global.language = "cms/API/checkAPI.php?e=langTemplate&l=en&json=1";
 global.language_1 = "cms/API/checkAPI.php?e=langTemplate&l=de&json=1";
 global.jobs = "cms/API/checkAPI.php?e=jobs&l=en&json=1";
 global.faq = "cms/API/checkAPI.php?e=FAQ&l=de&json=1";
-global.urlRegister = "api/v1//user";
+global.urlRegister = "api/v1/user";
 global.urlInsertChat = "api/v1/chat/insert";
 global.urlChat = "api/v1/chat";
 global.urlUpload = "api/v1/upload";
