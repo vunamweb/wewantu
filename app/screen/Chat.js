@@ -82,6 +82,8 @@ class Chat extends Component {
       console.log(error)
     }*/
 
+    global.chat = this;
+
     try {
       key = this.props.navigation.state.params.data;
       key = JSON.parse(key);
@@ -105,6 +107,12 @@ class Chat extends Component {
       let valueToUser = (data._snapshot.value.fromUser != global.commonData.user.user_id) ? global.commonData.user.user_id : toUser;
 
       if (!this.checkExist(dataref, data._snapshot.value)) {
+        try {
+          this.scrollview.current.scrollToEnd({ animated: true });
+        } catch (error) {
+          console.log(error)
+        }
+
         dataref.push(data._snapshot.value);
 
         functions.insertChat(
@@ -309,7 +317,7 @@ class Chat extends Component {
         </Portal>
         <View style={styles.flexFull}>
           <Header component={this} />
-          <ScrollView ref={this.scrollview} contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
+          <ScrollView contentContainerStyle={{ flex: 1 }} automaticallyAdjustKeyboardInsets={true}>
             <Background>
               <View>
                 <Href onPress={() => this.getDetailUser()}>
@@ -327,6 +335,7 @@ class Chat extends Component {
               <View style={style.containerMessageChat}>
                 <View>
                   <FlatListViewNormal
+                    ref_={this.scrollview} 
                     data={this.state.data}
                     renderItem={this.renderItem}
                     horizontal={false}

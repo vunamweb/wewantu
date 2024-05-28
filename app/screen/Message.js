@@ -72,6 +72,8 @@ class Message extends Component {
   };
 
   componentDidMount = async () => {
+    global.Messages = this;
+    
     let dataUser = await functions.getDataUser();
 
     this.setState({ dataUser: dataUser });

@@ -1213,13 +1213,15 @@ class Functions {
     notification = false
   ) => {
     var datauser = await this.getDataUser();
-    let token = null;
+    let token = null, user_id, pathMessage;
 
     try {
       datauser = JSON.parse(datauser);
 
       token = datauser.user.session_secret;
       token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
     } catch (error) {
       listJobAPI = undefined;
       listJoBlike = [];
@@ -1240,6 +1242,32 @@ class Functions {
     data = JSON.stringify(body);
 
     var callback = async (responseData) => {
+      try {
+        body.create_at = this.getCurrentDateTime();
+        body.dateTime = this.getCurrentDateTime();
+
+        // update list of all chat user
+        datauser.chatList.push(body);
+
+        // set value state and global for chat list
+        global.commonData.chatList = datauser.chatList;
+        global.Messages.state.chatList = datauser.chatList;
+
+        // set value for list chat between 2 users
+        if (user_id == user_id_from)
+          pathMessage = 'message_' + user_id_from + '_' + user_id_to;
+        else
+          pathMessage = 'message_' + user_id_to + '_' + user_id_from;
+
+        datauser[pathMessage].push(body);
+
+        global.chat.data = datauser[pathMessage];
+
+        await AsyncStorage.setItem("data", JSON.stringify(datauser));
+
+      } catch (error) {
+
+      }
       if (notification) {
         await AsyncStorage.setItem("notification", user_id_from);
       }
