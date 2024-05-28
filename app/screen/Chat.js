@@ -355,12 +355,13 @@ class Chat extends Component {
                 styleParent={[styles.textInput]}
                 fontAwesome="true"
                 colorIcon="white"
+                multiline
                 leftIcon={this.state.message == "" ? "edit" : ""}
                 //onLeftClick={() => this.onClickEye(false)}
                 leftStyle={style.leftStyle}
                 rightIcon={this.state.message == "" ? "" : "send"}
                 onRightClick={() => this.pushMessage()}
-                bgFocus="white"
+                bgFocus="#898166"
                 bgBlur="#3f3f3f"
               />
             </Background>
