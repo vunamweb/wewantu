@@ -6,6 +6,7 @@ import { decode as atob, encode as btoa } from "base-64";
 
 import firebase from "./UtilityFirebase";
 import { ActivityIndicator } from "react-native-paper";
+import { call } from "react-native-reanimated";
 
 class Functions {
   getIndex = (data) => {
@@ -2440,14 +2441,17 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
-  getDetailJob = async (component, id) => {
+  getDetailJob = async (component, id, callBack = null) => {
     let base64ID = btoa(id);
 
-    callback = async (responseData) => {
-      component.setState({
-        detailJob: responseData,
-        ActivityIndicatorModal: false,
-      });
+    var callback = async (responseData) => {
+      if (callBack != null)
+        callBack(responseData)
+      else
+        component.setState({
+          detailJob: responseData,
+          ActivityIndicatorModal: false,
+        });
     };
 
     let url = global.urlRootJob + global.detailJob;

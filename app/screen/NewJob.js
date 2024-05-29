@@ -14,6 +14,7 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { Provider, Portal, Modal } from "react-native-paper";
 import { Rating, AirbnbRating, Tooltip } from "react-native-elements";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+import Share from 'react-native-share';
 
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -161,6 +162,40 @@ class NewJob extends Component {
 
     return SceneMap(sceneMap);
   };
+
+  share = (index) => {
+    let id = 0;
+
+    try {
+      id = this.state.jobsList[index].refnr;
+    } catch (error) {
+      console.log(error);
+    }
+
+    var callBack = async (response) => {
+      try {
+        let title = response.titel;
+        let message = response.stellenbeschreibung;
+        let url = response.allianzpartnerUrl;
+        let subject = response.arbeitgeber;
+
+        const shareOptions = {
+          title: title,
+          message: message,
+          url: url,  // You can also use a local file path
+          subject: subject,
+        };
+
+        const result = await Share.open(shareOptions);
+        console.log('Share result: ', result);
+      } catch (error) {
+        console.log('Error sharing content: ', error);
+        Alert.alert('Error', 'There was an error while sharing the content.');
+      }
+    }
+
+    functions.getDetailJob(this, id, callBack);
+  }
 
   Route = (status) => {
     var like =
@@ -359,7 +394,9 @@ class NewJob extends Component {
               {/*<Href onPress={() => this.gotoScreen(2)}>
               <Image source={mark} />
     </Href>*/}
-              <Image source={imgShare} />
+              <Href onPress={() => this.share(status)}>
+                <Image source={imgShare} />
+              </Href>
             </View>
           </View>
         </ScrollView>
