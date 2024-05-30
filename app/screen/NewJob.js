@@ -173,6 +173,8 @@ class NewJob extends Component {
     }
 
     var callBack = async (response) => {
+      this.setState({ ActivityIndicator: false });
+
       try {
         let title = response.titel;
         let message = response.stellenbeschreibung;
@@ -193,6 +195,7 @@ class NewJob extends Component {
         Alert.alert('Error', 'There was an error while sharing the content.');
       }
     }
+    this.setState({ ActivityIndicator: true });
 
     functions.getDetailJob(this, id, callBack);
   }
@@ -212,7 +215,7 @@ class NewJob extends Component {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={[styles.fullWith, styles.childRen]}>
             <View style={[styles.childRen_1]}>
-              <View style={[styles.flexRow, styles.containerJob1, { display: this.state.display1 }]}>
+              <View style={[styles.flexRow, styles.containerJob1, { display: this.state.display1, marginTop: 20 }]}>
                 <Text style={[styles.fontNormal, styles.titleJob]}>
                   Beruf:{" "}
                 </Text>
@@ -581,7 +584,7 @@ class NewJob extends Component {
                 text2={text1}
               />
               <View style={style.line} />
-              <Href onPress={() => functions.getListJob(this, true)}>
+              <Href style={style.refersh} onPress={() => functions.getListJob(this, true)}>
                 <IconFontAwesome name="refresh" size={24} color="white" />
               </Href>
               <View style={style.parentTabview}>
@@ -710,6 +713,10 @@ const style = StyleSheet.create({
   descriptionTitleJob: {
     //marginLeft: 10,
   },
+
+  refersh: {
+    marginBottom: 10
+  }
 });
 
 export default NewJob;
