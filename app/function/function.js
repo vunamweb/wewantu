@@ -369,7 +369,7 @@ class Functions {
     body = JSON.stringify(body);
 
     var callback = (responseData) => {
-      if (responseData.status == 200)
+      if (responseData.status == 200 || responseData.status == 201)
         component.setState({ display2: "flex", ActivityIndicator: false });
       else component.setState({ display1: "flex", ActivityIndicator: false });
     };
