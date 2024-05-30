@@ -44,7 +44,7 @@ class PersonalData_2 extends Component {
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => { };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -255,7 +255,11 @@ class PersonalData_2 extends Component {
       param.step2 = {};
       param.step2.mobile = this.state.mobile;
       param.step2.email = this.state.email;
+    } catch (error) {
+      console.log(error);
+    }
 
+    try {
       this.state.mobile =
         this.state.mobile != null
           ? this.state.mobile
