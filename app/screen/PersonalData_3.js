@@ -173,7 +173,7 @@ class PersonalData_3 extends Component {
     try {
       var text1 = commonData.meine_anschrift;
       var text2 = commonData.street;
-      var text3 = commonData.no;
+      var text3 = commonData.number_house;
       var text4 = commonData.address_additional;
       //var text5 = commonData.me;
       var text6 = commonData.zip;
@@ -181,6 +181,7 @@ class PersonalData_3 extends Component {
       var text8 = commonData.year_of_birthday;
       var text9 = commonData.that_s;
       var text10 = commonData.me;
+      var text13 = commonData. year_of_birthday;
 
       text11 = commonData.please_enter_zip;
       text12 = commonData.please_enter_year;
@@ -230,7 +231,7 @@ class PersonalData_3 extends Component {
       this.state.year_birthday =
         this.state.year_birthday != ""
           ? this.state.year_birthday
-          : global.commonData.user.another.year_birthday;
+          : text13;
     } catch (error) {
       console.log(error);
     }

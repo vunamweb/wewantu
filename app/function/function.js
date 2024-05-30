@@ -1868,7 +1868,17 @@ class Functions {
       responseData.map((item, index) => {
         obj = {};
 
-        obj.label = item.value;
+        try {
+          let value = JSON.parse(item.value);
+
+          let language = (global.selectLanguage == undefined) ? 'en' : global.selectLanguage;
+
+          obj.label = value[language];
+
+        } catch (error) {
+          obj.label = 'No data'
+        }
+
         obj.id = item.work_experience_id;
         obj.require = false;
 
