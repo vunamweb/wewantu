@@ -22,11 +22,17 @@ import functions from "../function/function";
 const borderColor = "#000";
 const imgClose = require("../images/close.png");
 var component;
-var text6, text7;
+var text6, text7, text17;
 
 class PersonalData_2 extends Component {
   constructor(props) {
     super(props);
+
+    this.input1 = createRef();
+    this.input2 = createRef();
+    this.input3 = createRef();
+    this.input4 = createRef();
+    this.input5 = createRef();
 
     this.input1 = createRef();
 
@@ -41,6 +47,20 @@ class PersonalData_2 extends Component {
       email: null,
       visible: false,
       cellNumber: null,
+      value1: "",
+      value2: "",
+      value3: "",
+      value4: "",
+      value5: "",
+      colorBorder1_: borderColor,
+      colorBorder2_: borderColor,
+      colorBorder3_: borderColor,
+      colorBorder4_: borderColor,
+      colorBorder5_: borderColor,
+      errorMessage: "",
+      errorMessage1: "",
+      marginTop: 0,
+      displayCode: 'none'
     };
   }
 
@@ -69,6 +89,7 @@ class PersonalData_2 extends Component {
     let mobile = this.state.mobile;
     let email = this.state.email;
     let marginTop = 20;
+    let pin = '12345';
 
     component = this;
 
@@ -94,17 +115,6 @@ class PersonalData_2 extends Component {
       component.setState({ colorBorder1: borderColor, errorMessage: "" });
     }
 
-    /*if (email == null) {
-      component.setState({
-        colorBorder2: "red",
-        errorMessage: "Please enter email",
-        marginTop: marginTop,
-      });
-      return false;
-    } else {
-      component.setState({ colorBorder2: borderColor, errorMessage: "" });
-    }*/
-
     if (!functions.validateEmail(email)) {
       component.setState({
         colorBorder2: "red",
@@ -117,6 +127,70 @@ class PersonalData_2 extends Component {
     }
 
     if (this.isInsert()) {
+      let value1 = this.state.value1;
+      let value2 = this.state.value2;
+      let value3 = this.state.value3;
+      let value4 = this.state.value4;
+      let value5 = this.state.value5;
+
+      if (this.state.displayCode == 'none') {
+        this.setState({ displayCode: 'flex' })
+
+        return false;
+      }
+
+      if (value1 == "") {
+        component.setState({
+          colorBorder1_: "red",
+        });
+        return false;
+      } else {
+        component.setState({ colorBorder1_: borderColor });
+      }
+
+      if (value2 == "") {
+        component.setState({
+          colorBorder2_: "red",
+        });
+        return false;
+      } else {
+        component.setState({ colorBorder2_: borderColor });
+      }
+
+      if (value3 == "") {
+        component.setState({
+          colorBorder3_: "red",
+        });
+        return false;
+      } else {
+        component.setState({ colorBorder3_: borderColor });
+      }
+
+      if (value4 == "") {
+        component.setState({
+          colorBorder4_: "red",
+        });
+        return false;
+      } else {
+        component.setState({ colorBorder4_: borderColor });
+      }
+
+      if (value5 == "") {
+        component.setState({
+          colorBorder5_: "red",
+        });
+        return false;
+      } else {
+        component.setState({ colorBorder5_: borderColor });
+      }
+
+      let enterPin = value1 + value2 + value3 + value4 + value5;
+
+      if (enterPin != pin) {
+        this.setState({ errorMessage1: text17 });
+        return false;
+      }
+
       var obj = {};
 
       try {
@@ -136,9 +210,11 @@ class PersonalData_2 extends Component {
       }
 
       functions.updateUser(this, obj, 2);
-    }
 
-    return true;
+      return true;
+    } else {
+      return true;
+    }
   };
 
   isInsert = () => {
@@ -163,6 +239,48 @@ class PersonalData_2 extends Component {
     }
   };
 
+  onChangeValue_ = (position, value) => {
+    var match = /[^0-9]/g;
+
+    switch (position) {
+      case 2:
+        value = value.replace(match, "");
+        this.setState({ value2: value });
+
+        if (value != "") this.input3.current.focus();
+
+        break;
+
+      case 3:
+        value = value.replace(match, "");
+        this.setState({ value3: value });
+
+        if (value != "") this.input4.current.focus();
+
+        break;
+
+      case 4:
+        value = value.replace(match, "");
+        this.setState({ value4: value });
+
+        if (value != "") this.input5.current.focus();
+
+        break;
+
+      case 5:
+        value = value.replace(match, "");
+        this.setState({ value5: value });
+
+        break;
+
+      default:
+        value = value.replace(match, "");
+        this.setState({ value1: value });
+
+        if (value != "") this.input2.current.focus();
+    }
+  };
+
   render() {
     var commonData = global.commonData.languages;
 
@@ -184,6 +302,9 @@ class PersonalData_2 extends Component {
       var text13 = commonData.Portugal;
       var text14 = commonData.romania;
       var text15 = commonData.serbia;
+
+      var text16 = commonData.You_will_shortly_receive_your_code;
+      text17 = commonData.pin_is_wrong;
 
       var cellNumbers = [
         {
@@ -374,6 +495,92 @@ class PersonalData_2 extends Component {
                 bgFocus="white"
                 bgBlur="#3f3f3f"
               />
+
+              <Text style={[styles.fontBoldSmall, style.textTop, { display: this.state.displayCode }]}>{text16}</Text>
+              <Text style={[styles.error, { marginBottom: 20 }]}>{this.state.errorMessage1}</Text>
+              <View
+                style={[
+                  styles.flexRow,
+                  style.viewRoot,
+                  { marginTop: this.state.marginTop, display: this.state.displayCode },
+                ]}
+              >
+                <TextInput
+                  ref_={this.input1}
+                  onChangeText={(value) => this.onChangeValue_(1, value)}
+                  value={this.state.value1}
+                  styleParent={[
+                    {
+                      borderColor: this.state.colorBorder1_,
+                    },
+                    styles.textInputSmall,
+                  ]}
+                  bgFocus="#3f3f3f"
+                  bgBlur="white"
+                  keyboardType="number-pad"
+                  maxLength={1}
+                />
+                <TextInput
+                  ref_={this.input2}
+                  onChangeText={(value) => this.onChangeValue_(2, value)}
+                  value={this.state.value2}
+                  styleParent={[
+                    {
+                      borderColor: this.state.colorBorder2_,
+                    },
+                    styles.textInputSmall,
+                  ]}
+                  bgFocus="#3f3f3f"
+                  bgBlur="white"
+                  keyboardType="number-pad"
+                  maxLength={1}
+                />
+                <TextInput
+                  ref_={this.input3}
+                  onChangeText={(value) => this.onChangeValue_(3, value)}
+                  value={this.state.value3}
+                  styleParent={[
+                    {
+                      borderColor: this.state.colorBorder3_,
+                    },
+                    styles.textInputSmall,
+                  ]}
+                  bgFocus="#3f3f3f"
+                  bgBlur="white"
+                  keyboardType="number-pad"
+                  maxLength={1}
+                />
+                <TextInput
+                  ref_={this.input4}
+                  onChangeText={(value) => this.onChangeValue_(4, value)}
+                  value={this.state.value4}
+                  styleParent={[
+                    {
+                      borderColor: this.state.colorBorder4_,
+                    },
+                    styles.textInputSmall,
+                  ]}
+                  bgFocus="#3f3f3f"
+                  bgBlur="white"
+                  keyboardType="number-pad"
+                  maxLength={1}
+                />
+                <TextInput
+                  ref_={this.input5}
+                  onChangeText={(value) => this.onChangeValue_(5, value)}
+                  value={this.state.value5}
+                  styleParent={[
+                    {
+                      borderColor: this.state.colorBorder5_,
+                    },
+                    styles.textInputSmall,
+                  ]}
+                  bgFocus="#3f3f3f"
+                  bgBlur="white"
+                  keyboardType="number-pad"
+                  maxLength={1}
+                />
+              </View>
               <BackNext
                 nextScreen="PersonalData_3"
                 data={JSON.stringify(param)}
@@ -442,6 +649,12 @@ const style = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 5,
+  },
+
+  textTop: {
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20
   },
 });
 
