@@ -7,6 +7,7 @@ import { decode as atob, encode as btoa } from "base-64";
 import firebase from "./UtilityFirebase";
 import { ActivityIndicator } from "react-native-paper";
 import { call } from "react-native-reanimated";
+import Share from 'react-native-share';
 
 class Functions {
   getIndex = (data) => {
@@ -2440,6 +2441,28 @@ class Functions {
     component.setState({ ActivityIndicator: true });
     network.fetchGET_HEADER(url, null, token, callback);
   };
+
+  share = async (response) => {
+    try {
+      let title = response.titel;
+      let message = response.stellenbeschreibung;
+      let url = response.allianzpartnerUrl;
+      let subject = response.arbeitgeber;
+
+      const shareOptions = {
+        title: title,
+        message: message,
+        url: url,  // You can also use a local file path
+        subject: subject,
+      };
+
+      const result = await Share.open(shareOptions);
+      console.log('Share result: ', result);
+    } catch (error) {
+      console.log('Error sharing content: ', error);
+      Alert.alert('Error', 'There was an error while sharing the content.');
+    }
+  }
 
   getDetailJob = async (component, id, callBack = null) => {
     let base64ID = btoa(id);

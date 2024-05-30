@@ -164,40 +164,28 @@ class NewJob extends Component {
   };
 
   share = (index) => {
-    let id = 0;
-
-    try {
-      id = this.state.jobsList[index].refnr;
-    } catch (error) {
-      console.log(error);
-    }
-
-    var callBack = async (response) => {
-      this.setState({ ActivityIndicator: false });
+    if (this.state.detailJob.allianzpartnerUrl != undefined)
+      functions.share(this.state.detailJob);
+    else {
+      let id = 0;
 
       try {
-        let title = response.titel;
-        let message = response.stellenbeschreibung;
-        let url = response.allianzpartnerUrl;
-        let subject = response.arbeitgeber;
-
-        const shareOptions = {
-          title: title,
-          message: message,
-          url: url,  // You can also use a local file path
-          subject: subject,
-        };
-
-        const result = await Share.open(shareOptions);
-        console.log('Share result: ', result);
+        id = this.state.jobsList[index].refnr;
       } catch (error) {
-        console.log('Error sharing content: ', error);
-        Alert.alert('Error', 'There was an error while sharing the content.');
+        console.log(error);
       }
-    }
-    this.setState({ ActivityIndicator: true });
 
-    functions.getDetailJob(this, id, callBack);
+      var callBack = async (response) => {
+        this.setState({ ActivityIndicator: false });
+
+        functions.share(response);
+      }
+
+      this.setState({ ActivityIndicator: true });
+
+      functions.getDetailJob(this, id, callBack);
+
+    }
   }
 
   Route = (status) => {
@@ -408,6 +396,8 @@ class NewJob extends Component {
   };
 
   _handleIndexChange = (index) => {
+    this.state.detailJob = {};
+    
     this.setState({ index });
   };
 

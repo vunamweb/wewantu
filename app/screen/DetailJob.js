@@ -157,8 +157,8 @@ class DetailJob extends Component {
               size="large"
               animating={this.state.ActivityIndicatorModal}
             />
-            <View style={[styles.childRen, { display: this.state.display, margin: 40 }]}>
-              <View style={[styles.childRen_1, styles.children_2]}>
+            <View style={[styles.childRen, { display: this.state.display }]}>
+              <View>
                 <View style={[styles.flexRow, styles.containerJob]}>
                   <Text style={[styles.fontNormalSmall]}>
                     Betriebsgroesse:{" "}
@@ -215,7 +215,9 @@ class DetailJob extends Component {
               {/*<Href onPress={() => this.gotoScreen(2)}>
                 <Image source={mark} />
                 </Href>*/}
-              <Image source={imgShare} />
+              <Href onPress={() => functions.share(this.state.detailJob)}>
+                <Image source={imgShare} />
+              </Href>
               <Href onPress={() => this.confirmDelete(1)}>
                 <Image source={imgDelete} />
               </Href>
@@ -271,6 +273,7 @@ const style = StyleSheet.create({
     //backgroundColor: 'red',
     width: "100%",
     marginBottom: 20,
+    marginTop: 10
   },
 
   containerJob: {
