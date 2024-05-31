@@ -130,25 +130,17 @@ class HomeScreen extends Component {
   componentDidMount = async () => {
     hideNavigationBar();
 
-    let fcmToken;
-
     var listMedia = [];
-
-    try {
-      fcmToken = await messaging().getToken();
-    } catch (error) {
-      console.log(error);
-    }
 
     global.screen = this;
     global.home = this;
 
     let datauser = await functions.getDataUser();
 
+    this.requestUserPermission(datauser);
+    
     try {
       datauser = JSON.parse(datauser);
-
-      let token = datauser.user.firebase_token;
 
       listMedia = datauser.listMedia;
 
@@ -161,24 +153,7 @@ class HomeScreen extends Component {
         });
       }
       // END
-
-      if (token != fcmToken) {
-        datauser.user.firebase_token = fcmToken;
-
-        await AsyncStorage.setItem("data", JSON.stringify(datauser));
-
-        var obj = {};
-
-        try {
-          obj.firebase_token = fcmToken;
-          obj.user_id = datauser.user.user_id;
-        } catch (error) {
-          console.log(error);
-        }
-
-        functions.updateTokenUser(this, obj);
-      }
-    } catch (error) {
+} catch (error) {
       console.log(error);
     }
 
@@ -204,6 +179,45 @@ class HomeScreen extends Component {
         //this.notification();
       }
     );
+  };
+
+  requestUserPermission = async (datauser) => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log("Authorization status:", authStatus);
+      await messaging().registerDeviceForRemoteMessages();
+
+      try {
+        let fcmToken = await messaging().getToken();
+    
+        datauser = JSON.parse(datauser);
+  
+        let token = datauser.user.firebase_token;
+  
+        if (token != fcmToken) {
+          datauser.user.firebase_token = fcmToken;
+  
+          await AsyncStorage.setItem("data", JSON.stringify(datauser));
+  
+          var obj = {};
+  
+          try {
+            obj.firebase_token = fcmToken;
+            obj.user_id = datauser.user.user_id;
+          } catch (error) {
+            console.log(error);
+          }
+  
+          functions.updateTokenUser(this, obj);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   getPercentUser = () => {
