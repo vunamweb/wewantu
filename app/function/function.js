@@ -2185,6 +2185,9 @@ class Functions {
         dataUser.user.another.address_id = responseData[0].address_id;
         dataUser.user.another.mobile_phone_number =
           responseData[0].mobile_phone_number;
+        dataUser.user.another.cell_number =
+          responseData[0].cell_number;
+          
         dataUser.user.another.street = responseData[0].street;
         dataUser.user.another.house_number = responseData[0].house_number;
         dataUser.user.another.address_addition =
