@@ -1253,7 +1253,8 @@ class Functions {
 
         // set value state and global for chat list
         global.commonData.chatList = datauser.chatList;
-        global.Messages.state.chatList = datauser.chatList;
+        global.Messages.setState({ chatList: datauser.chatList });
+        //global.Messages.state.chatList = datauser.chatList;
 
         // set value for list chat between 2 users
         if (user_id == user_id_from)
