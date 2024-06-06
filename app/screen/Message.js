@@ -178,6 +178,21 @@ class Message extends Component {
     );
   };
 
+  hashMesage = (chatList, user_id) => {
+    let hasMessage = false;
+
+    try {
+      chatList.map((item, index) => {
+        if (item.user_id_from == user_id || item.user_id_to == user_id)
+          hasMessage = true;
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+    return hasMessage;
+  }
+
   render() {
     let userId,
       data = [];
@@ -223,38 +238,41 @@ class Message extends Component {
                 key.fromUser = global.commonData.user.user_id; //userId;
                 key.toUser = id;
 
-                return (
-                  <Href onPress={() => this.gotoChat(id, key)}>
-                    <View style={style.parent}>
-                      <View>
-                        <Image source={require("../images/user_chat.png")} />
-                        {this.getNumberNotRead(id) > 0 ? (
-                          <View style={[style.textNumber]}>
-                            <Text style={style.textNumber1}>
-                              {this.getNumberNotRead(id)}
-                            </Text>
-                          </View>
-                        ) : null}
-                      </View>
+                if (this.getNumberNotRead(id) > 0 || this.hashMesage(this.state.chatList, id))
+                  return (
+                    <Href onPress={() => this.gotoChat(id, key)}>
+                      <View style={style.parent}>
+                        <View>
+                          <Image source={require("../images/user_chat.png")} />
+                          {this.getNumberNotRead(id) > 0 ? (
+                            <View style={[style.textNumber]}>
+                              <Text style={style.textNumber1}>
+                                {this.getNumberNotRead(id)}
+                              </Text>
+                            </View>
+                          ) : null}
+                        </View>
 
-                      <View style={[style.childRen]}>
-                        <Text
-                          style={[styles.fontBoldSmallOfSmall, style.text4]}
-                        >
-                          {text1}
-                        </Text>
-                        <Text
-                          style={[styles.fontBoldSmallOfSmall, style.text3]}
-                        >
-                          {title}
-                        </Text>
-                        <Text style={[styles.fontNormalSmall, style.text2]}>
-                          {text}
-                        </Text>
+                        <View style={[style.childRen]}>
+                          <Text
+                            style={[styles.fontBoldSmallOfSmall, style.text4]}
+                          >
+                            {text1}
+                          </Text>
+                          <Text
+                            style={[styles.fontBoldSmallOfSmall, style.text3]}
+                          >
+                            {title}
+                          </Text>
+                          <Text style={[styles.fontNormalSmall, style.text2]}>
+                            {text}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                  </Href>
-                );
+                    </Href>
+                  );
+                else
+                  return null;
               })}
             </View>
           </Background>
