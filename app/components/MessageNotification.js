@@ -29,11 +29,15 @@ const pixelRatio = global.pixelRatio;
 
 const TOP = 15 * pixelRatio;
 
+let enable;
+
 const windowWidth = Dimensions.get("window").width;
 
 let root;
 
 const gotoChat = async (item, index) => {
+  enable(false);
+
   global.notification[index].data.read = true;
 
   datauser = await functions.getDataUser();
@@ -79,6 +83,8 @@ const renderItem = ({ item, index }) => {
 
 export default function MessageNotification(props) {
   const [isEnabled, setIsEnabled] = useState(false);
+
+  enable = setIsEnabled;
 
   root = props;
 

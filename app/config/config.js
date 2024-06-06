@@ -13,7 +13,7 @@ else if (windowWidth > widthSmall && windowWidth <= widthNormal)
   // if is normal device
   global.pixelRatio = 1;
 // if is large device
-else global.pixelRatio = 1.2;
+else global.pixelRatio = 1;
 
 global.trainning = "trainning";
 

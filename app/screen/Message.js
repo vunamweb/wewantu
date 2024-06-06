@@ -73,7 +73,7 @@ class Message extends Component {
 
   componentDidMount = async () => {
     global.Messages = this;
-    
+
     let dataUser = await functions.getDataUser();
 
     this.setState({ dataUser: dataUser });
@@ -113,7 +113,15 @@ class Message extends Component {
 
     let mesages = [];
 
-    this.state.chatList.map((item, index) => {
+    try {
+      if (global.commonData.chatList == undefined)
+        global.commonData.chatList = [];
+    } catch (error) {
+      global.commonData.chatList = [];
+
+    }
+
+    global.commonData.chatList.map((item, index) => {
       if (
         (item.user_id_from == from_user_id ||
           item.user_id_from == to_user_id) &&

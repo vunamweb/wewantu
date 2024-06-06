@@ -1253,7 +1253,8 @@ class Functions {
 
         // set value state and global for chat list
         global.commonData.chatList = datauser.chatList;
-        global.Messages.setState({ chatList: datauser.chatList });
+
+        //global.Messages.setState({ chatList: datauser.chatList });
         //global.Messages.state.chatList = datauser.chatList;
 
         // set value for list chat between 2 users
@@ -1262,7 +1263,12 @@ class Functions {
         else
           pathMessage = 'message_' + user_id_to + '_' + user_id_from;
 
-        datauser[pathMessage].push(body);
+        try {
+          datauser[pathMessage].push(body);
+        } catch (error) {
+          datauser[pathMessage] = [];
+          datauser[pathMessage].push(body);
+        }
 
         global.chat.data = datauser[pathMessage];
 
@@ -1720,7 +1726,10 @@ class Functions {
         JSON.stringify(global.commonData)
       );
 
-      component.setState({ data: mesages, ActivityIndicator: false });
+      if (mesages.length > 0)
+        component.setState({ data: mesages, ActivityIndicator: false });
+      else
+        component.setState({ ActivityIndicator: false });
     };
 
     component.setState({ ActivityIndicator: true });
@@ -2188,7 +2197,7 @@ class Functions {
           responseData[0].mobile_phone_number;
         dataUser.user.another.cell_number =
           responseData[0].cell_number;
-          
+
         dataUser.user.another.street = responseData[0].street;
         dataUser.user.another.house_number = responseData[0].house_number;
         dataUser.user.another.address_addition =
