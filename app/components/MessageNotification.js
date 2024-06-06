@@ -106,7 +106,7 @@ export default function MessageNotification(props) {
           <View
             style={[
               style.inforNotification,
-              { display: display, width: windowWidth / 1 },
+              { display: display, width: windowWidth * 0.9 },
             ]}
           >
             <FlatListViewNormal
