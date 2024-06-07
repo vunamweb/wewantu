@@ -683,6 +683,52 @@ class Functions {
     network.fetchPOST_HEADER_Upload(url, data, token, callback);
   };
 
+  uploadProfileImage = async (component, uri) => {
+    let url = global.urlRootWewantu + global.urlUploadProfilePicture;
+
+    var datauser = await this.getDataUser();
+    let token = null;
+
+    let dateCurent = this.getDateByint().toString();
+
+    try {
+      datauser = JSON.parse(datauser);
+
+      token = datauser.user.session_secret;
+      token = "Bearer " + token;
+
+      user_id = datauser.user.user_id;
+    } catch (error) {
+      console.log(error);
+    }
+
+    let nameFile = dateCurent + "_" + "img.jpg";
+    let name = nameFile + ";" + user_id;
+
+    const data = new FormData();
+
+    data.append("media", {
+      name: name,
+      type: "image/jpeg",
+      uri: uri,
+    });
+
+    var callback = async (responseData) => {
+      global.commonData.user.another.profilePicture = nameFile;
+
+      component.setState({
+        profileImage: nameFile,
+        ActivityIndicator: false,
+      });
+    };
+
+    component.setState({
+      ActivityIndicator: true
+    });
+
+    network.fetchPOST_HEADER_Upload(url, data, token, callback);
+  };
+
   deleteMedia = async (component, type) => {
     let url = global.urlRootWewantu + global.urlMediaUpdate;
 
@@ -2191,6 +2237,7 @@ class Functions {
         dataUser.user.another.mail = responseData[0].mail;
         dataUser.user.another.prename = responseData[0].prename;
         dataUser.user.another.lastname = responseData[0].lastname;
+        dataUser.user.another.profilePicture = responseData[0].profilePicture;
         dataUser.user.another.sex = responseData[0].sex;
         dataUser.user.another.address_id = responseData[0].address_id;
         dataUser.user.another.mobile_phone_number =

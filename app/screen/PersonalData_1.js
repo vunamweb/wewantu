@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View, AsyncStorage, Dimensions } from "react-native";
+import { StyleSheet, View, AsyncStorage, Dimensions, ActivityIndicator } from "react-native";
 
 import Text from "../components/Paragraph";
 import { ScrollView } from "react-native-gesture-handler";
+
+import * as ImagePicker from "react-native-image-picker";
 
 import Background from "../components/Background";
 import TextInput from "../components/TextInput";
@@ -12,9 +14,12 @@ import Image from "../components/Image";
 import CheckBox from "../components/Checkbox";
 import BackNext from "../components/BackNext";
 import Header from "../components/Header";
+import Href from "../components/Href";
 
 import styles from "../../app/style/style";
 import functions from "../function/function";
+
+import "../config/config";
 
 const borderColor = "#000";
 const imgProfile = require("../images/user_profile.png");
@@ -41,10 +46,12 @@ class PersonalData_1 extends Component {
       title: null,
       firstName: null,
       lastName: null,
+      profileImage: null,
+      ActivityIndicator: false,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => { };
 
   static navigationOptions = ({ navigation }) => ({
     title: "",
@@ -143,9 +150,27 @@ class PersonalData_1 extends Component {
     }
   };
 
+  openImagePicker = () => {
+    ImagePicker.launchImageLibrary({}, (response) => {
+      if (response) {
+        //setMediaFiles([...mediaFiles, { type: "image", uri: response.assets[0].uri }]);
+        try {
+          functions.uploadProfileImage(
+            this,
+            response.assets[0].uri
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+
   render() {
     var commonData = global.commonData.languages;
     var setIndex;
+
+    let profilePicture = <Image style={style.img} source={imgProfile} />;
 
     try {
       var text1 = commonData.that_s;
@@ -176,6 +201,15 @@ class PersonalData_1 extends Component {
           require: true,
         },
       ];
+
+      if (global.commonData.user.another.profilePicture != undefined) {
+        let urlIamage = global.urlImage + global.commonData.user.another.profilePicture;
+
+        profilePicture = <View style={[style.viewProfilPicture, style.imageContainer]}><Image
+          source={{ uri: urlIamage }}
+          style={[style.profilePicture, style.image]}
+        /></View>
+      }
     } catch (error) {
       console.log(error);
     }
@@ -198,11 +232,11 @@ class PersonalData_1 extends Component {
 
       setIndex =
         global.commonData.user.another.sex == null ||
-        global.commonData.user.another.sex == undefined
+          global.commonData.user.another.sex == undefined
           ? -1
           : global.commonData.user.another.sex;
 
-       this.index = setIndex;   
+      this.index = setIndex;
     } catch (error) {
       console.log(error);
     }
@@ -225,7 +259,14 @@ class PersonalData_1 extends Component {
         <ScrollView automaticallyAdjustKeyboardInsets={true} contentContainerStyle={{ flexGrow: 1 }}>
           <Background>
             <TextHeader text1={text1} text2={text2} />
-            <Image style={style.img} source={imgProfile} />
+            <ActivityIndicator
+                size="small"
+                animating={this.state.ActivityIndicator}
+              />
+
+            <Href onPress={() => this.openImagePicker("img")}>
+              {profilePicture}
+            </Href>
             <Text style={[styles.error, { marginTop: this.state.marginTop }]}>
               {this.state.errorMessage}
             </Text>
@@ -302,6 +343,27 @@ class PersonalData_1 extends Component {
 const style = StyleSheet.create({
   img: {
     marginTop: 30,
+  },
+
+  viewProfilPicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#898166'
+  },
+
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+
+  imageContainer: {
+    overflow: 'hidden',
+  },
+  image: {
+    resizeMode: 'cover',
   },
 
   CheckBox: {

@@ -50,6 +50,7 @@ global.urlRegister = "api/v1/user";
 global.urlInsertChat = "api/v1/chat/insert";
 global.urlChat = "api/v1/chat";
 global.urlUpload = "api/v1/upload";
+global.urlUploadProfilePicture = "api/v1/upload_profile";
 global.urlMedia = "api/v1/media";
 global.urlMediaUpdate = "api/v1/media/update";
 global.urlDriveLicense = "api/v1/driver_licenses";
@@ -94,5 +95,5 @@ global.userWeantu = "wewantu";
 global.passwordWeantu = "wewantu";
 
 // URL Image
-global.urlImage = "https://api.topazvn.vn/uploads/";
+global.urlImage = "https://wewantu.frankfurterfreiheit.de/api/public/uploads/";
 
