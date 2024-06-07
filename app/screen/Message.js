@@ -193,9 +193,28 @@ class Message extends Component {
     return hasMessage;
   }
 
+  checkHasMesage = (mesages) => {
+    let check = false;
+
+    mesages.map(({ title, text, text1, hasMessage, id }, index) => {
+      if (this.getNumberNotRead(id) > 0 || this.hashMesage(this.state.chatList, id))
+        check = true;
+    })
+
+    return check;
+  }
+
   render() {
     let userId,
       data = [];
+
+    var commonData = global.commonData.languages;
+
+    try {
+      var text1 = commonData.no_message;
+    } catch (error) {
+      console.log(error);
+    }
 
     this.state.userList.map((item, index) => {
       try {
@@ -206,7 +225,7 @@ class Message extends Component {
 
           obj.title = item.prename + " " + item.lastname;
           obj.text = lastMesage.message;
-          obj.text1 = lastMesage.create_at;
+          obj.text1 = functions.convertDate(lastMesage.create_at);
           obj.id = item.user_id;
 
           data.push(obj);
@@ -232,49 +251,57 @@ class Message extends Component {
               size="large"
               animating={this.state.ActivityIndicator}
             />
-            <View style={[style.data]}>
-              {data.map(({ title, text, text1, hasMessage, id }, index) => {
-                let key = {};
-                key.fromUser = global.commonData.user.user_id; //userId;
-                key.toUser = id;
+            {
+              this.checkHasMesage(data) ?
+                <View style={[style.data]}>
+                  {data.map(({ title, text, text1, hasMessage, id }, index) => {
+                    let key = {};
+                    key.fromUser = global.commonData.user.user_id; //userId;
+                    key.toUser = id;
 
-                if (this.getNumberNotRead(id) > 0 || this.hashMesage(this.state.chatList, id))
-                  return (
-                    <Href onPress={() => this.gotoChat(id, key)}>
-                      <View style={style.parent}>
-                        <View>
-                          <Image source={require("../images/user_chat.png")} />
-                          {this.getNumberNotRead(id) > 0 ? (
-                            <View style={[style.textNumber]}>
-                              <Text style={style.textNumber1}>
-                                {this.getNumberNotRead(id)}
+                    if (this.getNumberNotRead(id) > 0 || this.hashMesage(this.state.chatList, id)) {
+                      checkHasMesage = true;
+
+                      return (
+                        <Href onPress={() => this.gotoChat(id, key)}>
+                          <View style={style.parent}>
+                            <View>
+                              <Image source={require("../images/user_chat.png")} />
+                              {this.getNumberNotRead(id) > 0 ? (
+                                <View style={[style.textNumber]}>
+                                  <Text style={style.textNumber1}>
+                                    {this.getNumberNotRead(id)}
+                                  </Text>
+                                </View>
+                              ) : null}
+                            </View>
+
+                            <View style={[style.childRen]}>
+                              <Text
+                                style={[styles.fontBoldSmallOfSmall, style.text4]}
+                              >
+                                {text1}
+                              </Text>
+                              <Text
+                                style={[styles.fontBoldSmallOfSmall, style.text3]}
+                              >
+                                {title}
+                              </Text>
+                              <Text style={[styles.fontNormalSmall, style.text2]}>
+                                {text}
                               </Text>
                             </View>
-                          ) : null}
-                        </View>
+                          </View>
+                        </Href>
+                      );
+                    }
 
-                        <View style={[style.childRen]}>
-                          <Text
-                            style={[styles.fontBoldSmallOfSmall, style.text4]}
-                          >
-                            {text1}
-                          </Text>
-                          <Text
-                            style={[styles.fontBoldSmallOfSmall, style.text3]}
-                          >
-                            {title}
-                          </Text>
-                          <Text style={[styles.fontNormalSmall, style.text2]}>
-                            {text}
-                          </Text>
-                        </View>
-                      </View>
-                    </Href>
-                  );
-                else
-                  return null;
-              })}
-            </View>
+                    else
+                      return null;
+                  })}
+                </View>
+                : <Text style={styles.fontBoldNormal}>{text1}</Text>
+            }
           </Background>
         </ScrollView>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>

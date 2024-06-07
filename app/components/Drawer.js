@@ -91,7 +91,7 @@ export default class MyDrawer extends Component {
           )}
         />
         <View style={[{ display: this.state.display }, styles.Menu]}>
-          <TouchableOpacity onPress={() => this.onButtonOpenDrawer()}>
+          <TouchableOpacity style={style.areaClick} onPress={() => this.onButtonOpenDrawer()}>
             <Image source={menu} />
           </TouchableOpacity>
         </View>
@@ -101,6 +101,11 @@ export default class MyDrawer extends Component {
 }
 
 const style = StyleSheet.create({
+  areaClick: {
+    //backgroundColor: 'red',
+    padding: 50
+  },
+
   drawerStyle: {
     width: "100%",
     height: "100%",

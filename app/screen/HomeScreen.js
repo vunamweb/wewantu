@@ -34,7 +34,7 @@ const bgDefault = "#2B2B2B";
 const bgFocus = "#2B2B2B";
 const imgFillProlie = require("../images/filled_profile.png");
 const alert = require("../images/chat_message.png");
-const newJob = require("../images/Neue_Jobs_Alert.png");
+const newJob = require("../images/notification.png");
 
 let zip, trainning;
 
@@ -346,6 +346,7 @@ class HomeScreen extends Component {
                 <Text style={[styles.fontBoldSmall, style.textProfile]}>
                   {text9}
                 </Text>
+                <Href onPress={() => functions.gotoScreen(this.props.navigation, 'ProfileScreen')}>
                 <CircularProgress
                   size={150}
                   strokeWidth={10}
@@ -353,6 +354,7 @@ class HomeScreen extends Component {
                   color="#898166"
                   backgroundColor="#ccc"
                 />
+                </Href>
                 <Text style={[style.textPercent, styles.fontBoldLargeNormal]}>
                   {this.getPercentUser()}%
                 </Text>

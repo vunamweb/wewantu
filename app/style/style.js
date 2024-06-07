@@ -479,8 +479,8 @@ module.exports = StyleSheet.create({
 
   Menu: {
     position: "absolute",
-    top: TOP_MENU,
-    right: RIGHT_MENU,
+    top: TOP_MENU - 50,
+    right: RIGHT_MENU - 50,
   },
 
   CloseMenu: {

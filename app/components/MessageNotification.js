@@ -73,7 +73,7 @@ const renderItem = ({ item, index }) => {
           </Text>
           <Text style={styles.fontNormal}>{item.data.message}</Text>
           <Text style={[styles.fontNormalSmall, style.dateTime]}>
-            {item.data.date}
+            {functions.convertDate(item.data.date)}
           </Text>
         </View>
       </Href>
@@ -124,8 +124,8 @@ export default function MessageNotification(props) {
         }
       >
         <Image style={style.marginLeft} source={newJob} />
-        <View style={style.textNumber}>
-          <Text style={style.text1}>1</Text>
+        <View style={style.textNumberJob}>
+          <Text style={[style.text1, { display: 'none' }]}>1</Text>
         </View>
       </Href>
     </View>
@@ -147,12 +147,27 @@ const style = StyleSheet.create({
     top: -10,
     right: -10,
     borderRadius: 10,
-    borderColor: "#000",
-    borderWidth: 1,
     backgroundColor: "#FF0000",
     alignItems: "center",
     width: 20,
-    height: 20,
+    orderRadius: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+    bheight: 20,
+    zIndex: 3,
+  },
+
+  textNumberJob: {
+    position: "absolute",
+    top: -10,
+    right: -10,
+    backgroundColor: "#FF0000",
+    alignItems: "center",
+    width: 20,
+    orderRadius: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+    bheight: 20,
     zIndex: 3,
   },
 

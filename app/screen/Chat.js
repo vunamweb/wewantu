@@ -239,7 +239,7 @@ class Chat extends Component {
         <View style={styleChat.messageContainer}>
           <Text style={styles.fontNormal}>{item.message}</Text>
           <Text style={[styles.fontNormalSmall, style.dateTime]}>
-            {item.dateTime}
+          {functions.convertDate(item.dateTime)}
           </Text>
           <Image
             source={imgFlag}
@@ -252,7 +252,7 @@ class Chat extends Component {
         <View style={styleChat.messageContainerOwn}>
           <Text style={styles.fontNormal}>{item.message}</Text>
           <Text style={[styles.fontNormalSmall, style.dateTime]}>
-            {item.dateTime}
+            {functions.convertDate(item.dateTime)}
           </Text>
         </View>
       </View>

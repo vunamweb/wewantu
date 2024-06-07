@@ -10,6 +10,16 @@ import { call } from "react-native-reanimated";
 import Share from 'react-native-share';
 
 class Functions {
+  convertDate = (date) => {
+     let data = date.split(' ');
+     let data1 = data[0];
+     let data2 = data1.split('-');
+
+     let str = data2[2] + '.' + data2[1] + '.' + data2[0];
+
+     return str;
+  }
+
   getIndex = (data) => {
     var index = data.index != undefined ? data.index : 0;
 
