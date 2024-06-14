@@ -3215,17 +3215,17 @@ class Functions {
     let body = {};
 
     body.text = text;
-    body.fromlanguage = fromLanguage;
-    body.tolanguag = toLanguage;
+    body.fromLanguage = fromLanguage;
+    body.toLanguage = toLanguage;
 
     var callBack = (response) => {
       let translation = component.state.translation;
 
       try {
         translation[index].status = true;
-        translation[index].textTranslation = response;
+        translation[index].textTranslation = response.text.replace(/\n/g, '');
 
-        component.setState({ translation: translation });
+        component.setState({ translation: translation, ActivityIndicator: false });
       } catch (error) {
         console.log(error);
       }
@@ -3233,6 +3233,25 @@ class Functions {
 
     component.setState({ ActivityIndicator: true });
     network.fetchPOST_HEADER(url, JSON.stringify(body), null, callBack);
+  }
+
+  getLanguageMother = () => {
+    let commondata = global.commonData;
+
+    let listUserLanguage, languageMother = 'English';
+
+    try {
+      listUserLanguage = commondata.listUserLanguages;
+
+      listUserLanguage.map((item, index) => {
+        if (item.level == 0)
+          languageMother = item.name;
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    return languageMother;
   }
 
   deleteBid = async (component, id) => {

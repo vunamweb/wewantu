@@ -227,6 +227,7 @@ class Message extends Component {
           obj.text = lastMesage.message;
           obj.text1 = functions.convertDate(lastMesage.create_at);
           obj.id = item.user_id;
+          obj.profilePicture = item.profilePicture;
 
           data.push(obj);
         }
@@ -254,7 +255,16 @@ class Message extends Component {
             {
               this.checkHasMesage(data) ?
                 <View style={[style.data]}>
-                  {data.map(({ title, text, text1, hasMessage, id }, index) => {
+                  {data.map(({ title, text, text1, hasMessage, id, profilePicture }, index) => {
+                    let urlProfilePicuture = global.urlRootWewantu + 'api/' + profilePicture;
+
+                    let image = (profilePicture == null || profilePicture == undefined) ?
+                      <Image style={style.img} source={require("../images/user_profile.png")} />
+                      : <Image
+                        source={{ uri: urlProfilePicuture }}
+                        style={[style.img]}
+                      />;
+
                     let key = {};
                     key.fromUser = global.commonData.user.user_id; //userId;
                     key.toUser = id;
@@ -266,7 +276,7 @@ class Message extends Component {
                         <Href onPress={() => this.gotoChat(id, key)}>
                           <View style={style.parent}>
                             <View>
-                              <Image source={require("../images/user_chat.png")} />
+                              {image}
                               {this.getNumberNotRead(id) > 0 ? (
                                 <View style={[style.textNumber]}>
                                   <Text style={style.textNumber1}>
@@ -398,6 +408,10 @@ const style = StyleSheet.create({
     width: 20,
     height: 20,
     zIndex: 3,
+  },
+  img: {
+    width: 50,
+    height: 50
   },
 });
 

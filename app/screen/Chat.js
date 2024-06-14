@@ -73,7 +73,8 @@ class Chat extends Component {
         mobile_phone_number: null
       }
     ],
-    translation: []
+    translation: [],
+    userList: [],
   };
 
   componentDidMount = async () => {
@@ -148,12 +149,15 @@ class Chat extends Component {
 
     let dataUser = await functions.getDataUser();
     var dataMessage = [];
+    var userList = [];
     let pathMessage = 'message_' + fromUser + '_' + toUser;
 
     try {
       dataUser = JSON.parse(dataUser);
 
       dataMessage = dataUser[pathMessage];
+
+      userList = dataUser.userList;
     } catch (error) {
       console.log(error);
     }
@@ -165,6 +169,16 @@ class Chat extends Component {
     else {
       this.setState({
         data: dataMessage
+      });
+    }
+    // END
+
+    // check list of chat has saved on local, if not call api to get data
+    if ((Array.isArray(userList) && userList.length == 0) || userList == undefined)
+      functions.getListUser(this);
+    else {
+      this.setState({
+        userList: userList,
       });
     }
     // END
@@ -183,8 +197,34 @@ class Chat extends Component {
     return check;
   }
 
+  getProfilePicture = (user_id) => {
+    let userList = this.state.userList;
+
+    let imageProfile = <Image style={style.img} source={require("../images/user_profile.png")} />
+
+    try {
+      userList.map((item, index) => {
+        if (item.user_id == user_id)
+          if (item.profilePicture != null && item.profilePicture != undefined) {
+            let urlProfilePicuture = global.urlRootWewantu + 'api/' + item.profilePicture;
+
+            imageProfile = <View style={[style.viewProfilPicture, style.imageContainer]}><Image
+              source={{ uri: urlProfilePicuture }}
+              style={[style.profilePicture, style.image]}
+            /></View>;
+          }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    return imageProfile;
+  }
+
   translation = (index, text) => {
     let translation = this.state.translation;
+    let toLanguage = functions.getLanguageMother();
+    let fromLanguage = 'Germany';
 
     if (translation[index] == undefined) {
       translation[index] = {};
@@ -192,9 +232,9 @@ class Chat extends Component {
       translation[index].status = true;
       translation[index].textOrginal = text;
 
-      functions.translation(this, index, text);
+      functions.translation(this, index, text, fromLanguage, toLanguage);
     } else if (!translation[index].status) {
-      functions.translation(this, index, text);
+      functions.translation(this, index, text, fromLanguage, toLanguage);
     } else {
       translation[index].status = false;
 
@@ -255,18 +295,27 @@ class Chat extends Component {
   }
 
   renderItem = ({ item, index }) => {
+    let message = item.message;
+
+    try {
+      let translation = this.state.translation;
+
+      message = translation[index].status ? translation[index].textTranslation : translation[index].textOrginal;
+    } catch (error) {
+      console.log(error);
+    }
+
     return (
       item.fromUser != global.commonData.user.user_id ? ( // if not owner
         <View style={styleChat.containerList}>
           <View style={styleChat.messageContainer}>
-            <Text style={styles.fontNormal}>{item.message}</Text>
+            <Text style={styles.fontNormal}>{message}</Text>
             <Text style={[styles.fontNormalSmall, style.dateTime]}>
               {functions.convertDate(item.dateTime)}
             </Text>
-            <Href onPress={() => this.translation(index, item.message)}>
+            <Href style={style.flag} onPress={() => this.translation(index, item.message)}>
               <Image
                 source={imgFlag}
-                style={{ position: "absolute", top: -5, right: -5 }}
               />
             </Href>
           </View>
@@ -348,12 +397,8 @@ class Chat extends Component {
             <Background>
               <View>
                 <Href onPress={() => this.getDetailUser()}>
-                  <Image source={require("../images/user_chat_1.png")} />
+                  {this.getProfilePicture(toUser)}
                 </Href>
-                <Image
-                  source={require("../images/Unknown.png")}
-                  style={style.imageProfile}
-                />
               </View>
               <ActivityIndicator
                 size="large"
@@ -503,7 +548,33 @@ const style = StyleSheet.create({
     top: 10,
     right: 10,
     zIndex: 999999
-  }
+  },
+  flag: {
+    position: "absolute",
+    top: -5,
+    right: -5
+  },
+
+  viewProfilPicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: '#898166'
+  },
+
+  profilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+
+  imageContainer: {
+    overflow: 'hidden',
+  },
+  image: {
+    resizeMode: 'cover',
+  },
 });
 
 export default Chat;
