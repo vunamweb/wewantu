@@ -97,3 +97,11 @@ global.passwordWeantu = "wewantu";
 // URL Image
 global.urlImage = "https://wewantu.frankfurterfreiheit.de/api/public/uploads/";
 
+// URL Translation
+global.urlTranslation = "https://wewantu.frankfurterfreiheit.de/api/translation/"
+
+// URL Notification
+global.urlNotification = "https://wewantu.frankfurterfreiheit.de/api/fcm/fcm.php"
+
+
+

@@ -11,13 +11,13 @@ import Share from 'react-native-share';
 
 class Functions {
   convertDate = (date) => {
-     let data = date.split(' ');
-     let data1 = data[0];
-     let data2 = data1.split('-');
+    let data = date.split(' ');
+    let data1 = data[0];
+    let data2 = data1.split('-');
 
-     let str = data2[2] + '.' + data2[1] + '.' + data2[0];
+    let str = data2[2] + '.' + data2[1] + '.' + data2[0];
 
-     return str;
+    return str;
   }
 
   getIndex = (data) => {
@@ -3203,6 +3203,37 @@ class Functions {
 
     new firebase(context).pushref(ref, value, callback);
   };
+
+  pushNotification = () => {
+    let url = global.urlNotification;
+    network.fetchGET_HEADER(url, null, null, null);
+  }
+
+  translation = (component, index, text, fromLanguage = 'germany', toLanguage = 'en') => {
+    let url = global.urlTranslation;
+
+    let body = {};
+
+    body.text = text;
+    body.fromlanguage = fromLanguage;
+    body.tolanguag = toLanguage;
+
+    var callBack = (response) => {
+      let translation = component.state.translation;
+
+      try {
+        translation[index].status = true;
+        translation[index].textTranslation = response;
+
+        component.setState({ translation: translation });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    component.setState({ ActivityIndicator: true });
+    network.fetchPOST_HEADER(url, JSON.stringify(body), null, callBack);
+  }
 
   deleteBid = async (component, id) => {
     var orderList = [];

@@ -72,7 +72,8 @@ class Chat extends Component {
         mail: null,
         mobile_phone_number: null
       }
-    ]
+    ],
+    translation: []
   };
 
   componentDidMount = async () => {
@@ -182,6 +183,25 @@ class Chat extends Component {
     return check;
   }
 
+  translation = (index, text) => {
+    let translation = this.state.translation;
+
+    if (translation[index] == undefined) {
+      translation[index] = {};
+
+      translation[index].status = true;
+      translation[index].textOrginal = text;
+
+      functions.translation(this, index, text);
+    } else if (!translation[index].status) {
+      functions.translation(this, index, text);
+    } else {
+      translation[index].status = false;
+
+      this.setState({ translation: translation });
+    }
+  }
+
   componentWillUnmount() {
     console.log("leave");
 
@@ -223,6 +243,7 @@ class Chat extends Component {
     let group = toUser + "_" + fromUser;
 
     functions.pushMessage(fromUser, group, this.state.message, this);
+    functions.pushNotification();
   };
 
   getDetailUser = async () => {
@@ -233,30 +254,36 @@ class Chat extends Component {
     functions.getDetailUser(this, datauser, toUser);
   }
 
-  renderItem = ({ item, index }) =>
-    item.fromUser != global.commonData.user.user_id ? ( // if not owner
-      <View style={styleChat.containerList}>
-        <View style={styleChat.messageContainer}>
-          <Text style={styles.fontNormal}>{item.message}</Text>
-          <Text style={[styles.fontNormalSmall, style.dateTime]}>
-          {functions.convertDate(item.dateTime)}
-          </Text>
-          <Image
-            source={imgFlag}
-            style={{ position: "absolute", top: -5, right: -5 }}
-          />
+  renderItem = ({ item, index }) => {
+    return (
+      item.fromUser != global.commonData.user.user_id ? ( // if not owner
+        <View style={styleChat.containerList}>
+          <View style={styleChat.messageContainer}>
+            <Text style={styles.fontNormal}>{item.message}</Text>
+            <Text style={[styles.fontNormalSmall, style.dateTime]}>
+              {functions.convertDate(item.dateTime)}
+            </Text>
+            <Href onPress={() => this.translation(index, item.message)}>
+              <Image
+                source={imgFlag}
+                style={{ position: "absolute", top: -5, right: -5 }}
+              />
+            </Href>
+          </View>
         </View>
-      </View>
-    ) : (
-      <View style={styleChat.containerList}>
-        <View style={styleChat.messageContainerOwn}>
-          <Text style={styles.fontNormal}>{item.message}</Text>
-          <Text style={[styles.fontNormalSmall, style.dateTime]}>
-            {functions.convertDate(item.dateTime)}
-          </Text>
+      ) : (
+        <View style={styleChat.containerList}>
+          <View style={styleChat.messageContainerOwn}>
+            <Text style={styles.fontNormal}>{item.message}</Text>
+            <Text style={[styles.fontNormalSmall, style.dateTime]}>
+              {functions.convertDate(item.dateTime)}
+            </Text>
+          </View>
         </View>
-      </View>
-    );
+      )
+    )
+  }
+
 
   render() {
     let typingUsers = "";
@@ -335,7 +362,7 @@ class Chat extends Component {
               <View style={style.containerMessageChat}>
                 <View>
                   <FlatListViewNormal
-                    ref_={this.scrollview} 
+                    ref_={this.scrollview}
                     data={this.state.data}
                     renderItem={this.renderItem}
                     horizontal={false}
