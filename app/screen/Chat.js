@@ -221,6 +221,25 @@ class Chat extends Component {
     return imageProfile;
   }
 
+  getTokenWeb = (user_id) => {
+    let userList = this.state.userList;
+
+    let token = null;
+
+    try {
+      userList.map((item, index) => {
+        if (item.user_id == user_id)
+          {
+            token = item.firebase_token_web;
+          }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+    return token;
+  }
+
   translation = (index, text) => {
     let translation = this.state.translation;
     let toLanguage = functions.getLanguageMother();
@@ -272,8 +291,14 @@ class Chat extends Component {
   pushMessage = () => {
     Keyboard.dismiss();
 
+    let token, name;
+
     try {
       this.scrollview.current.scrollToEnd({ animated: true });
+
+      token = this.getTokenWeb(toUser);
+
+      name = global.commonData.user.another.prename + ' ' + global.commonData.user.another.lastname;
     } catch (error) {
       console.log(error)
     }
@@ -283,7 +308,7 @@ class Chat extends Component {
     let group = toUser + "_" + fromUser;
 
     functions.pushMessage(fromUser, group, this.state.message, this);
-    functions.pushNotification();
+    functions.pushNotification(name, this.state.message, token);
   };
 
   getDetailUser = async () => {

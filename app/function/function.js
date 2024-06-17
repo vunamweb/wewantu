@@ -3204,9 +3204,20 @@ class Functions {
     new firebase(context).pushref(ref, value, callback);
   };
 
-  pushNotification = () => {
+  pushNotification = (name, message, token) => {
     let url = global.urlNotification;
-    network.fetchGET_HEADER(url, null, null, null);
+
+    let body = {};
+
+    body.name = name;
+    body.message = message;
+    body.token = token;
+
+    var callBack = (response) => {
+      console.log(response);
+    }
+
+    network.fetchPOST_HEADER(url, JSON.stringify(body), null, callBack);
   }
 
   translation = (component, index, text, fromLanguage = 'germany', toLanguage = 'en') => {
