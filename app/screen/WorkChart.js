@@ -469,7 +469,15 @@ class WorkChart extends Component {
                 <SvgXml style={style.happy} xml={this.getIconHappyYear()} width="50" height="70" />
               </View>
             </View>
-            
+            <BackNext
+              nextScreen="Wlb"
+              backScreen="WorkFeeling"
+              dataBack={this.props.navigation.state.params.data}
+              position="absolute"
+              //backEnable={false}
+              callBack={() => true}
+              navigation={this.props.navigation}
+            />
           </Background>
         </ScrollView>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>
