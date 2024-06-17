@@ -162,6 +162,7 @@ class WorkChart extends Component {
 
     this.state = {
       chart: [],
+      currentMonth: currentMonth
     };
   }
 
@@ -295,7 +296,7 @@ class WorkChart extends Component {
     try {
       for (let i = 0; i <= 11; i++) {
         for (let j = 1; j <= 30; j++)
-          if (data[i][j] != 0 && data[i][j] != undefined && (i + 1 == currentMonth)) {
+          if (data[i][j] != 0 && data[i][j] != undefined && (i + 1 == this.state.currentMonth)) {
             sum = sum + data[i][j];
             count++;
           }
@@ -456,7 +457,7 @@ class WorkChart extends Component {
               <View style={style.statusFeeling}>
                 <Text style={[styles.textAlignCenter, styles.fontBoldSmall]}>
                   {text1}{"\n"}
-                  {monthNames[currentMonth - 1]}
+                  {monthNames[this.state.currentMonth - 1]}
                 </Text>
                 <SvgXml style={style.happy} xml={this.getIconHappyMonth()} width="50" height="70" />
               </View>
@@ -468,15 +469,7 @@ class WorkChart extends Component {
                 <SvgXml style={style.happy} xml={this.getIconHappyYear()} width="50" height="70" />
               </View>
             </View>
-            <BackNext
-              nextScreen="Wlb"
-              backScreen="WorkFeeling"
-              dataBack={this.props.navigation.state.params.data}
-              position="absolute"
-              //backEnable={false}
-              callBack={() => true}
-              navigation={this.props.navigation}
-            />
+            
           </Background>
         </ScrollView>
         <View style={[styles.bottomNavigation, styles.marginTopNavigation]}>

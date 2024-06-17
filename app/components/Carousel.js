@@ -52,12 +52,19 @@ export default class MyCarousel extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   back = () => {
     if (this.props.component.index == -1) {
       this.setState({ ActivityIndicator: true });
       this.carousel.current.snapToPrev();
+
+      try {
+        let currentMonth = this.props.component.state.currentMonth;
+        this.props.component.setState({ currentMonth: currentMonth - 1 });
+      } catch (error) {
+        console.log(error);
+      }
     } else functions.gotoScreen(this.props.component.props.navigation, "Wlb");
   };
 
@@ -65,6 +72,13 @@ export default class MyCarousel extends React.Component {
     if (this.props.component.index == -1) {
       this.setState({ ActivityIndicator: true });
       this.carousel.current.snapToNext();
+
+      try {
+        let currentMonth = this.props.component.state.currentMonth;
+        this.props.component.setState({ currentMonth: currentMonth + 1 });
+      } catch (error) {
+        console.log(error);
+      }
     } else functions.gotoScreen(this.props.component.props.navigation, "Wlb");
   };
 
@@ -102,7 +116,7 @@ export default class MyCarousel extends React.Component {
       ? this.pagination()
       : this.pagination_1();
 
-    var display = (this.state.ActivityIndicator) ? 'none' : 'flex';   
+    var display = (this.state.ActivityIndicator) ? 'none' : 'flex';
 
     return (
       <View style={this.props.styleParent}>
@@ -122,7 +136,7 @@ export default class MyCarousel extends React.Component {
               ActivityIndicator: false,
             })
           }
-          //inactiveSlideOpacity={1}
+        //inactiveSlideOpacity={1}
         />
         <View>
           {pagination}
