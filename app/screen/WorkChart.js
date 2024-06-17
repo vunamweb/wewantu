@@ -7,6 +7,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 
+import { hideNavigationBar } from "react-native-navigation-bar-color";
+
 import Video from "react-native-video";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -164,6 +166,8 @@ class WorkChart extends Component {
   }
 
   componentDidMount = async () => {
+    hideNavigationBar();
+
     var data = this.props.navigation.state.params.data;
     var chart;
 
@@ -174,6 +178,14 @@ class WorkChart extends Component {
     } else {
       chart = JSON.parse(data);
     }
+
+    // update data to server
+    var obj = {};
+    obj[strStorage] = JSON.stringify(chart);
+    obj.user_id = global.commonData.user.user_id;
+
+    functions.updateUser(this, obj, 8);
+    // end 
 
     this.setState({ chart: chart });
   };
@@ -374,7 +386,7 @@ class WorkChart extends Component {
     try {
       var text1 = commonData.happyness_in;
       var text2 = commonData.happyness_in_year;
-} catch (error) {
+    } catch (error) {
       console.log(error);
     }
 
@@ -408,7 +420,7 @@ class WorkChart extends Component {
 
     switch (typeFeeling) {
       case 2:
-        strStorage = "chart_file";
+        strStorage = "chart_life";
         break;
 
       case 3:

@@ -1506,7 +1506,10 @@ class Functions {
             dataAnother.passenger_transport;
         } else if (step == 7) {
           datauser.user.another.hobbies = dataAnother.hobbies;
-        } else {
+        } else if (step == 8) {
+          console.log('update wlb to server succesfully');
+        }
+        else {
           // update address for user
           datauser.user.another.address_id = dataAnother.address_id;
           global.commonData.user.another.address_id = dataAnother.address_id;
@@ -2268,6 +2271,14 @@ class Functions {
         global.commonData.user.another = dataUser.user.another;
 
         await AsyncStorage.setItem("data", JSON.stringify(dataUser));
+
+        let chart_work = responseData[0].chart_work;
+        let chart_life = responseData[0].chart_life;
+        let chart_balance = responseData[0].chart_balance;
+
+        await AsyncStorage.setItem("chart_work", chart_work);
+        await AsyncStorage.setItem("chart_life", chart_life);
+        await AsyncStorage.setItem("chart_balance", chart_balance);
       } catch (error) {
         console.log(error);
       }
