@@ -16,6 +16,7 @@ import Text from "../components/Paragraph";
 import Collapse from "../components/Collapse";
 import IconBottom from "../components/IconBottom";
 import Header from "../components/Header";
+import Switch from "../components/Switch";
 
 import styles from "../../app/style/style";
 import functions from "../../app/function/function";
@@ -32,6 +33,7 @@ class SettingScreen extends Component {
     super(props);
     this._renderItem = this._renderItem.bind(this);
     this.collapse = createRef();
+    this.switch = [];
   }
 
   state = {};
@@ -62,29 +64,65 @@ class SettingScreen extends Component {
 
     var bgColor =
       this.collapse.current != null &&
-      index == this.collapse.current.state.activeIndex
+        index == this.collapse.current.state.activeIndex
         ? bgFocus
         : bgDefault;
-
-    return (
-      <TouchableOpacity
-        style={[{ backgroundColor: bgColor }, styles.collapse]}
-        onPress={() => this.onClickItem(index, item.link)}
-        onBlur={() => this.collapse.setState({ activeIndex: -1 })}
-      >
-        <View style={[styles.flexRowStart, styles.fullWith]}>
-          <View style={styles.flexFull}>
-            {/*borderTop*/}
-            <View style={[styles.flexRowStart, styles.listView]}>
-              <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
-                {item.text}
-              </Text>
+    if (item.switch == undefined)
+      return (
+        <TouchableOpacity
+          style={[{ backgroundColor: bgColor }, styles.collapse]}
+          onPress={() => this.onClickItem(index, item.link)}
+          onBlur={() => this.collapse.setState({ activeIndex: -1 })}
+        >
+          <View style={[styles.flexRowStart, styles.fullWith]}>
+            <View style={styles.flexFull}>
+              {/*borderTop*/}
+              <View style={[styles.flexRowStart, styles.listView]}>
+                <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
+                  {item.text}
+                </Text>
+              </View>
+              {/*borderBottom*/}
             </View>
-            {/*borderBottom*/}
+          </View>
+        </TouchableOpacity>
+      )
+    else
+      return (
+        <View>
+          <TouchableOpacity
+            style={[{ backgroundColor: bgColor }, styles.collapse]}
+            onPress={() => this.onClickItem(index, item.link)}
+            onBlur={() => this.collapse.setState({ activeIndex: -1 })}
+          >
+            <View style={[styles.flexRowStart, styles.fullWith]}>
+              <View style={styles.flexFull}>
+                {/*borderTop*/}
+                <View style={[styles.flexRowStart, styles.listView]}>
+                  <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
+                    {item.text}
+                  </Text>
+                </View>
+                {/*borderBottom*/}
+              </View>
+            </View>
+          </TouchableOpacity>
+          <View style={style.switch}>
+            <Switch
+              activeTrackColor={"#898166"}
+              inactiveTrackColor={"#898166"}
+              activeThumbColor={"#fff"}
+              inactiveThumbColor={"#3e3e3e"}
+              size={30}
+              component={this}
+              callBack={null}
+              visible={true}
+              container={style.container}
+              additionalThumb={style.additionalThumb}
+            />
           </View>
         </View>
-      </TouchableOpacity>
-    );
+      )
   };
 
   componentDidMount = async () => {
@@ -110,11 +148,12 @@ class SettingScreen extends Component {
     var data1 = [
       {
         text: text1,
-        link: "",
+        link: "Notification",
       },
       {
         text: text2,
         link: "",
+        switch: true
       },
       {
         text: text3,
@@ -153,6 +192,25 @@ const style = StyleSheet.create({
   collapse: {
     marginBottom: 60,
   },
+
+  additionalThumb: {
+    height: 0,
+    width: 25,
+    borderRadius: 5,
+    paddingTop: 15,
+  },
+
+  container: {
+    height: 25,
+    width: 60,
+    borderWidth: 0,
+  },
+
+  switch: {
+    position: 'absolute',
+    right: 10,
+    top: 10
+  }
 });
 
 export default SettingScreen;

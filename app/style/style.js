@@ -684,5 +684,9 @@ module.exports = StyleSheet.create({
     //justifyContent: 'center'
   },
 
+  inActivated: {
+    opacity: 0.5
+  }
+
   /* END OTHER */
 });

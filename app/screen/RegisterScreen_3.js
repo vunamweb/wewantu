@@ -141,6 +141,7 @@ class RegisterScreen_3 extends Component {
       object.password = data.password;
       object.firstName = firstName;
       object.lastName = lastName;
+      object.cell_number = data.cell_number;
       object.mobile = data.mobile;
       object.firebase_token = this.state.fcmToken;
 

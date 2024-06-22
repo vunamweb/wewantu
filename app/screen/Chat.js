@@ -63,6 +63,7 @@ class Chat extends Component {
     message: "",
     display: "none",
     visible: false,
+    visible1: true,
     detailUser: [
       {
         street: null,
@@ -228,10 +229,9 @@ class Chat extends Component {
 
     try {
       userList.map((item, index) => {
-        if (item.user_id == user_id)
-          {
-            token = item.firebase_token_web;
-          }
+        if (item.user_id == user_id) {
+          token = item.firebase_token_web;
+        }
       })
     } catch (error) {
       console.log(error);
@@ -367,6 +367,9 @@ class Chat extends Component {
     let text1;
 
     try {
+      var text4 = commonData.yes;
+      var text5 = commonData.no;
+
       text8 = commonData.Please_enter_First_name;
       text9 = commonData.Please_enter_last_name;
       text10 = commonData.please_enter_email;
@@ -412,6 +415,26 @@ class Chat extends Component {
                   style={style.viewIcon}
                 />
                 <Text style={[styles.fontNormalSmall]}>{email}</Text>
+              </View>
+            </View>
+          </Modal>
+          <Modal visible={this.state.visible1}>
+            <View style={style.modalNotification}>
+              <Text>You have not set permissions to receive messages, do you want to change it?</Text>
+              <View style={style.modalDelete}>
+                <Href onPress={() => this.delete()} style={style.buttonModal}>
+                  <Text style={styles.textCapitalize}>{text4}</Text>
+                </Href>
+                <Href
+                  onPress={() =>
+                    this.setState({
+                      visible1: false,
+                    })
+                  }
+                  style={style.buttonModal}
+                >
+                  <Text style={styles.textCapitalize}>{text5}</Text>
+                </Href>
               </View>
             </View>
           </Modal>
@@ -544,6 +567,29 @@ const style = StyleSheet.create({
     height: "80%",
   },
 
+  modalNotification: {
+    width: "80%",
+    marginLeft: "10%",
+    marginRight: "10%",
+    backgroundColor: "#363636",
+    borderBottomColor: '#898166',
+    borderLeftColor: '#898166',
+    borderRightColor: '#898166',
+    borderTopColor: '#898166',
+    borderWidth: 2,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: "50%",
+  },
+
+  modalDelete: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+    marginTop: 20
+  },
+
   textHeaderModal: {
     color: "#000",
     marginBottom: 20,
@@ -597,8 +643,15 @@ const style = StyleSheet.create({
   imageContainer: {
     overflow: 'hidden',
   },
+
   image: {
     resizeMode: 'cover',
+  },
+
+  buttonModal: {
+    padding: 10,
+    backgroundColor: "#898166",
+    borderRadius: 10,
   },
 });
 

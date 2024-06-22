@@ -147,21 +147,25 @@ class IconBottom extends Component {
         title: text1,
         src: svgCode1,
         link: "HomeScreen",
+        activated: 1
       },
       {
         title: text2,
         src: svgCode2,
         link: "WorkLife",
+        activated: 1
       },
       {
         title: text3,
         src: svgCode3,
         link: "Job",
+        activated: functions.checkBasicInformation() ? 1 : 0
       },
       {
         title: text4,
         src: svgCode4,
         link: "Message",
+        activated: functions.checkBasicInformation() ? 1 : 0,
         text:
           functions.getCountNotification() > 0
             ? functions.getCountNotification()
@@ -171,6 +175,7 @@ class IconBottom extends Component {
         title: text5,
         src: svgCode5,
         link: "Info",
+        activated: 1
       },
     ];
 
@@ -198,6 +203,7 @@ class IconBottom extends Component {
           bg = "black";
           break;
       }
+      if(item.activated)
       return (
         <TouchableOpacity
           style={[styles.touchableOpacityBottom, { backgroundColor: null }]}
@@ -220,6 +226,30 @@ class IconBottom extends Component {
           </Text>
         </TouchableOpacity>
       );
+      else 
+      return (
+        <View
+          style={[styles.touchableOpacityBottom, { backgroundColor: null }, styles.inActivated]}
+          onPress={() =>
+            functions.gotoScreen(
+              this.props.component.props.navigation,
+              item.link
+            )
+          }
+        >
+          {item.text != undefined ? (
+            <View style={style.textNumber}>
+              <Text style={style.text1}>{item.text}</Text>
+            </View>
+          ) : null}
+          <SvgWithCss xml={item.src} width="25" height="25" />
+          {/*<Image style={[styles.img]} source={item.src} />*/}
+          <Text style={[style.TextNavigation, styles.fontSemilBoldSmall]}>
+            {item.title}
+          </Text>
+        </View>
+      );
+      
     };
 
     return (

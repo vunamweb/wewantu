@@ -64,6 +64,7 @@ import HowToUse from "../screen/HowToUse";
 import Help from "../screen/Help";
 import Chat from "../screen/Chat";
 import UploadDocument_1 from "../screen/UploadDocument_1";
+import Notification from "../screen/Notification";
 
 class Router {
   initNavigarion = () => {
@@ -489,6 +490,13 @@ class Router {
           screen: UploadDocument_1,
           navigationOptions: {
            
+          },
+        },
+
+        Notification: {
+          screen: Notification,
+          navigationOptions: {
+            header: null,
           },
         },
       },

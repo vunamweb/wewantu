@@ -373,6 +373,7 @@ class Functions {
     body.prename = data.firstName;
     body.lastname = data.lastName;
     body.mobile_phone_number = data.mobile;
+    body.cell_number = data.cell_number;
     body.titel = "Prof";
     body.firebase_token = data.firebase_token;
 
@@ -1488,6 +1489,8 @@ class Functions {
           datauser.user.another.title = component.state.title;
           datauser.user.another.prename = component.state.firstName;
           datauser.user.another.lastname = component.state.lastName;
+
+          global.commonData.user.another = datauser.user.another;
         }
         // update user on step 2
         else if (step == 2) {
@@ -1508,6 +1511,9 @@ class Functions {
           datauser.user.another.hobbies = dataAnother.hobbies;
         } else if (step == 8) {
           console.log('update wlb to server succesfully');
+        }
+        else if (step == 9) {
+          console.log('update notification successfully');
         }
         else {
           // update address for user
@@ -2230,6 +2236,27 @@ class Functions {
     network.fetchGET_HEADER(url, null, token, callback);
   };
 
+  checkBasicInformation = () => {
+    let check = false;
+
+    let anotherData = global.commonData.user.another;
+
+    try {
+      if (anotherData.title == null || anotherData.title == undefined)
+        check = false;
+      else if (anotherData.sex == null || anotherData.sex == undefined)
+        check = false;
+      else if (anotherData.postal_code == null || anotherData.postal_code == undefined)
+        check = false;
+      else
+        check = true;
+    } catch (error) {
+      console.log(error);
+    }
+
+    return check;
+  }
+
   getUser = async (component, dataUser) => {
     let token, user_id;
 
@@ -2250,6 +2277,7 @@ class Functions {
         dataUser.user.another.mail = responseData[0].mail;
         dataUser.user.another.prename = responseData[0].prename;
         dataUser.user.another.lastname = responseData[0].lastname;
+        dataUser.user.another.title = responseData[0].title;
         dataUser.user.another.profilePicture = responseData[0].profilePicture;
         dataUser.user.another.sex = responseData[0].sex;
         dataUser.user.another.address_id = responseData[0].address_id;
@@ -2267,7 +2295,9 @@ class Functions {
         dataUser.user.another.year_birthday = responseData[0].year_birthday;
         dataUser.user.another.address_id = responseData[0].address_id;
         dataUser.user.another.hobbies = responseData[0].hobbies;
-
+        dataUser.user.another.notification_message = responseData[0].notification_message;
+        dataUser.user.another.notification_job = responseData[0].notification_job;
+         
         global.commonData.user.another = dataUser.user.another;
 
         await AsyncStorage.setItem("data", JSON.stringify(dataUser));

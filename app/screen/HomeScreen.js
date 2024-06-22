@@ -84,25 +84,47 @@ class HomeScreen extends Component {
         ? bgFocus
         : bgDefault;
 
-    return (
-      <TouchableOpacity
-        style={[{ backgroundColor: bgColor }, styles.collapse]}
-        onPress={() => this.onClickItem(index, item.link)}
-        onBlur={() => this.collapse.setState({ activeIndex: -1 })}
-      >
-        <View style={[styles.flexRowStart, styles.fullWith]}>
-          <View style={styles.flexFull}>
-            {/*borderTop*/}
-            <View style={[styles.flexRowStart, styles.listView]}>
-              <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
-                {item.text}
-              </Text>
+    if (item.activated)
+      return (
+        <TouchableOpacity
+          style={[{ backgroundColor: bgColor }, styles.collapse]}
+          onPress={() => this.onClickItem(index, item.link)}
+          onBlur={() => this.collapse.setState({ activeIndex: -1 })}
+        >
+          <View style={[styles.flexRowStart, styles.fullWith]}>
+            <View style={styles.flexFull}>
+              {/*borderTop*/}
+              <View style={[styles.flexRowStart, styles.listView]}>
+                <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
+                  {item.text}
+                </Text>
+              </View>
+              {/*borderBottom*/}
             </View>
-            {/*borderBottom*/}
+          </View>
+        </TouchableOpacity>
+      );
+    else
+      return (
+        <View
+          style={[{ backgroundColor: bgColor }, styles.collapse, styles.inActivated]}
+          onPress={() => this.onClickItem(index, item.link)}
+          onBlur={() => this.collapse.setState({ activeIndex: -1 })}
+        >
+          <View style={[styles.flexRowStart, styles.fullWith]}>
+            <View style={styles.flexFull}>
+              {/*borderTop*/}
+              <View style={[styles.flexRowStart, styles.listView]}>
+                <Text style={[styles.fontBoldSmall, styles.textCapitalize]}>
+                  {item.text}
+                </Text>
+              </View>
+              {/*borderBottom*/}
+            </View>
           </View>
         </View>
-      </TouchableOpacity>
-    );
+      );
+
   };
 
   notification = async () => {
@@ -138,7 +160,7 @@ class HomeScreen extends Component {
     let datauser = await functions.getDataUser();
 
     this.requestUserPermission(datauser);
-    
+
     try {
       datauser = JSON.parse(datauser);
 
@@ -153,7 +175,7 @@ class HomeScreen extends Component {
         });
       }
       // END
-} catch (error) {
+    } catch (error) {
       console.log(error);
     }
 
@@ -193,25 +215,25 @@ class HomeScreen extends Component {
 
       try {
         let fcmToken = await messaging().getToken();
-    
+
         datauser = JSON.parse(datauser);
-  
+
         let token = datauser.user.firebase_token;
-  
+
         if (token != fcmToken) {
           datauser.user.firebase_token = fcmToken;
-  
+
           await AsyncStorage.setItem("data", JSON.stringify(datauser));
-  
+
           var obj = {};
-  
+
           try {
             obj.firebase_token = fcmToken;
             obj.user_id = datauser.user.user_id;
           } catch (error) {
             console.log(error);
           }
-  
+
           functions.updateTokenUser(this, obj);
         }
       } catch (error) {
@@ -301,22 +323,27 @@ class HomeScreen extends Component {
         {
           text: text4,
           link: "JobProfile",
+          activated: functions.checkBasicInformation() ? 1 : 0
         },
         {
           text: text5,
           link: "ProfileScreen",
+          activated: 1
         },
         {
           text: text6,
           link: "Message",
+          activated: functions.checkBasicInformation() ? 1 : 0
         },
         {
           text: text7,
           link: "LikeJob",
+          activated: functions.checkBasicInformation() ? 1 : 0
         },
         {
           text: text8,
           link: "Job",
+          activated: functions.checkBasicInformation() ? 1 : 0
         },
       ];
     } catch (error) {
@@ -347,40 +374,69 @@ class HomeScreen extends Component {
                   {text9}
                 </Text>
                 <Href onPress={() => functions.gotoScreen(this.props.navigation, 'ProfileScreen')}>
-                <CircularProgress
-                  size={150}
-                  strokeWidth={10}
-                  progress={this.getPercentUser()} // percentage completed
-                  color="#898166"
-                  backgroundColor="#ccc"
-                />
+                  <CircularProgress
+                    size={150}
+                    strokeWidth={10}
+                    progress={this.getPercentUser()} // percentage completed
+                    color="#898166"
+                    backgroundColor="#ccc"
+                  />
                 </Href>
                 <Text style={[style.textPercent, styles.fontBoldLargeNormal]}>
                   {this.getPercentUser()}%
                 </Text>
               </View>
               <View style={style.bottomNotification}>
-                <Href
-                  onPress={() =>
-                    functions.gotoScreen(this.props.navigation, "Message")
-                  }
-                >
-                  <Image source={alert} />
-                  {functions.getCountNotification() > 0 ? (
-                    <View style={[style.textNumber]}>
-                      <Text style={style.text1}>
-                        {functions.getCountNotification()}
-                      </Text>
+                {
+                  functions.checkBasicInformation() ?
+                    <Href
+                      onPress={() =>
+                        functions.gotoScreen(this.props.navigation, "Message")
+                      }
+                    >
+                      <Image source={alert} />
+                      {functions.getCountNotification() > 0 ? (
+                        <View style={[style.textNumber]}>
+                          <Text style={style.text1}>
+                            {functions.getCountNotification()}
+                          </Text>
+                        </View>
+                      ) : null}
+                    </Href>
+                    :
+                    <View
+                      onPress={() =>
+                        functions.gotoScreen(this.props.navigation, "Message")
+                      }
+                    >
+                      <Image source={alert} />
+                      {functions.getCountNotification() > 0 ? (
+                        <View style={[style.textNumber]}>
+                          <Text style={style.text1}>
+                            {functions.getCountNotification()}
+                          </Text>
+                        </View>
+                      ) : null}
                     </View>
-                  ) : null}
-                </Href>
-                <Href
-                  onPress={() =>
-                    functions.gotoScreen(this.props.navigation, "NewJob")
-                  }
-                >
-                  <Image source={newJob} />
-                </Href>
+                }
+                {
+                  functions.checkBasicInformation() ?
+                    <Href
+                      onPress={() =>
+                        functions.gotoScreen(this.props.navigation, "NewJob")
+                      }
+                    >
+                      <Image source={newJob} />
+                    </Href>
+                    :
+                    <View
+                      onPress={() =>
+                        functions.gotoScreen(this.props.navigation, "NewJob")
+                      }
+                    >
+                      <Image source={newJob} />
+                    </View>
+                }
               </View>
             </View>
           </Background>

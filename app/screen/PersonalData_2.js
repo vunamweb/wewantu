@@ -455,7 +455,7 @@ class PersonalData_2 extends Component {
                     },
                     style.textInput,
                     styles.textInput,
-                    { width: "40%" },
+                    { width: "45%" },
                   ]}
                   bgFocus="white"
                   bgBlur="#3f3f3f"
@@ -473,7 +473,7 @@ class PersonalData_2 extends Component {
                     },
                     style.textInput,
                     styles.textInput,
-                    { width: "60%" },
+                    { width: "55%" },
                   ]}
                   bgFocus="white"
                   bgBlur="#3f3f3f"

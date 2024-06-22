@@ -412,11 +412,11 @@ const style = StyleSheet.create({
   },
 
   view1: {
-    width: "75%",
+    width: "65%",
   },
 
   view2: {
-    width: "24%",
+    width: "34%",
   },
 
   view2Marginleft: {
