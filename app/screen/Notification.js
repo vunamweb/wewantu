@@ -121,7 +121,7 @@ class Notification extends Component {
         obj.notification_job = is_activate;
         obj.user_id = global.commonData.user.user_id;
 
-        functions.updateUser(this, obj, 9);
+        functions.updateUser(this, obj, 10);
     }
 
     render() {
@@ -135,10 +135,10 @@ class Notification extends Component {
             console.log(error);
         }
 
-        let notification_message = global.commonData.user.another.notification_message == 1 ? true : false;
-        let notification_job = global.commonData.user.another.notification_job == 1 ? true : false;
-        
-return (
+        let notification_message = (global.commonData.user.another.notification_message == 1 || global.commonData.user.another.notification_message == null || global.commonData.user.another.notification_message == undefined) ? true : false;
+        let notification_job = (global.commonData.user.another.notification_job == 1 || global.commonData.user.another.notification_job == null || global.commonData.user.another.notification_job == undefined) ? true : false;
+
+        return (
             <View style={styles.flexFull}>
                 <Header component={this} />
                 <ScrollView contentContainerStyle={styles.scroll}>

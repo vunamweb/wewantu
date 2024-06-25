@@ -1514,6 +1514,15 @@ class Functions {
         }
         else if (step == 9) {
           console.log('update notification successfully');
+          datauser.user.another.notification_message = dataAnother.notification_message;
+        }
+        else if (step == 10) {
+          console.log('update notification successfully');
+          datauser.user.another.notification_job = dataAnother.notification_job;
+        }
+        else if (step == 11) {
+          console.log('update notification successfully');
+          datauser.user.another.notification_newletter = dataAnother.notification_newletter;
         }
         else {
           // update address for user
@@ -2297,6 +2306,7 @@ class Functions {
         dataUser.user.another.hobbies = responseData[0].hobbies;
         dataUser.user.another.notification_message = responseData[0].notification_message;
         dataUser.user.another.notification_job = responseData[0].notification_job;
+        dataUser.user.another.notification_newletter = responseData[0].notification_newletter;
          
         global.commonData.user.another = dataUser.user.another;
 

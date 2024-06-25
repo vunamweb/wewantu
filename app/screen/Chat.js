@@ -63,7 +63,7 @@ class Chat extends Component {
     message: "",
     display: "none",
     visible: false,
-    visible1: true,
+    visible1: global.commonData.user.another.notification_message == 1 ? false : true,
     detailUser: [
       {
         street: null,
@@ -369,6 +369,7 @@ class Chat extends Component {
     try {
       var text4 = commonData.yes;
       var text5 = commonData.no;
+      var text6 = commonData.notification_message_warning;
 
       text8 = commonData.Please_enter_First_name;
       text9 = commonData.Please_enter_last_name;
@@ -420,9 +421,9 @@ class Chat extends Component {
           </Modal>
           <Modal visible={this.state.visible1}>
             <View style={style.modalNotification}>
-              <Text>You have not set permissions to receive messages, do you want to change it?</Text>
+              <Text>{text6}</Text>
               <View style={style.modalDelete}>
-                <Href onPress={() => this.delete()} style={style.buttonModal}>
+                <Href onPress={() => functions.gotoScreen(this.props.navigation, 'Notification')} style={style.buttonModal}>
                   <Text style={styles.textCapitalize}>{text4}</Text>
                 </Href>
                 <Href

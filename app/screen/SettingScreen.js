@@ -43,9 +43,23 @@ class SettingScreen extends Component {
     functions.gotoScreen(this.props.navigation, link);
   };
 
+  callBack = (job, is_activate, index) => {
+    is_activate = (is_activate) ? 1 : 0;
+
+    global.commonData.user.another.notification_newletter = is_activate;
+
+    let obj = {};
+
+    obj.notification_newletter = is_activate;
+    obj.user_id = global.commonData.user.user_id;
+
+    functions.updateUser(this, obj, 11);
+}
+
   _renderItem = ({ item, index }) => {
     let height = item.border == "none" ? 0 : 2;
     let link = item.link != null ? item.link : "HomeScreen";
+    let notification_newletter = (global.commonData.user.another.notification_newletter == 1 || global.commonData.user.another.notification_newletter == null || global.commonData.user.another.notification_newletter == undefined) ? true : false;
 
     var borderTop =
       index == 0 ? (
@@ -115,8 +129,8 @@ class SettingScreen extends Component {
               inactiveThumbColor={"#3e3e3e"}
               size={30}
               component={this}
-              callBack={null}
-              visible={true}
+              callBack={this.callBack}
+              visible={notification_newletter}
               container={style.container}
               additionalThumb={style.additionalThumb}
             />
