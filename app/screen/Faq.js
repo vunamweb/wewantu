@@ -158,7 +158,7 @@ class Faq extends Component {
               navigation={this.props.navigation}
             />
             <BackNext
-              nextScreen="HomeScreen"
+              nextScreen="Tipp"
               callBack={() => true}
               navigation={this.props.navigation}
               nextEnable={true}

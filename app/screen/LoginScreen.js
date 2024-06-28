@@ -114,7 +114,7 @@ class LoginScreen extends Component {
               animating={this.state.ActivityIndicator}
             />
             <TextInput
-              placeholder={text1}
+              placeholder={text1.toUpperCase()}
               onChangeText={(value) => this.setState({ userName: value })}
               value={this.state.userName}
               styleParent={[
@@ -131,7 +131,7 @@ class LoginScreen extends Component {
             <TextInput
               secureTextEntry={this.state.secureTextEntry}
               title="Mật khẩu *"
-              placeholder={text2}
+              placeholder={text2.toUpperCase()}
               onChangeText={(value) => this.setState({ passWord: value })}
               value={this.state.passWord}
               returnKeyType="next"

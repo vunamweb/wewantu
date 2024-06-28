@@ -116,7 +116,7 @@ export default function MyTextInput({
         ]}
         theme={{
           colors: {
-            placeholder: "#fff",
+            placeholder: "gray",
             text: focus ? props.bgBlur : props.bgFocus,
             primary: "transparent",
             underlineColor: "transparent",

@@ -205,7 +205,7 @@ class RegisterScreen_3 extends Component {
               {text11}
             </Text>
             <TextInput
-              placeholder={text4}
+              placeholder={text4.toUpperCase()}
               onChangeText={(value) => this.setState({ firstName: value })}
               value={this.state.firstName}
               autoCapitalize="none"
@@ -221,7 +221,7 @@ class RegisterScreen_3 extends Component {
               bgBlur="#3f3f3f"
             />
             <TextInput
-              placeholder={text5}
+              placeholder={text5.toUpperCase()}
               onChangeText={(value) => this.setState({ lastName: value })}
               value={this.state.lastName}
               component={this}
@@ -236,7 +236,7 @@ class RegisterScreen_3 extends Component {
               bgBlur="#3f3f3f"
             />
             <TextInput
-              placeholder={text6}
+              placeholder={text6.toUpperCase()}
               onChangeText={(value) => this.setState({ email: value })}
               value={this.state.email}
               component={this}

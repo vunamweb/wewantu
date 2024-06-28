@@ -277,7 +277,7 @@ class PersonalData_1 extends Component {
               setIndex={setIndex}
             />
             <TextInput
-              placeholder={text6}
+              placeholder={text6.toUpperCase()}
               onChangeText={(value) => this.setState({ title: value })}
               value={this.state.title}
               styleParent={[
@@ -291,7 +291,7 @@ class PersonalData_1 extends Component {
               bgBlur="#3f3f3f"
             />
             <TextInput
-              placeholder={text7 + " *"}
+              placeholder={text7.toUpperCase() + " *"}
               onChangeText={(value) => this.setState({ firstName: value })}
               value={this.state.firstName}
               component={this}
@@ -306,7 +306,7 @@ class PersonalData_1 extends Component {
               bgBlur="#3f3f3f"
             />
             <TextInput
-              placeholder={text8 + " *"}
+              placeholder={text8.toUpperCase() + " *"}
               onChangeText={(value) => this.setState({ lastName: value })}
               value={this.state.lastName}
               component={this}

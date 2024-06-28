@@ -170,7 +170,7 @@ class Tipp extends Component {
             />
             <View style={style.checkbox} />
             <BackNext
-              nextScreen="HomeScreen"
+              nextScreen="HowToUse"
               position="absolute"
               callBack={() => true}
               navigation={this.props.navigation}

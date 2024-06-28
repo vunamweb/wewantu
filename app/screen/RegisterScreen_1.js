@@ -258,7 +258,7 @@ class RegisterScreen_1 extends Component {
                   bgBlur="#3f3f3f"
                 />
                 <TextInput
-                  placeholder={text7}
+                  placeholder={text7.toUpperCase()}
                   onChangeText={(value) => this.setState({ mobile: value })}
                   value={this.state.mobile}
                   autoCapitalize="none"
@@ -277,7 +277,7 @@ class RegisterScreen_1 extends Component {
               </View>
               <TextInput
                 secureTextEntry={this.state.secureTextEntry_1}
-                placeholder={text8}
+                placeholder={text8.toUpperCase()}
                 onChangeText={(value) => this.setState({ passWord_1: value })}
                 value={this.state.passWord_1}
                 component={this}
@@ -296,7 +296,7 @@ class RegisterScreen_1 extends Component {
               />
               <TextInput
                 secureTextEntry={this.state.secureTextEntry_2}
-                placeholder={text9}
+                placeholder={text9.toUpperCase()}
                 onChangeText={(value) => this.setState({ passWord_2: value })}
                 value={this.state.passWord_2}
                 component={this}

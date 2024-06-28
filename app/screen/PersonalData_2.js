@@ -463,7 +463,7 @@ class PersonalData_2 extends Component {
                 <TextInput
                   keyboardType="number-pad"
                   ref_={this.input1}
-                  placeholder={text2 + " *"}
+                  placeholder={text2.toUpperCase() + " *"}
                   onChangeText={(value) => this.onChangeValue(value)}
                   value={this.state.mobile}
                   styleParent={[
@@ -481,7 +481,7 @@ class PersonalData_2 extends Component {
               </View>
 
               <TextInput
-                placeholder={text3 + " *"}
+                placeholder={text3.toUpperCase() + " *"}
                 onChangeText={(value) => this.setState({ email: value })}
                 value={this.state.email}
                 component={this}

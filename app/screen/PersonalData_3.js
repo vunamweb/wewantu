@@ -300,7 +300,7 @@ class PersonalData_3 extends Component {
               >
                 <View style={style.view1}>
                   <TextInput
-                    placeholder={text2}
+                    placeholder={text2.toUpperCase()}
                     onChangeText={(value) => this.setState({ street: value })}
                     value={this.state.street}
                     styleParent={[styles.textInput, style.textInput]}
@@ -310,7 +310,7 @@ class PersonalData_3 extends Component {
                 </View>
                 <View style={[style.view2, style.view2Marginleft]}>
                   <TextInput
-                    placeholder={text3}
+                    placeholder={text3.toUpperCase()}
                     onChangeText={(value) =>
                       this.setState({ house_number: value })
                     }
@@ -323,7 +323,7 @@ class PersonalData_3 extends Component {
                 </View>
               </View>
               <TextInput
-                placeholder={text4}
+                placeholder={text4.toUpperCase()}
                 onChangeText={(value) =>
                   this.setState({ address_addition: value })
                 }
@@ -338,7 +338,7 @@ class PersonalData_3 extends Component {
                   <TextInput
                     keyboardType="number-pad"
                     maxLength={5}
-                    placeholder={text6 + " *"}
+                    placeholder={text6.toUpperCase() + " *"}
                     onChangeText={(value) => this.onChangeValue(value)}
                     value={this.state.postal_code}
                     styleParent={[
@@ -355,7 +355,7 @@ class PersonalData_3 extends Component {
                 </View>
                 <View style={style.view1}>
                   <TextInput
-                    placeholder={text7}
+                    placeholder={text7.toUpperCase()}
                     onChangeText={(value) => this.setState({ city: value })}
                     value={this.state.city}
                     styleParent={[{}, styles.textInput, style.textInput]}
@@ -367,7 +367,7 @@ class PersonalData_3 extends Component {
               <TextInput
                 hideKeyboard={true}
                 ref_={this.input1}
-                placeholder={text8}
+                placeholder={text8.toUpperCase()}
                 //onChangeText={(value) => this.setState({ year: value })}
                 callBack={() => this.setState({ visible: true })}
                 value={numberYear}

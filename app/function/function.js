@@ -2251,9 +2251,9 @@ class Functions {
     let anotherData = global.commonData.user.another;
 
     try {
-      if (anotherData.title == null || anotherData.title == undefined)
-        check = false;
-      else if (anotherData.sex == null || anotherData.sex == undefined)
+      //if (anotherData.title == null || anotherData.title == undefined)
+        //check = false;
+      if (anotherData.sex == null || anotherData.sex == undefined)
         check = false;
       else if (anotherData.postal_code == null || anotherData.postal_code == undefined)
         check = false;
