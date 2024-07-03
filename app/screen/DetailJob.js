@@ -120,6 +120,18 @@ class DetailJob extends Component {
   };
 
   render() {
+    var commonData = global.commonData.languages;
+
+    let displayError = 'none';
+
+    try {
+      var text1 = commonData.not_find_job;
+
+      displayError = (this.state.detailJob.messages[0].code == 'STELLENANGEBOT_NICHT_GEFUNDEN') ? 'flex' : 'none';
+    } catch (error) {
+      console.log(error);
+    }
+
     var mark = this.state.mark ? imgMark : imgNoMark;
 
     var back = (
@@ -153,11 +165,15 @@ class DetailJob extends Component {
         <ScrollView contentContainerStyle={styles.scroll}>
           <Background>
             <TextHeader special={true} icon={imgNotification} text2="jobs" />
+            <Text style={[styles.error, { display: displayError }]}>
+              {text1}
+            </Text>
+
             <ActivityIndicator
               size="large"
               animating={this.state.ActivityIndicatorModal}
             />
-            <View style={[styles.childRen, { display: this.state.display }]}>
+            <View style={[styles.childRen, { display: this.state.display, paddingLeft: 30, paddingRight: 30 }]}>
               <View>
                 <View style={[styles.flexRow, styles.containerJob]}>
                   <Text style={[styles.fontNormalSmall]}>
