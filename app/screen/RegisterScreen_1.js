@@ -252,7 +252,7 @@ class RegisterScreen_1 extends Component {
                     },
                     style.textInput,
                     styles.textInput,
-                    { width: "45%" },
+                    { width: "35%" },
                   ]}
                   bgFocus="white"
                   bgBlur="#3f3f3f"
@@ -269,7 +269,7 @@ class RegisterScreen_1 extends Component {
                     },
                     style.textInput,
                     styles.textInput,
-                    { width: "55%" },
+                    { width: "65%" },
                   ]}
                   bgFocus="white"
                   bgBlur="#3f3f3f"

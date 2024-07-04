@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { NativeModules, Platform } from 'react-native';
 
 import network from "../network/network";
 
@@ -1139,7 +1140,20 @@ class Functions {
     network.fetchGET_HEADER(url, body, token, callback);
   };
 
+  getLanguageSetting = () => {
+    const deviceLanguage =
+      Platform.OS === 'ios'
+        ? NativeModules.SettingsManager.settings.AppleLocale ||
+        NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+        : NativeModules.I18nManager.localeIdentifier;
+
+    return deviceLanguage
+  }
+
   getText = async (component) => {
+    let languageSetting = this.getLanguageSetting();
+    console.log(languageSetting);
+
     let url = global.urlRootWewantu + global.language;
 
     const username = global.userWeantu;
@@ -2252,7 +2266,7 @@ class Functions {
 
     try {
       //if (anotherData.title == null || anotherData.title == undefined)
-        //check = false;
+      //check = false;
       if (anotherData.sex == null || anotherData.sex == undefined)
         check = false;
       else if (anotherData.postal_code == null || anotherData.postal_code == undefined)
@@ -2307,7 +2321,7 @@ class Functions {
         dataUser.user.another.notification_message = responseData[0].notification_message;
         dataUser.user.another.notification_job = responseData[0].notification_job;
         dataUser.user.another.notification_newletter = responseData[0].notification_newletter;
-         
+
         global.commonData.user.another = dataUser.user.another;
 
         await AsyncStorage.setItem("data", JSON.stringify(dataUser));
