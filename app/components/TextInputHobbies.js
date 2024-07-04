@@ -41,7 +41,7 @@ class TextInputHobbies extends Component {
     var hobbies;
 
     try {
-      hobbies = JSON.parse(global.commonData.user.another.hobbies);
+      hobbies = (global.commonData.user.another.hobbies != null) ? JSON.parse(global.commonData.user.another.hobbies) : [];
 
       this.setState({ listWord: hobbies });
     } catch (error) {
