@@ -181,7 +181,7 @@ class TextInputHobbies extends Component {
                 <Href onPress={() => this.delete(index)} style={style.delete}>
                   {imgDelete}
                 </Href>
-                <Href onPress={() => this.setEdit(index)} style={style.delete}>
+                <Href onPress={() => this.setEdit(index)} style={style.edit}>
                   {imgEdit}
                 </Href>
                 <Text>{item}</Text>
@@ -221,6 +221,12 @@ const style = StyleSheet.create({
   delete: {
     marginTop: 5,
     marginRight: 5,
+  },
+
+  edit: {
+    marginTop: 5,
+    marginLeft: 20,
+    marginRight: 20,
   },
 
   viewAddWord: {
