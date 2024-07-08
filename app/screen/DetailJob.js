@@ -127,7 +127,7 @@ class DetailJob extends Component {
     try {
       var text1 = commonData.not_find_job;
 
-      displayError = (this.state.detailJob.messages[0].code == 'STELLENANGEBOT_NICHT_GEFUNDEN') ? 'flex' : 'none';
+      displayError = (this.state.detailJob.hasError == true) ? 'flex' : 'none';
     } catch (error) {
       console.log(error);
     }

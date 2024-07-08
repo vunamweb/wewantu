@@ -407,6 +407,7 @@ class NewJob extends Component {
 
   render() {
     var commonData = global.commonData.languages;
+    let displayError = 'none';
 
     try {
       var text1 = commonData.jobs;
@@ -415,6 +416,9 @@ class NewJob extends Component {
       var text4 = commonData.yes;
       var text5 = commonData.no;
       text6 = commonData.Confirm_match;
+      var text7 = commonData.not_find_job;
+
+      displayError = (this.state.detailJob.hasError == true) ? 'flex' : 'none';
     } catch (error) {
       console.log(error);
     }
@@ -577,6 +581,9 @@ class NewJob extends Component {
               <Href style={style.refersh} onPress={() => functions.getListJob(this, true)}>
                 <IconFontAwesome name="refresh" size={24} color="white" />
               </Href>
+              <Text style={[styles.error, { display: displayError }]}>
+              {text7}
+            </Text>
               <View style={style.parentTabview}>
                 <ActivityIndicator
                   size="large"

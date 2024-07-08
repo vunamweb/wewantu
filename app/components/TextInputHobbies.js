@@ -9,6 +9,7 @@ import {
   Alert,
   AppRegistry,
   TouchableOpacity,
+  Keyboard
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -68,6 +69,8 @@ class TextInputHobbies extends Component {
 
       functions.updateUser(this, obj, 7);
 
+      Keyboard.dismiss();
+
       this.setState({ listWord: listWord, description: null });
     }
   };
@@ -96,6 +99,8 @@ class TextInputHobbies extends Component {
     }
 
     functions.updateUser(this, obj, 7);
+
+    Keyboard.dismiss();
 
     this.setState({ listWord: listWord, displayEdit: 'none' });
   };

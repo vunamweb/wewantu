@@ -2628,7 +2628,7 @@ class Functions {
     let token = "Bearer " + global.commonData.tokenJob;
 
     component.setState({ ActivityIndicatorModal: true });
-    network.fetchGET_HEADER(url, null, token, callback);
+    network.fetchGET_HEADER_JOB(url, null, token, callback);
   };
 
   updateListLikeJob = async (index, component) => {

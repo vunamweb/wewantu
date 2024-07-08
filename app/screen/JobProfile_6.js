@@ -86,7 +86,7 @@ class JobProfile_6 extends Component {
   };
 
   getZip = async () => {
-    let zip = await AsyncStorage.getItem("zip");
+    let zip = global.commonData.user.another.postal_code; //await AsyncStorage.getItem("zip");
 
     this.setState({ zip: zip });
   };

@@ -31,6 +31,29 @@ class Network {
       });
   }
 
+  fetchGET_HEADER_JOB(url, body, token, callback) {
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Wewantu-Agent": "Web",
+        Authorization: token,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        callback(responseData);
+      })
+      .catch((error) => {
+        let response = {};
+        response.hasError = true;
+
+        console.log(error);
+        callback(response);
+      });
+  }
+
   fetchPOST(url, body, callback) {
     return fetch(url, {
       method: "POST",
