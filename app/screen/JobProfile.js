@@ -674,7 +674,7 @@ class JobProfile extends Component {
                 {this.state.jobs.map(({ name, id }, index) => {
                   if (
                     name.includes(this.state.search) &&
-                    index < number * this.state.position
+                    (index < number * this.state.position || this.state.search != "")
                   )
                     return (
                       <View style={styles.fullWith}>

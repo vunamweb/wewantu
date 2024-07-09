@@ -149,6 +149,9 @@ class Help extends Component {
       console.log(error);
     }
 
+    let language = (global.selectLanguage == undefined) ? 'en' : global.selectLanguage;
+    let data = language == 'en' ? global.contact_en : global.contact_de;
+
     return (
       <View style={styles.flexFull}>
         <Header component={this} />
@@ -169,6 +172,7 @@ class Help extends Component {
             />
             <View style={style.checkbox} />
             <BackNext
+              data={data}
               nextScreen="Content"
               position="absolute"
               callBack={() => true}

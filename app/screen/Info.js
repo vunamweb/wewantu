@@ -132,8 +132,12 @@ class Info extends Component {
   };
 
   _renderItem = ({ item, index }) => {
+    let language = (global.selectLanguage == undefined) ? 'en' : global.selectLanguage;
+    
     let height = item.border == "none" ? 0 : 2;
     let link = item.link != null ? item.link : "HomeScreen";
+
+    let url = language == 'en' ? item.url_en : item.url_de;
 
     var borderTop =
       index == 0 ? (
@@ -159,7 +163,7 @@ class Info extends Component {
     return (
       <TouchableOpacity
         style={[{ backgroundColor: bgColor }, styles.collapse]}
-        onPress={() => this.onClickItem(index, item.link, item.url)}
+        onPress={() => this.onClickItem(index, item.link, url)}
         onBlur={() => this.collapse.setState({ activeIndex: -1 })}
       >
         <View style={[styles.flexRowStart, styles.fullWith]}>
@@ -211,21 +215,26 @@ class Info extends Component {
         {
           text: commonData.contact,
           link: "Content",
-          url: global.contact
+          url_de: global.contact_de,
+          url_en: global.contact_en,
         },
         {
           text: commonData.imprint,
-          link: "",
-          url: global.impresumm
+          link: "Content",
+          url_de: global.impresumm_de,
+          url_en: global.impresumm_en
         },
         {
           text: commonData.agb,
-          link: "",
-          url: global.agb
+          link: "Content",
+          url_de: global.agb_de,
+          url_en: global.agb_en
         },
         {
           text: commonData.data_protection,
-          link: "",
+          link: "Content",
+          url_de: global.datenschutz_de,
+          url_en: global.datenschutz_en
         },
         {
           text: commonData.share_with_friend,

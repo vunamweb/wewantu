@@ -26,9 +26,16 @@ global.faq_en = "checkAPI.php?e=FAQ&l=en";
 global.jobs = "checkAPI.php?e=jobs&l=de";
 
 // WEB
-global.contact = "https://platform.wewantu.com/CMS/de/kontakt/";
-global.impresumm = "https://platform.wewantu.com/CMS/de/impressum/";
-global.agb = "https://platform.wewantu.com/CMS/de/agb/";
+global.contact_de = "https://wewantu.frankfurterfreiheit.de/cms/de/kontakt/";
+global.impresumm_de = "https://wewantu.frankfurterfreiheit.de/cms/de/impressum/";
+global.agb_de = "https://wewantu.frankfurterfreiheit.de/cms/de/agb/";
+global.datenschutz_de = "https://wewantu.frankfurterfreiheit.de/cms/de/datenschutz/";
+
+global.contact_en = "https://wewantu.frankfurterfreiheit.de/cms/en/contact/";
+global.impresumm_en = "https://wewantu.frankfurterfreiheit.de/cms/en/imprint/";
+global.agb_en = "https://wewantu.frankfurterfreiheit.de/cms/en/terms/";
+global.datenschutz_en = "https://wewantu.frankfurterfreiheit.de/cms/en/data-protection/";
+
 global.urlForgetPassword = "https://wewantu.frankfurterfreiheit.de/forget-password";
 
 // SMS

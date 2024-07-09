@@ -27,45 +27,6 @@ const bgDefault = "#2B2B2B";
 const bgFocus = "#2B2B2B";
 const imgNotification = require("../images/notification.png");
 
-const data1 = [
-  {
-    text: "faq",
-    link: "",
-  },
-  {
-    text: "Tipps vom Headhunter",
-    link: "",
-  },
-  {
-    text: "How to use Work Life Balance App",
-    link: "",
-  },
-  {
-    text: "Hilfe",
-    link: "",
-  },
-  {
-    text: "Kontakt",
-    link: "",
-  },
-  {
-    text: "Impressum",
-    link: "",
-  },
-  {
-    text: "agb",
-    link: "",
-  },
-  {
-    text: "Datenschutz",
-    link: "",
-  },
-  {
-    text: "Mit Freunden teilen",
-    link: "Message",
-  },
-];
-
 class Content extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +41,26 @@ class Content extends Component {
   });
 
   render() {
-    var url = this.props.navigation.state.params.data;
+    var url;
+
+    try {
+      url = this.props.navigation.state.params.data;
+    } catch(error) {
+
+    }
+
+    let language = (global.selectLanguage == undefined) ? 'en' : global.selectLanguage;
+    let data;
+    let nextScreen = 'Content';
+
+    if(url == global.contact_de || url == global.contact_en)
+      data = language == 'en' ? global.impresumm_en : global.impresumm_de;
+    else  if(url == global.impresumm_de || url == global.impresumm_en)
+      data = language == 'en' ? global.agb_en : global.agb_de;
+    else  if(url == global.agb_de || url == global.agb_en)
+      data = language == 'en' ? global.datenschutz_en : global.datenschutz_de;
+    else 
+      nextScreen = 'Info';
 
     return (
       <View style={[styles.flexFull, { backgroundColor: "#000" }]}>
@@ -93,7 +73,8 @@ class Content extends Component {
             style={{ flex: 1, marginTop: 50 }}
           />
           <BackNext
-            nextScreen="HomeScreen"
+            nextScreen={nextScreen}
+            data={data}
             callBack={() => true}
             navigation={this.props.navigation}
             nextEnable={true}
