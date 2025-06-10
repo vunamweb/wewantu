@@ -34,9 +34,20 @@ A mobile application built with **React Native** that connects **job seekers** w
 - **Firebase Firestore** or **Realtime Database** – Chat functionality
 - **Firebase Cloud Messaging** – Push notifications
 - **React Navigation** – Navigation between screens
+- **React Viewpager** – Swipe between screens
 - **Styled Components / Tailwind / CSS-in-JS** – UI styling (choose as preferred)
 
 ---
+
+📸 Screenshots
+| Page | Description |
+|------|-------------|
+| ![Homepage](1.png) | ** Homepage **
+| ![Search Page](2.png) | ** Job Profile Page ** |
+| ![Detail employee Page](3.png) | ** List of Job Page** |
+| ![Detail employee Page](4.png) | ** Job Detail Page** |
+| ![Chat Page](5.png) | ** Chat page by Real time Firebase ** |
+| ![Chat Page](6.png) | ** Notification Page ** |
 
 ## 📦 Installation
 
