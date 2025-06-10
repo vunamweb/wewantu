@@ -21,6 +21,9 @@ A mobile application built with **React Native** that connects **job seekers** w
 - Receive **push notifications** from the website or backend server using **Firebase Cloud Messaging (FCM)**.
 - Alerts for new messages, job application status, and more.
 
+### How does it feel
+- Talk about each person's work feelings according to each month of the year
+
 ### 📱 Responsive Mobile Design
 - Fully **responsive UI** optimized for all modern mobile screen sizes.
 - Ensures a smooth and intuitive user experience across devices.
@@ -48,6 +51,10 @@ A mobile application built with **React Native** that connects **job seekers** w
 | ![Detail employee Page](4.png) | ** Job Detail Page** |
 | ![Chat Page](5.png) | ** Chat page by Real time Firebase ** |
 | ![Chat Page](6.png) | ** Notification Page ** |
+| ![Chat Page](8.png) | ** Notification Page ** |
+| ![Delete job Page](7.png) | ** Job Detail Page** |
+| ![Feeling Page](9.png) | ** How user feel Page ** |
+
 
 ## 📦 Installation
 
